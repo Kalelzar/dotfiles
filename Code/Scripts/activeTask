@@ -1,0 +1,20 @@
+#!/bin/bash
+
+
+task="$(cat "$HOME/.cache/activeTask")"
+
+printf "[%s]" "$task"
+
+exit
+
+task="$(pidof 'emacs' &> /dev/null && \
+    emacsclient -e '(when (org-clock-is-active) (substring-no-properties org-mode-line-string))' \
+        | sed -E 's/\" \[(.*)\] \((.*)\)\"/ [\1`\2]/' \
+        | sed "s/^nil$/$(cat "$HOME/.cache/activeTask")/")"
+
+timer="$(echo "$task" | cut -s -d'`' -f1)"
+taskBody="$(echo "$task" | cut -d'`' -f2)"
+
+[ "$1" == "limit" ] && \
+    printf "[%s%s]" "${taskBody:0:$2}" "${timer}"\
+           || printf "[%s%s]" "${taskBody}" "${timer}"

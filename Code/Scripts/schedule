@@ -1,0 +1,23 @@
+#!/bin/bash
+
+tput sc
+tput smcup
+
+tput smso
+
+
+clear
+
+w="$(tput cols)"
+h="$(tput lines)"
+
+tput cup $((h/2)) $((w/4))
+
+read -r line
+
+tput rmso
+
+tput rmcup
+tput rc
+
+echo "$line"

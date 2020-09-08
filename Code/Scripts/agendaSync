@@ -1,0 +1,73 @@
+#!/bin/bash
+
+agendaImportFromCloud
+agendaExportToCloud
+
+# Function for downloading the import file from cloud.
+downloadRemoteFile(){
+    # The local path to the file.
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/$1.org"
+    # The remote path to the file.
+    local rpath="${ORG_AGENDA_REMOTE_LOCATION}/$1.org"
+
+    #Back-up old import file
+    echo "($1) Backing up old file..."
+    mv "${lpath}" "${lpath}.old" &> /dev/null
+
+    #Download the new one
+    expectedSize="$(du -b "${lpath}.old" | cut -d$'\t' -f1)"
+    rclone cat "$rpath" | pv -s "$expectedSize"  > "$lpath"
+}
+
+uploadLocalFile(){
+    # The local path to the file.
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/$1.org"
+    # The remote path to the file.
+    local rpath="${ORG_AGENDA_REMOTE_LOCATION}/$1.org"
+
+    #Backup old file
+    echo "($1) Backing up old file..."
+    rclone copy "$rpath" "$rpath.old" &> /dev/null
+
+    #Upload the new one
+    expectedSize="$(du -b "${lpath}" | cut -d$'\t' -f1)"
+    cat "$lpath" | pv -s "$expectedSize" | rclone rcat "$rpath"
+}
+
+sync(){
+    # The local path to the file.
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/$1.org"
+    # The remote path to the file.
+    local rpath="${ORG_AGENDA_REMOTE_LOCATION}/$1.org"
+
+    echo "Syncing '$lpath' and '$rpath'"
+
+    # Get local file modified timestamp
+    ltime="$( ls -l "$lpath" --time-style=full-iso \
+    | sed -E 's/[[:space:]]+/ /g' \
+    | cut -d' ' -f6-7)"
+    echo "($1) Local file was last updated on $ltime"
+    #Convert to seconds from 1970-01-01 00:00:00 UTC
+    ls="$(date --date="$ltime" "+%s")"
+
+    # Get remote file modified timestamp
+    rtime="$(rclone lsl "$rpath" \
+    | sed -E 's/[[:space:]]+/ /g' \
+    | cut -d' ' -f3-4)"
+    echo "($1) Remote file was last updated on $rtime"
+    #Convert to seconds from 1970-01-01 00:00:00 UTC
+    rs="$(date --date="$rtime" "+%s")"
+
+    if [ "$ls" -gt "$rs" ]
+    then
+        echo "($1) Local file is newer. Syncing to cloud..."
+        uploadLocalFile "$1"
+    else
+        echo "($1) Remote file is newer. Syncing from cloud..."
+        downloadRemoteFile "$1"
+    fi
+
+}
+
+sync "agenda"
+sync "archive"

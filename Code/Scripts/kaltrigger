@@ -1,0 +1,2 @@
+#!/bin/zsh
+eval "$(cat $1 | sed -E 's/([a-zA-Z_0-9\-]+) is (not )?([a-zA-Z_0-9\-]+)/"$\1" \2= "\3"/g' | sed 's/not /!/g' | sed 's/^if /if [[ /g' | sed 's/then/]]; then/g' | sed 's/ and / \&\& /g' | sed 's/ or / || /g' | sed -E ':s;N;s/\{(.*)\}/\n\1\nfi/g;Ts;P' | sed '/^$/d')"

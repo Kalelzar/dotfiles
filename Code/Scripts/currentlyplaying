@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mpdst(){
+    res="$(mpc status | sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*/⏸/g;/\\[playing\\].*/d" | paste -sd ' ')"
+    song="$(echo "$res" | cut -d- -f2-)"
+    elipsischeck="$(echo "$res" | cut -d- -f1 | wc -c)"
+    elipsis=""
+    [[ "$elipsischeck" -gt "25" ]] && elipsis="..."
+    artist="$(echo "$res" | cut -d- -f1 | sed -E 's/(.{0,25}).* .*/\1/')"
+    echo "$artist$elipsis -$song"
+}
+
+notify-send "$(mpdst)" -i "$HOME/.cache/songthumb" &> /dev/null

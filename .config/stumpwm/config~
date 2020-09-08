@@ -1,0 +1,161 @@
+;;; config.lisp --- StumpWM Configuration
+
+(in-package :stumpwm)
+
+
+;;(defvar *my-frame-bindings*
+;;  (let ((m (stumpwm:make-sparse-keymap)))
+;;    (stumpwm:define-key m (stumpwm:kbd "f") "cur frame")
+;;    (stumpwm:define-key m (stumpwm:kbd "M-b") "move-focus left")
+;;    m ; NOTE: this is important
+;;   ))
+
+;;(stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "C-f") '*my-frame-bindings*)
+
+(defcommand polybar () (run-shell-command "polybar -q laptop&"))
+
+(defun stumpwm::groupHasWindows (group)
+  (if (group-current-window group)
+      (format nil "^[^B^5*")
+      (format nil "^[^5")
+      ))
+
+(setf
+ *window-info-format*
+ (format nil "^>^B^5*%c ^b^6*%w^7*x^6*%h^7*~%%t")
+
+ *window-format*
+ "| %15t "
+
+ *group-formatters* (append *group-formatters*  '((#\w groupHasWindows)))
+
+ *group-format*
+ "%w%t^]"
+
+ *time-format-string-default*
+ (format nil "^5*%H:%M:%S~%^2*%A~%^7*%d %B")
+
+ *time-modeline-string* "%k:%M"
+ *mode-line-timeout* 3
+ *screen-mode-line-format*
+'("^[^5*%d^] "                  ; time
+  "^[^R|%n|^] %g "                 ; group name
+  "%v ^>"
+  (:eval (run-shell-command "echo -n \"$(mpc status | head -1) |\"" t))
+  (:eval (run-shell-command "echo -n \" 🔉 $(pamixer --get-volume)%\"" t))
+  ))
+
+
+
+
+;(ql:quickload "clx-truetype")
+;(load-module "ttf-fonts")
+;(set-font (make-instance 'xft:font :family "DejaVu Sans Mono" :subfamily "Book" :size 11))
+
+;;; Keybindings
+
+(set-prefix-key (kbd "H-a"))
+
+;; Remove useless default bindings
+
+(undefine-key *root-map* (kbd "e"))
+(undefine-key *root-map* (kbd "C-e"))
+(undefine-key *root-map* (kbd "c"))
+(undefine-key *root-map* (kbd "C-c"))
+(undefine-key *root-map* (kbd "n"))
+(undefine-key *root-map* (kbd "C-n"))
+(undefine-key *root-map* (kbd "SPC"))
+(undefine-key *root-map* (kbd "p"))
+(undefine-key *root-map* (kbd "C-p"))
+(undefine-key *root-map* (kbd "s"))
+
+(undefine-key *root-map* (kbd "'"))
+
+
+;; Add some commonly used programs to *top-map* for easy access
+
+(defun kal/execterm (cmd)
+  "Start a terminal application"
+  (concat (concat "exec $TERMINAL -e '" cmd) "'"))
+
+(define-key *top-map* (kbd "H-RET") "exec st")
+(define-key *top-map* (kbd "H-w") "exec firefox")
+
+(define-key *top-map* (kbd "H-e") "exec emacsvi")
+(define-key *top-map* (kbd "H-m") (kal/execterm "ncmpcpp"))
+(define-key *top-map* (kbd "H-n") (kal/execterm "newsboat"))
+(define-key *top-map* (kbd "H-p") "exec mpc toggle")
+(define-key *top-map* (kbd "H-.") "exec mpc next")
+(define-key *top-map* (kbd "H-,") "exec mpc prev")
+(define-key *top-map* (kbd "H-r") (kal/execterm "lfrun"))
+
+(define-key *root-map* (kbd "t") (kal/execterm "tremc"))
+(define-key *root-map* (kbd "T") (kal/execterm "htop"))
+
+;; Audio related controls
+(define-key *top-map* (kbd "H-=") "exec pamixer -i 2")
+(define-key *top-map* (kbd "H--") "exec pamixer -d 2")
+(define-key *top-map* (kbd "H-M") "exec pamixer -t")
+(define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec pamixer -i 2")
+(define-key *top-map* (kbd "XF86AudioLowerVolume") "exec pamixer -d 2")
+
+;; Headphone controls
+(defvar *headphone-map* (make-sparse-keymap)
+  "Key map for audio controls from headphones")
+(define-key *top-map* (kbd "XF86AudioMute") '*headphone-map*)
+(define-key *headphone-map* (kbd "XF86AudioRaiseVolume") "exec mpc next")
+(define-key *headphone-map* (kbd "XF86AudioLowerVolume") "exec mpc prev")
+(define-key *headphone-map* (kbd "XF86AudioMute") "exec pamixer -t")
+(define-key *headphone-map* (kbd "H-p") "exec mpc toggle")
+(define-key *headphone-map* (kbd "a") "exec mpc volume -60 && mpc status | head -1 | espeak &> /dev/null && mpc volume +60")
+
+;; Frame controls
+(define-key *top-map* (kbd "H-Up") "pull-hidden-next")
+(define-key *top-map* (kbd "H-Down") "pull-hidden-previous")
+
+(define-key *top-map* (kbd "H-f") "fullscreen")
+
+;; Use the default Emacs keybindings for frames
+(define-key *root-map* (kbd "3") "hsplit")
+(define-key *root-map* (kbd "2") "vsplit")
+(define-key *root-map* (kbd "0") "remove")
+
+(define-key *root-map* (kbd "b") "mode-line")
+
+(define-key *root-map* (kbd "s") "select")
+
+(define-key *root-map* (kbd "p") "polybar")
+
+
+;;; Groups
+
+(defun range (max &key (min 0) (step 1))
+"Get a list of integers."
+(loop for n from min below max by step
+   collect n))
+
+(grename "1")
+
+(mapcar #'(lambda (x)
+            (gnewbg (write-to-string x)))
+        (range 10 :min 2 :step 1))
+
+(gnewbg-float "0")
+
+
+
+;;Rebind groups to prefix number
+(mapcar #'(lambda (x)
+            (define-key *top-map* (kbd (concat "H-" (write-to-string x)))
+              (format nil "gselect ~D" x))
+            (define-key *top-map* (kbd (concat "H-s-" (write-to-string x)))
+              (format nil "gmove ~D" x))
+            (define-key *top-map* (kbd (concat "C-s-" (write-to-string x)))
+              (format nil "~A ~D" "select-window-by-number" x)))
+        (range 10 :min 0 :step 1))
+
+
+;; Focus follows mouse
+(setf *mouse-focus-policy* :sloppy)
+
+;;; config.lisp ends here

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+type="$1"
+period="$2"
+rem="$3"
+
+pseudo="$HOME/.cache/${type}tasks"
+
+if [ "$period" = "daily" ]
+then
+    path="$pseudo.daily"
+
+    tasks="$(cut -d ' ' -f1 < "$path" | tr $'\n' ' ' | sed 's/ $//g')"
+    hours="$(cut -d ' ' -f2 < "$path" | tr $'\n' ' ' | sed 's/ $//g')"
+
+#    echo "$tasks" | tr ' ' $'\n' | wc -l
+#    echo "$hours" | tr ' ' $'\n' | wc -l
+
+    python ~/test.py "$tasks" "$hours" "30" "$rem"
+fi

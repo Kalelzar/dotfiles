@@ -1,0 +1,5 @@
+#!/bin/bash
+vol="$(mpc volume | sed -E 's/.*:([0-9]{1,3})%/\1/')"
+mpc volume -80 &> /dev/null
+announce "$(mpc status | head -1)"
+mpc volume "$vol" &> /dev/null

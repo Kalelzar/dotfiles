@@ -1,0 +1,16 @@
+#!/bin/bash
+[ -z "$1" ] && exit 1;
+
+url="http://www.horriblesubs.info/rss.php?res=1080"
+
+curl -s "$url" > "$LCCACHE/search"
+magnet="$(cat $LCCACHE/search | sed 's/>/>\n/g' | sed 's#</#\n</#g' | grep -v "HorribleSubs RSS" | grep -E "\[HorribleSubs\]|magnet" | sed 'N;s/\n/===/g;P;D' | head -10  | grep "$1" | sed 's/===/\n/g' | head -2 | tail -1 )"
+
+[ -z "$magnet" ] && exit 1;
+
+notify-send "Anime Watch" "Found source for $1."
+
+today="$(date +"%A")"
+sed "/$1/d" -i "$LCCACHE/${today}Schedule"
+
+xdg-open "$magnet"

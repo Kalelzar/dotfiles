@@ -1,0 +1,18 @@
+[submodule ".config/mpv/scripts/mpvSockets"]
+	path = .config/mpv/scripts/mpvSockets
+	url = https://github.com/wis/mpvSockets.git
+[submodule "/home/kalelzar/.config/emacs"]
+	path = /home/kalelzar/.config/emacs
+	url = https://github.com/Kalelzar/emacs.git
+[submodule "/home/kalelzar/.config/spicetify/CustomApps/genius"]
+	path = /home/kalelzar/.config/spicetify/CustomApps/genius
+	url = https://github.com/khanhas/genius-spicetify
+[submodule "/home/kalelzar/.local/src/dmenu"]
+	path = /home/kalelzar/.local/src/dmenu
+	url = https://github.com/lukesmithxyz/dmenu.git
+[submodule "/home/kalelzar/.local/src/lfimg"]
+	path = /home/kalelzar/.local/src/lfimg
+	url = https://github.com/cirala/lfimg.git
+[submodule "/home/kalelzar/.local/src/st"]
+	path = /home/kalelzar/.local/src/st
+	url = https://github.com/Kalelzar/st.git

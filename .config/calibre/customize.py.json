@@ -1,0 +1,20 @@
+{
+  "disabled_plugins": {
+    "__class__": "set", 
+    "__value__": []
+  }, 
+  "enabled_plugins": {
+    "__class__": "set", 
+    "__value__": [
+      "Edelweiss", 
+      "Douban Books", 
+      "OZON.ru", 
+      "Google Images", 
+      "Overdrive", 
+      "Big Book Search"
+    ]
+  }, 
+  "filetype_mapping": {}, 
+  "plugin_customization": {}, 
+  "plugins": {}
+}

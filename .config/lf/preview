@@ -1,0 +1,89 @@
+#!/bin/sh
+
+# Clear the last preview (if any)
+"$HOME/.config/lf/image" clear
+
+
+# Calculate where the image should be placed on the screen.
+num=$(printf "%0.f\n" "`echo "$(tput cols) / 2" | bc`")
+numb=$(printf "%0.f\n" "`echo "$(tput cols) - $num - 1" | bc`")
+numc=$(printf "%0.f\n" "`echo "$(tput lines) - 2" | bc`")
+
+HIGHLIGHT_SIZE_MAX=262143  # 256KiB
+HIGHLIGHT_TABWIDTH=8
+HIGHLIGHT_STYLE='pablo'
+
+set -C -f -u
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+
+
+mimetype="$(file --dereference  --brief --mime-type -- "$1")"
+
+handle_mime(){
+    case "$mimetype" in
+        text/html) w3m -dump "$1" ;;
+        text/troff) man "$1" | col -b ;;
+        text/*|*/xml|*/json)
+            if [ "$( stat --printf='%s' -- "$1" )" -gt "${HIGHLIGHT_SIZE_MAX}" ]; then
+                exit 2;
+            fi
+            if [ "$( tput colors )" -ge 256 ]; then
+                highlight_format='xterm256'
+            else
+                highlight_format='ansi'
+            fi
+            highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" \
+                      --out-format="${highlight_format}" \
+                      --style="${HIGHLIGHT_STYLE}" --force -- "$1" ;;
+        application/x-tar)
+            tar tf "$1" ;;
+        application/gzip)
+            tar tzf "$1" ;;
+        application/x-xz)
+            atool --list -- "$1" ;;
+        application/zip)
+            atool --list -- "$1" ;;
+        application/x-bzip2)
+            tar tif "$1" ;;
+        application/rar)
+            unrar l "$1" ;;
+        application/7z) 7z l "$1" ;;
+        application/x-object) nm "$1" | less ;;
+        application/torrent|application/x-bittorrent) transmission-show "$1" ;;
+        application/epub+zip)
+            CACHE=$(mktemp /tmp/thumbcache.XXXXX)
+            epub-thumbnailer "$1" "$CACHE" 1024
+            "$HOME/.config/lf/image" draw "$CACHE" "$num" 1 "$numb" "$numc"
+            ;;
+        application/pdf)
+            CACHE=$(mktemp /tmp/thumbcache.XXXXX)
+            pdftoppm -png -f 1 -singlefile "$1" "$CACHE"
+            $HOME/.config/lf/image draw "$CACHE.png" $num 1 $numb $numc
+            ;;
+        *opendocument*) odt2txt "$1";;
+        image/*)
+            "$HOME/.config/lf/image" draw "$1" "$num" 1 "$numb" "$numc";;
+        video/*|audio/*)
+            CACHE=$(mktemp /tmp/thumbcache.XXXXX)
+            ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
+            "$HOME/.config/lf/image" draw "$CACHE" $num 1 $numb $numc
+            mediainfo "$1"
+            ;;
+        application/octet-stream)
+            mediainfo "$1" ;;
+        */x-empty)
+            echo "<EMPTY>" ;;
+        *)
+            case "$1" in
+                *.iso) iso-info --no-header -l "$1" ;;
+                *.doc) catdoc "$1" ;;
+                *.docx) docx2txt "$1" - ;;
+                *) echo "$mimetype is not a recognized mime type."
+            esac
+
+
+    esac
+
+}
+
+handle_mime "$1"

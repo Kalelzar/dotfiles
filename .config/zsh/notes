@@ -1,0 +1,156 @@
+#!/bin/bash
+
+wtls=39
+
+printTask(){
+    text="$1"
+    count="$2"
+    countY="$3"
+    bgc="$4"
+    len="$5"
+
+    margin=$((($(tput cols) - (wtls+2*len))/2))
+
+
+    tput cuf "$margin"
+    [ "$((2*(margin+len) + wtls - 1))" = "$(tput cols)" ] || tput cuf 1
+
+    printf "${bg[white]}${fg[black]}┃${fg[black]}"
+
+    printf "${text}"
+
+    printf "${fg[black]}${bg[$bgc]}"
+    printf "[%0${len}d]"    "$count"
+    printf "${reset_color}"
+
+    printf "${bg[white]}${fg[black]}"
+    printf ", they were "
+
+    printf "${fg[black]}${bg[$bgc]}"
+    printf "[%0${len}d]"  "$countY"
+    printf "${reset_color}"
+
+    printf "${bg[white]}${fg[black]}"
+    printf " yesterday."
+    printf "${bg[white]}${fg[black]}┃"
+
+    echo "${reset_color}"
+}
+
+welcomeMessage() {
+    tsk="$(tasks)"
+    at="$(activeTask limit $(($(tput cols)-36)))"
+    nt="$(echo -n $tsk | cut -d'&' -f2)"
+    st="$(echo -n $tsk | cut -d'&' -f3)"
+    it="$(echo -n $tsk | cut -d'&' -f4)"
+    dt="$(echo -n $tsk | cut -d'&' -f5)"
+    ct="$(echo -n $tsk | cut -d'&' -f6)"
+    pt="$(echo -n $tsk | cut -d'&' -f7)"
+
+    tt=$((nt+st+it+dt+ct+pt))
+    [ "$at" = "None" ] || tt=$((tt+1))
+
+    nty="$(cat "$HOME/.cache/ntasks" | tail -1)"
+    sty="$(cat "$HOME/.cache/stasks" | tail -1)"
+    ity="$(cat "$HOME/.cache/itasks" | tail -1)"
+    dty="$(cat "$HOME/.cache/dtasks" | tail -1)"
+    cty="$(cat "$HOME/.cache/ctasks" | tail -1)"
+    pty="$(cat "$HOME/.cache/ptasks" | tail -1)"
+
+    len=${#tt}
+
+    tty=$((nty+sty+ity+dty+cty+pty))
+
+    if [ "$(tput cols)" -gt "33" ]
+    then
+        printf "${fg[red]}"
+        figlet -t -c "Kalelzar"
+        printf "${reset_color}"
+    else
+        echo "Welcome $(whoami)."
+    fi
+
+    margin=$((($(tput cols) - (wtls+2*len))/2+1))
+
+
+
+    tput cuf "$margin"
+
+    echo -n "${bg[white]}${fg[black]}"
+
+    echo -n "┏"
+
+    for i in $(seq 1 $((wtls+2*len)))
+    do
+        echo -n "━"
+    done
+
+    echo -n "┓"
+
+    echo "${reset_color}"
+
+    printTask "      New - " "$nt" "$nty" "blue"    "$len"
+    printTask "Scheduled - " "$st" "$sty" "yellow"  "$len"
+    printTask " Imminent - " "$it" "$ity" "green"   "$len"
+    printTask "Suspended - " "$pt" "$pty" "white"   "$len"
+    printTask "     Done - " "$dt" "$dty" "cyan"    "$len"
+    printTask "Cancelled - " "$ct" "$cty" "red"     "$len"
+    printTask "    Total - " "$tt" "$tty" "magenta" "$len"
+
+    tput cuf "$margin"
+    tput cuf 1
+
+    echo -ne "${bg[white]}${fg[black]}"
+
+    echo -n "┗"
+
+    for i in $(seq 1 $((wtls+2*len)))
+    do
+        echo -n "━"
+    done
+
+    echo -n "┛"
+
+    echo "${reset_color}"
+    echo
+
+    echo "Your current active task is $at"
+    echo
+
+    local size=$(($(tput lines)-28))
+    [ "$size" -gt "7" ] && {
+        sht=$(cat "$HOME/.cache/stasks.daily" | cut -d' ' -f1 | sort | uniq | wc -l)
+        dht=$(cat "$HOME/.cache/dtasks.daily" | cut -d' ' -f1 | sort | uniq | wc -l)
+
+        [ "$sht" -lt "$dht" ] && {
+            paste -d ' ' <(constructTaskGraph "d" "daily" "$size") <(constructTaskGraph "s" "daily" "$size")
+        } || {
+            paste -d ' ' <(constructTaskGraph "s" "daily" "$size") <(constructTaskGraph "d" "daily" "$size")
+        }
+
+    } || {
+
+        godown=%(($(tput lines)-28))
+        tput cud "$godown"
+    }
+    echo
+    #for i in $(seq 25 $(tput lines))
+#    do
+#        echo "$i"
+#    done
+
+}
+
+
+[[ -o interactive ]] && welcomeMessage
+
+
+getTaskInfo(){
+    tsk="$(tasks)"
+    at="$(activeTask)"
+    nt="$(echo -n $tsk | cut -d'&' -f2)"
+    st="$(echo -n $tsk | cut -d'&' -f3)"
+    it="$(echo -n $tsk | cut -d'&' -f4)"
+
+    echo "$fg[red][$nt]  $fg[yellow][$st]  $fg[green][$it]  $fg[blue]$at"
+}

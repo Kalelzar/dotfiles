@@ -1,0 +1,106 @@
+#!/bin/bash
+
+awrd="ACTIVE"
+iwrd="IMMINENT"
+swrd="SCHEDULED"
+nwrd="NEW"
+dwrd="DONE"
+cwrd="CANCELLED"
+pwrd="SUSPENDED"
+
+prefix="$HOME/Documents"
+
+files=("agenda" "notes" "archive")
+
+if [ -z "$1" ]
+then
+
+    activeTask=""
+
+    ntasks=0
+    stasks=0
+    itasks=0
+    dtasks=0
+    ctasks=0
+    ptasks=0
+
+    w="\033[33m"
+    r="\033[0m"
+
+    for file in ${files[*]}
+    do
+        path="$prefix/$file.org"
+        at="$(grep "\* $awrd" "$path")"
+        [ "$at" ] && {
+            if  [ -z "$activeTask" ] && [ "$(echo "$at" | wc -l)" -eq "1" ]
+            then
+                activeTask="$(echo "$at" | sed -E "s/[*]+ ACTIVE //" )"
+            else
+                echo -e "${w}There are more then 1 active tasks!${r}" 1>&2
+                activeTask="$(echo "$at" | head -1 | sed -E "s/[*]+ ACTIVE //")"
+            fi
+        }
+
+        nt="$(grep "\* $nwrd" "$path" | wc -l)"
+        ntasks=$((nt+ntasks))
+        st="$(grep "\* $swrd" "$path" | wc -l)"
+        stasks=$((st+stasks))
+        it="$(grep "\* $iwrd" "$path" | wc -l)"
+        itasks=$((it+itasks))
+        dt="$(grep "\* $dwrd" "$path" | wc -l)"
+        dtasks=$((dt+dtasks))
+        ct="$(grep "\* $cwrd" "$path" | wc -l)"
+        ctasks=$((ct+ctasks))
+        pt="$(grep "\* $pwrd" "$path" | wc -l)"
+        ptasks=$((pt+ptasks))
+
+    done
+
+
+
+    echo "$dtasks $(date "+%H")" >> "$HOME/.cache/dtasks.daily"
+    echo "$stasks $(date "+%H")" >> "$HOME/.cache/stasks.daily"
+
+    [ -z "$activeTask" ] && activeTask="None"
+
+    echo "${activeTask:0:30}" > "$HOME/.cache/activeTask"
+    echo "$activeTask&$ntasks&$stasks&$itasks&$dtasks&$ctasks&$ptasks"
+
+else
+    for file in ${files[*]}
+    do
+        xwrd=""
+        case "$1" in
+            d|"done"|D|DONE|Done)
+                xwrd="$dwrd"
+            ;;
+            c|cancelled|C|CANCELLED|Cancelled)
+                xwrd="$cwrd"
+            ;;
+            i|imminent|I|IMMINENT|Imminent)
+                xwrd="$iwrd"
+            ;;
+            a|active|A|ACTIVE|Active)
+                xwrd="$awrd"
+            ;;
+            s|scheduled|S|SCHEDULED|Scheduled)
+                xwrd="$swrd"
+            ;;
+            n|new|N|NEW|New)
+                xwrd="$nwrd"
+            ;;
+            p|suspended|paused|P|SUSPENDED|PAUSED|Suspended|Paused)
+                xwrd="$pwrd"
+            ;;
+            *)
+                echo "$1 is an unknown keyword."
+                exit
+        esac
+
+        path="$prefix/$file.org"
+        substHd='[*]+ [A-Z]+ (.*)'
+
+        grep "\* $xwrd" "$path" | sed -E "s/$substHd/\1/g"
+    done
+
+fi

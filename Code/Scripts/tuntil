@@ -1,0 +1,4 @@
+#!/bin/bash
+[ -z "$1" ] && { echo 0 && exit;}
+
+echo "$(( $(timeToMinutes "$1") - $(timeToMinutes) ))"

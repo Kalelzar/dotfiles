@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Function for downloading the import file from cloud.
+downloadRemoteFile(){
+    # The local path to the file.
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/${ORG_AGENDA_REMOTE_IMPORT}"
+    # The remote path to the file.
+    local rpath="${ORG_AGENDA_REMOTE_LOCATION}/${ORG_AGENDA_REMOTE_IMPORT}"
+
+    #Back-up old import file
+    #It should be empty but nonetheless why not.
+    mv "${lpath}" "${lpath}.old" &> /dev/null
+
+    #Download the new one
+    rclone copy "$rpath" "${ORG_AGENDA_LOCAL_LOCATION}" &> /dev/null
+}
+
+formatTasksForImport(){
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/${ORG_AGENDA_REMOTE_IMPORT}"
+
+    #Format the imported task appropriately
+    cat "$lpath" \
+        | tr $'\n' $'\t' \
+        | perl -pe "s/[*] (.*?)\t(.*?)([*]|$)/\* NEW \1\nImported on $(date "+[%F %a %k:%M]" )\n\2\3/g" \
+        | tr $'\t' $'\n'
+}
+
+importTasks(){
+    downloadRemoteFile
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/${ORG_AGENDA_REMOTE_IMPORT}"
+    local rpath="${ORG_AGENDA_REMOTE_LOCATION}/${ORG_AGENDA_REMOTE_IMPORT}"
+
+    local tasks="$(formatTasksForImport)"
+
+    cat /dev/null > "$lpath"
+    rclone copy "$lpath" "${ORG_AGENDA_REMOTE_LOCATION}" &> /dev/null
+
+    echo -e "$tasks" >> "${ORG_AGENDA_LOCAL_LOCATION}/notes.org"
+}
+
+importTasks

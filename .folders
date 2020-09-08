@@ -1,0 +1,14 @@
+# -*- conf-unix -*-
+
+
+GMAIL{
+   %Inbox:natomanofglory/clear@imap.gmail.com:993!             "Inbox"
+   %[Gmail]/Sent Mail:natomanofglory/clear@imap.gmail.com:993! "Sent"
+   %[Gmail]/Starred:natomanofglory/clear@imap.gmail.com:993!   "Starred"
+   %[Gmail]/Drafts:natomanofglory/clear@imap.gmail.com:993!    "Draft"
+
+   University{
+      %Uni:natomanofglory/clear@imap.gmail.com:993!     "Uni"
+   }
+
+}

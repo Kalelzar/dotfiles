@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Function for downloading the export file from cloud.
+downloadRemoteFile(){
+    # The local path to the file.
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/${ORG_AGENDA_REMOTE_EXPORT}"
+    # The remote path to the file.
+    local rpath="${ORG_AGENDA_REMOTE_LOCATION}/${ORG_AGENDA_REMOTE_EXPORT}"
+
+    #Back-up old export file
+    #It should be empty but nonetheless why not.
+    mv "${lpath}" "${lpath}.old" &> /dev/null
+
+    #Download the new one
+    rclone copy "$rpath" "${ORG_AGENDA_LOCAL_LOCATION}" &> /dev/null
+}
+
+formatTasksForExport(){
+    local agendaFiles=("agenda" "notes")
+
+    for file in ${agendaFiles[*]}
+    do
+        local lpath="${ORG_AGENDA_LOCAL_LOCATION}/${file}.org"
+        cp "$lpath" "$lpath.old"
+        diff <(cat "$lpath" \
+        | tr $'\n' $'\t' \
+        | perl -pe "s/[*] EXPORT .*?(\t[*] |$)/\1/g" \
+        | tr $'\t' $'\n') "$lpath"\
+            | grep -E "^>" \
+            | cut -d' ' -f2- \
+            | sed -E "s/[*] EXPORT (.*?)/* NEW \1\nExported on $(date "+[%F %a %k:%M]")/g"
+
+        local edited="$(cat "$lpath" \
+        | tr $'\n' $'\t' \
+        | perl -pe "s/[*] EXPORT (.*?)(\t.*?)?(\t[*] |$)/* EXPORTED \1\nExported on $(date "+[%F %a %k:%M]")\2\3/g" \
+        | tr $'\t' $'\n' \
+        | sed '/^$/d')"
+
+        echo "$edited" > "${ORG_AGENDA_LOCAL_LOCATION}/${file}.org"
+    done
+
+}
+
+exportTasks(){
+    downloadRemoteFile
+    local lpath="${ORG_AGENDA_LOCAL_LOCATION}/${ORG_AGENDA_REMOTE_EXPORT}"
+    local rpath="${ORG_AGENDA_REMOTE_LOCATION}/${ORG_AGENDA_REMOTE_EXPORT}"
+
+    local tasks="$(formatTasksForExport)"
+
+    echo "$tasks" >> "$lpath"
+    rclone copy "$lpath" "${ORG_AGENDA_REMOTE_LOCATION}" &> /dev/null
+
+}
+
+exportTasks

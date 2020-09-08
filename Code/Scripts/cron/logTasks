@@ -1,0 +1,74 @@
+#!/bin/bash
+
+tsk="$(tasks)"
+at="$(echo -n $tsk | cut -d'&' -f1)"
+nt="$(echo -n $tsk | cut -d'&' -f2)"
+st="$(echo -n $tsk | cut -d'&' -f3)"
+it="$(echo -n $tsk | cut -d'&' -f4)"
+dt="$(echo -n $tsk | cut -d'&' -f5)"
+ct="$(echo -n $tsk | cut -d'&' -f6)"
+pt="$(echo -n $tsk | cut -d'&' -f7)"
+
+echo -n "" > "$TASK_LOG"
+
+w="\033[33m"
+r="\033[0m"
+
+prefix="$HOME/Documents"
+files=("agenda" "notes")
+
+findTaskOfType(){
+    local type="$1"
+    local tasks=()
+    for file in ${files[*]}
+    do
+        local path="$prefix/$file.org"
+        tasks+=("$(grep "\* $type" "$path" \
+        | sed -E "s/[*]+ $type (.*)/\1/g")")
+    done
+    echo "${tasks[*]}"
+}
+
+cancelTasksOfType(){
+    local type="$1"
+    local tasks=()
+    for file in ${files[*]}
+    do
+        local path="$prefix/$file.org"
+        sed -E -i "s/([*]+) $type (.*)/\1 SUSPENDED \2/g" "$path"
+        #grep "\* $type" "$path" |sed -E "s/[*]+ $type (.*)/\1/g"
+    done
+}
+
+total=$((nt+st+it+dt+ct))
+if [ "$at" = "None" ]
+then
+   total=$((total+1))
+else
+   {
+       echo "You ended the day with the task [$at] still active."
+       echo "It seems like the task will take more than a day."
+       echo "As such any imminent tasks won't be suspended."
+   } >> "$TASK_LOG"
+fi
+
+if [ "$it" -gt "0" ]
+then
+    [ "$at" = "None" ] &&
+    {
+        echo "You ended the day with [$it] unfinished imminent tasks."
+        echo "Those tasks will be suspended."
+        echo "Their log book will not be updated."
+        echo -e "Those tasks are:\n${w}$(findTaskOfType "IMMINENT")${r}"
+    } >> "$TASK_LOG"
+    cancelTasksOfType "IMMINENT"
+fi
+
+echo "$it" >> "$HOME/.cache/itasks"
+echo "$st" >> "$HOME/.cache/stasks"
+echo "$nt" >> "$HOME/.cache/ntasks"
+echo "$dt" >> "$HOME/.cache/dtasks"
+echo "$ct" >> "$HOME/.cache/ctasks"
+echo "$pt" >> "$HOME/.cache/ptasks"
+
+cat "$TASK_LOG"

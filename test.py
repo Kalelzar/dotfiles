@@ -1,0 +1,20 @@
+import math
+import hipsterplot
+import random
+
+import sys
+
+
+#print(str(sys.argv))
+
+ys=[int(i) for i in sys.argv[1].split(" ")]
+xs=[int(i) for i in sys.argv[2].split(" ")]
+
+maxWidth=int(sys.argv[3])
+maxHeight=int(sys.argv[4])
+
+
+yss=set(ys)
+xss=set(xs)
+
+hipsterplot.plot(ys, xs, num_x_chars=min(len(xss), maxWidth), num_y_chars=min(len(yss), maxHeight))

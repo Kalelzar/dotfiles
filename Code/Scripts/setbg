@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# This script does the following:
+#	Run by itself, set the wallpaper (at X start).
+#	If given a file, set that as the new wallpaper.
+#	If given a directory, choose random file in it.
+#	If wal is installed, also generates a colorscheme.
+
+# Location of link to wallpaper link.
+
+#exit
+
+bgloc="${XDG_DATA_HOME:-$HOME/.local/share/}/bg"
+
+[ -z "$1" ] || exit
+
+[ -f "$1" ] && ln -sf "$(readlink -f "$1")" "$bgloc"
+
+[ -d "$1" ] && ln -sf "$(find "$(readlink -f "$1")" -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f | shuf -n 1)" "$bgloc"
+
+stumpish kal/store-state-and-disable-mode-line
+#stumpish mode-line
+
+# If pywal is installed, use it.
+wal -n --backend colorz -i "$(readlink -f "$bgloc")" -o \
+    "${XDG_CONFIG_HOME:-$HOME/.config}/wal/postrun" >/dev/null 2>&1
+
+bg="$(head -1 < "$HOME/.cache/wal/colors" | sed -E 's#(.*)#"\1"#' )"
+fg="$(head -2 < "$HOME/.cache/wal/colors" | tail -1 | sed -E 's#(.*)#"\1"#' )"
+border="$(head -15 < "$HOME/.cache/wal/colors" | tail -1 | sed -E 's#(.*)#"\1"#' )"
+
+echo -e "(progn (setf *colors* (list $(head -10 < "$HOME/.cache/wal/colors" | sed -E 's#(.*)#"\1"#g' )))\n
+(setf *background* $bg *mode-line-background-color* $bg *mode-line-foreground-color* $fg *mode-line-border-color* $border)\n
+(message \"Help\")
+(set-bg-color $bg)\n
+(set-border-color $border)\n
+(set-fg-color $fg)\n
+(update-color-map (current-screen)))" | stumpish -e eval &> /dev/null
+
+sed -i -E 's/(.*)#rgb ([a-zA-Z0-9]+) ([0-9]{1,3}),([0-9]{1,3}),([0-9]{1,3})/\1--\
+\2-r: \3;\n\1--\2-g: \4;\n\1--\2-b: \5;\n/g' "$HOME/.cache/wal/colors.css"
+
+pywalfox update
+
+#pidof dwm >/dev/null && xdotool key Hyper_L+F5
+
+xwallpaper --zoom "$bgloc"
+stumpish kal/restore-mode-line-state
+#stumpish mode-line

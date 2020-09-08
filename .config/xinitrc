@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# This file is ran when you 'startx'.
+
+# Starts some important services and daemons
+
+. "$HOME/.xprofile"
+
+
+# Start StumpWM
+
+stumpwm

@@ -1,0 +1,270 @@
+;;; -*- mode: lisp -*-
+;;; config.lisp --- StumpWM Configuration
+
+;;(ql:quickload :swank)
+;;(swank:create-server)
+
+(in-package :stumpwm)
+
+
+
+(set-font "-*-unifont-*-*-*-*-*-*-*-*-*-*-*")
+
+(run-shell-command "xsetroot -cursor_name left_ptr" t)
+
+;;(defvar *my-frame-bindings*
+;;  (let ((m (stumpwm:make-sparse-keymap)))
+;;    (stumpwm:define-key m (stumpwm:kbd "f") "cur frame")
+;;    (stumpwm:define-key m (stumpwm:kbd "M-b") "move-focus left")
+;;    m ; NOTE: this is important
+;;   ))
+;;(stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "C-f") '*my-frame-bindings*)
+
+(defcommand polybar () (run-shell-command "polybar -q laptop&"))
+
+(defun stumpwm::groupHasWindows (group)
+  "Format groups with windows differently from empty groups"
+  (if (eq (current-group) group)
+      (format nil "^[^5*^R")
+      (if (group-current-window group)
+          (format nil "^[^B^5*")
+          (format nil "^[^1*")
+          )))
+
+(setf
+
+ *mode-line-position* :bottom
+ *mode-line-border-width* 0
+
+ *window-info-format*
+ (format nil "^>^B^5*%c ^b^6*%w^7*x^6*%h^7*~%%t")
+
+ *window-format*
+          " %15t "
+
+ *group-formatters* (append *group-formatters*  '((#\w groupHasWindows)))
+
+ *group-format*
+ "%w%t^]"
+
+ *time-format-string-default*
+ (format nil "^5*%H:%M:%S~%^2*%A~%^7*%d %B")
+
+ *time-modeline-string* "%k:%M"
+ *mode-line-timeout* 3
+ *screen-mode-line-format*
+ '(
+   "%g | "                 ; group name
+   "%v ^>"
+   (:eval (run-shell-command "activeTask") t)
+   (:eval (run-shell-command "echo -n \"$(livechart) |\"" t))
+   (:eval (run-shell-command "echo -n \" ^[^B^5*$(mpdstatus)\"" t))
+   (:eval (run-shell-command "echo -n \" ♬ $(pamixer --get-volume)% \"" t))
+   "| ^[^5*%d^] | "                  ;time
+   (:eval (run-shell-command "battery" t))
+   ))
+
+
+
+
+;; clx-truetype has been abandoned by it's author and has been removed from
+;; quicklisp. Hence the following no longer works.
+;; truetype-clx is being looked into as a replacement
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;(ql:quickload "clx-truetype")                                               ;;
+;;(load-module "ttf-fonts");;
+;;(set-font (make-instance 'xft:font :family "DejaVu Sans Mono"               ;;
+;; :subfamily "Book" :size 11))                                               ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
+;;; Mode-line commands
+
+
+(defvar *kal/mode-line-enabled* nil
+  "State of the mode line, since StumpWM doesn't expose any way to query it")
+(defvar *kal/stored-mode-line-state* nil
+  "Stored state with kal/store-state-and-disable-mode-line")
+
+(defun kal/set-mode-line (state)
+  "Set mode line to specified state"
+  (unless (eq *kal/mode-line-enabled* state)
+    (setf *kal/mode-line-enabled* (not *kal/mode-line-enabled*))
+    (mode-line)))
+
+(defcommand kal/toggle-mode-line () ()
+            (kal/set-mode-line (not *kal/mode-line-enabled*)))
+
+(defcommand kal/enable-mode-line () ()
+            (kal/set-mode-line t))
+
+(defcommand kal/disable-mode-line () ()
+            (kal/set-mode-line nil))
+
+(defcommand kal/store-state-and-disable-mode-line () ()
+            (setf *kal/stored-mode-line-state* *kal/mode-line-enabled*)
+            (kal/disable-mode-line))
+
+(defcommand kal/restore-mode-line-state () ()
+            (kal/set-mode-line *kal/stored-mode-line-state*))
+
+(kal/enable-mode-line)
+
+
+;;; Keybindings
+
+(set-prefix-key (kbd "H-a"))
+
+;; Remove useless default bindings
+
+(undefine-key *root-map* (kbd "e"))
+(undefine-key *root-map* (kbd "C-e"))
+(undefine-key *root-map* (kbd "c"))
+(undefine-key *root-map* (kbd "C-c"))
+(undefine-key *root-map* (kbd "n"))
+(undefine-key *root-map* (kbd "C-n"))
+(undefine-key *root-map* (kbd "SPC"))
+(undefine-key *root-map* (kbd "p"))
+(undefine-key *root-map* (kbd "C-p"))
+(undefine-key *root-map* (kbd "s"))
+
+(undefine-key *root-map* (kbd "'"))
+
+
+;; Add some commonly used programs to *top-map* for easy access
+
+(defun kal/execterm (cmd)
+  "Start a terminal application"
+  (concat (concat "exec $TERMINAL -e '" cmd) "'"))
+
+(defcommand kal/print-output (cmd) ()
+  (let ((v (run-shell-command cmd t)))
+  (message v)
+  v))
+
+(defun kal/gen-print-output (cmd)
+  "Print the output of a shell command."
+  (concat "eval (run-shell-command \""
+          (concat cmd "| sed -E 's/(.*)/Brightness: \1/g' | tr -d '\n' \" t)")))
+
+(define-key *top-map* (kbd "H-RET") "exec st")
+(define-key *top-map* (kbd "H-S-RET") "exec")
+(define-key *top-map* (kbd "H-w") "exec firefox")
+
+(define-key *top-map* (kbd "H-e") "exec emacsvi")
+(define-key *top-map* (kbd "H-m") (kal/execterm "ncmpcpp"))
+(define-key *top-map* (kbd "H-n") (kal/execterm "newsboat"))
+(define-key *top-map* (kbd "H-p") "exec mpc toggle")
+(define-key *top-map* (kbd "H-.") "exec mpc next")
+(define-key *top-map* (kbd "H-,") "exec mpc prev")
+(define-key *top-map* (kbd "H-r") (kal/execterm "lfrun"))
+
+(define-key *root-map* (kbd "t") (kal/execterm "tremc"))
+(define-key *root-map* (kbd "s") "exec currentlyplaying")
+(define-key *root-map* (kbd "T") (kal/execterm "htop"))
+
+;; Audio related controls
+(define-key *top-map* (kbd "H-=") "exec pamixer -i 2 && volumeosd")
+(define-key *top-map* (kbd "H--") "exec pamixer -d 2 && volumeosd")
+(define-key *top-map* (kbd "H-M") "exec pamixer -t  && volumeosd")
+(define-key *top-map* (kbd "XF86AudioRaiseVolume")
+  "exec pamixer -i 2 && volumeosd")
+(define-key *top-map* (kbd "XF86AudioLowerVolume")
+  "exec pamixer -d 2 && volumeosd")
+
+;; Headphone controls
+(defvar *headphone-map* (make-sparse-keymap)
+  "Key map for audio controls from headphones")
+(define-key *top-map* (kbd "XF86AudioMute") '*headphone-map*)
+(define-key *headphone-map* (kbd "XF86AudioRaiseVolume") "exec mpc next")
+(define-key *headphone-map* (kbd "XF86AudioLowerVolume") "exec mpc prev")
+(define-key *headphone-map* (kbd "XF86AudioMute") "exec pamixer -t && volumeosd")
+(define-key *headphone-map* (kbd "H-p") "exec mpc toggle")
+(define-key *headphone-map* (kbd "a") "exec mpdannounce")
+
+;; Background controls
+(defvar *bg-map* (make-sparse-keymap)
+  "Key map for background controls")
+(define-key *root-map* (kbd "B") '*bg-map*)
+(define-key *bg-map* (kbd "b") "exec banbackground")
+(define-key *bg-map* (kbd "n")  "exec setbg \"$HOME/Backgrounds\"")
+
+;; Backlight
+
+(define-key *top-map* (kbd "XF86MonBrightnessUp") "exec xbacklight +5")
+(define-key *top-map* (kbd "XF86MonBrightnessDown") "exec xbacklight -5")
+
+; Larger Increments
+
+(define-key *top-map* (kbd "s-XF86MonBrightnessUp") "exec xbacklight +20")
+(define-key *top-map* (kbd "s-XF86MonBrightnessDown") "exec xbacklight -20")
+
+; Smaller Increments
+
+(define-key *top-map* (kbd "H-XF86MonBrightnessUp") "exec xbacklight +1")
+(define-key *top-map* (kbd "H-XF86MonBrightnessDown") "exec xbacklight -1")
+
+(define-key *top-map* (kbd "C-XF86MonBrightnessUp")
+  (kal/gen-print-output "xbacklight"))
+
+
+
+; Alternate Bindings for keyboards without dedicated brightness keys
+
+(define-key *root-map* (kbd "=") "exec xbacklight +5")
+(define-key *root-map* (kbd "-") "exec xbacklight -5")
+
+;; Frame controls
+(define-key *top-map* (kbd "H-Up") "pull-hidden-next")
+(define-key *top-map* (kbd "H-Down") "pull-hidden-previous")
+
+(define-key *top-map* (kbd "H-f") "fullscreen")
+
+;; Use the default Emacs keybindings for frames
+(define-key *root-map* (kbd "1") "only")
+(define-key *root-map* (kbd "2") "vsplit")
+(define-key *root-map* (kbd "3") "hsplit")
+(define-key *root-map* (kbd "0") "remove")
+
+(define-key *root-map* (kbd "b") "kal/toggle-mode-line")
+
+
+;;; Groups
+
+(defun range (max &key (min 0) (step 1))
+  "Get a list of integers."
+  (loop for n from min below max by step
+     collect n))
+
+(defcommand kal/set-up-groups () ()
+            (grename "1")
+
+            (mapcar #'(lambda (x)
+                        (gnewbg (write-to-string x)))
+                    (range 10 :min 2 :step 1))
+
+            (gnewbg-float "0"))
+
+(kal/set-up-groups)
+
+
+;;Rebind groups to prefix number
+(mapcar #'(lambda (x)
+            (define-key *top-map* (kbd (concat "H-" (write-to-string x)))
+              (format nil "gselect ~D" x))
+            (define-key *top-map* (kbd (concat "H-s-" (write-to-string x)))
+              (format nil "gmove ~D" x))
+            (define-key *top-map* (kbd (concat "C-s-" (write-to-string x)))
+              (format nil "~A ~D" "select-window-by-number" x)))
+        (range 10 :min 0 :step 1))
+
+
+;; Misc configuration
+(setf *mouse-focus-policy* :sloppy
+      *ignore-wm-inc-hints* t
+      *normal-border-width* 0
+      *window-border-style* :none)
+
+
+;;; config.lisp ends here

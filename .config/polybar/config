@@ -1,0 +1,249 @@
+; vim:ft=dosini
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+
+[colors]
+black = ${xrdb:color0:#1d2021}
+darkred = ${xrdb:color1:#cc241d}
+darkgreen = ${xrdb:color2:#98971a}
+darkyellow = ${xrdb:color3:#d79921}
+darkblue = ${xrdb:color4:#458588}
+darkmagenta = ${xrdb:color5:#b16286}
+darkcyan = ${xrdb:color6:#689d6a}
+lightgray = ${xrdb:color7:#a89984}
+gray = ${xrdb:color8:#928374}
+red = ${xrdb:color9:#fb4934}
+green = ${xrdb:color10:#b8bb26}
+yellow = ${xrdb:color11:#fabd2f}
+blue = ${xrdb:color12:#83a598}
+magenta = ${xrdb:color13:#d3869b}
+cyan = ${xrdb:color14:#8ec07c}
+white = ${xrdb:color15:#ebdbb2}
+background = ${xrdb:color0:#1d2021}
+foreground = ${xrdb:color15:#ebdbb2}
+
+
+accent-dark=${colors.darkred}
+alert=${colors.red}
+
+
+background-tray=${colors.background}
+
+accent-light=${colors.blue}
+foreground-alt = ${colors.accent-light}
+
+[global/wm]
+margin-top = 2
+margin-bottom = 4
+
+[bar/laptop]
+monitor = LVDS1
+width = 100%
+height = 28
+offset-x = 0
+offset-y = 0
+
+background = #00000000
+foreground = ${colors.foreground}
+
+font-0 = "Source Code Pro:size=10;1"
+font-1 = Inconsolata Nerd Font:size=10;1
+font-2 = Noto Color Emoji:scale=10:style=Regular;2
+font-3 = Symbola:pixelsize=10;1
+font-4 = "FontAwesome:pixelsize=10;1"
+
+modules-left = ewmh xwindow
+modules-center = prev playpause next music
+modules-right = alsa date
+
+tray-position = right
+tray-padding = 0
+
+enable-ipc = true
+
+
+[module/xwindow]
+type = internal/xwindow
+label = " %title:0:45:...% "
+format-background = ${colors.background}
+format-foreground = ${colors.red}
+
+[module/ewmh]
+type = internal/xworkspaces
+
+enable-click = true
+enable-scroll = false
+
+icon-0 = TEXT;
+icon-1 = WEB;
+icon-2 = EXT;
+icon-3 = FLT;
+icon-default = 
+
+; NOTE: nwin is not supported in the main repo, try
+;       https://github.com/lepisma/polybar/tree/nwin-for-xworkspaces
+label-active = "%icon% %name% "
+label-active-foreground = ${colors.foreground}
+label-active-background = ${colors.darkblue}
+label-active-underline = ${colors.darkmagenta}
+
+label-empty = ""
+label-empty-foreground = #00000000
+label-empty-background = #00000000
+
+label-occupied = "%icon% %name% "
+label-occupied-underline = #555555
+label-occupied-background = ${colors.darkmagenta}
+label-occupied-foreground = ${colors.foreground}
+
+label-urgent = "%icon% *%name%* "
+label-urgent-foreground = #000000
+label-urgent-background = #FF0000
+
+[module/keyboard]
+type = internal/xkeyboard
+
+; List of indicators to ignore
+blacklist-0 = num lock
+blacklist-1 = scroll lock
+blacklist-2 = caps lock
+
+; Available tags:
+;   <label-layout> (default)
+;   <label-indicator> (default)
+format = <label-layout> <label-indicator>
+format-spacing = 2
+
+; Available tokens:
+;   %layout%
+;   %name%
+;   %number%
+; Default: %layout%
+label-layout = %name%
+
+; Available tokens:
+;   %name%
+; Default: %name%
+label-indicator-on = %name%
+label-indicator-padding = 2
+
+[module/powermenu]
+type = custom/menu
+
+label-open = 
+label-open-foreground = ${colors.foreground}
+label-open-background = ${colors.background}
+label-close = " "
+label-close-foreground = ${colors.foreground-alt}
+label-close-background = ${colors.background}
+
+
+menu-0-0 = 
+menu-0-0-exec = poweroff
+menu-0-1 = 
+menu-0-1-exec = reboot
+menu-0-2 = 
+menu-0-2-exec = lock-suspend
+
+menu-0-0-padding = 1
+menu-0-1-padding = 1
+menu-0-2-padding = 1
+
+[module/wlan]
+type = internal/network
+interface = wlp1s0
+interval = 3
+
+	label-padding = 2
+
+format-connected = "<label-connected> "
+format-connected-prefix = "  "
+format-connected-underline = ${colors.accent-light}
+
+label-connected = %essid%
+label-disconnected =  WLAN
+label-disconnected-foreground = ${colors.foreground-alt}
+
+
+
+[module/date]
+type = internal/date
+interval = 5
+time = "%H:%M"
+date = "%a %d %b"       
+label = "%time%, %date% "
+format-prefix = "" 
+format-prefix-foreground = ${colors.foreground-alt}
+format-prefix-background = ${colors.background}
+label-background = ${colors.background}
+
+[module/alsa]
+type = internal/alsa
+
+format-volume = "<ramp-volume><label-volume>"
+label-volume = " %percentage%% "
+label-volume-background = ${colors.background}
+
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+ramp-volume-foreground = ${colors.foreground-alt}
+ramp-volume-background = ${colors.background}
+
+label-muted = " MUTED "
+format-muted-foreground = ${colors.foreground-alt}
+label-muted-background = ${colors.background}
+
+[module/prev]
+	type = custom/text
+
+	content = " "
+	content-background = ${colors.darkblue}
+	content-foreground = ${xrdb:color15}
+	content-padding = 0
+
+	click-left = mpc prev
+
+[module/playpause]
+	type = custom/script
+
+	exec = sh ~/.config/polybar/playpause.sh
+
+	interval= .5
+
+	label = %output%
+	label-background = ${colors.darkblue}
+	label-foreground = ${xrdb:color15}
+	label-padding = 2
+
+	click-left = mpc toggle
+
+[module/next]
+	type = custom/text
+
+	content = ""
+
+	content-background = ${colors.darkblue}
+	content-foreground = ${xrdb:color15}
+	content-padding = 0
+
+	click-left = mpc next
+
+[module/music]
+	type = internal/mpd
+
+	format-online = <label-song>
+
+        label-song = "%artist:0:20:...% - %title:0:30:...%"
+	label-song-padding = 1
+	label-song-background = ${colors.darkblue}
+	label-song-foreground = ${xrdb:color15}
+
+	format-online-prefix-padding = 0

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+path="$(realpath "$HOME/.local/share/bg")"
+mv "$path" "$HOME/Backgrounds/Banned"
+setbg "$HOME/Backgrounds"

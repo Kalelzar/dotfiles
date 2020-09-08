@@ -1,0 +1,126 @@
+#!/bin/sh
+# Script to wait for the currently playing song in MPD to change.
+# Uses netcat to communicate directly with the MPD server.
+
+# Warning!!!
+# Please note that if you just copy/paste this, the help message will not display as intended.
+# This is because the tabs were converted to spaces by the forum.
+# Just change the leading four spaces in the usage() function to tabs to fix it.
+
+#### Examples
+#
+# mpd-wait -n4; halt
+#
+# env MPD_HOST=password@host MPD_PORT=port mpd-wait
+#
+# while mpd-wait --songs=2; do
+#   custom-osd-script.sh
+# done
+#
+####
+
+# Name of the script
+progname=$(basename "$0")
+
+# Find and save a unique file name for the temporary FIFO
+tmpfifo=/tmp/."$progname".$$
+while [ -e "$tmpfifo" ]; do
+    tmpfifo="$tmpfifo.$(tr -dc 0-9 < /dev/urandom | head -c2)"
+done
+
+# Remove temporary FIFO if the script is killed
+trap "rm \"$tmpfifo\"; exit" SIGHUP SIGINT SIGTERM
+
+
+# Default values for MPD's host and port
+mpd_host=localhost
+mpd_port=6600
+
+# Check environment variables for alternate values
+if [ "$MPD_HOST" ] && $(printf %s "$MPD_HOST" | grep @ &>/dev/null); then
+    mpd_host="$(printf $MPD_HOST | sed 's/.*@//')"
+    mpd_pass="$(printf $MPD_HOST | sed 's/\(.*\)@.*/\1/')"
+elif [ "$MPD_HOST" ]; then
+    mpd_host="$MPD_HOST"
+fi
+if [ "$MPD_PORT" ]; then
+    mpd_port="$MPD_PORT"
+fi
+
+# Number of songs to wait for. Default is 1.
+nsongs=1
+
+# Detect command line arguments
+argv=$(getopt -a -o n:h --long songs:,help -n "$progname" -- "$@")
+test $? != 0 && exit 1
+eval set -- "$argv"
+while [ "$1" ]; do
+    case "$1" in
+        -n | --songs )    shift
+                          nsongs="$1"
+                          ;;
+        -h | --help )     usage
+                          exit
+                          ;;
+        -- )              shift
+                          break
+                          ;;
+        * )               printf '%s: uh oh, major internal error!\n' "$progname" >&2
+                          exit 1
+    esac
+    shift
+done
+
+# Determine netcat executable to use
+for exe in nc ncat netcat; do
+    nc="$(which $exe 2>/dev/null)" && break
+done
+test -z "$nc" && printf '%s: netcat is a dependency of this script\n' "$progname" >&2
+
+# Tests that MPD is running
+printf 'ping\nclose\n' | $nc $mpd_host $mpd_port | grep '^OK MPD [0-9.]*' &>/dev/null \
+|| { printf '%s: daemon is not running\n' "$progname" >&2;  exit 2; }
+
+# Tests that $nsongs is a non-negative integer
+test $nsongs -ge -1 2>/dev/null                                               \
+|| { printf '%s: argument to '\'--songs\'' or '\'-n\'' must %s\n' "$progname" \
+            'be a non-negative integer' >&2
+     exit 1; }
+
+# Gets MPD's internal ID for the current song, which is unique even for
+# identical files in the playlist
+getsongid() {
+    printf '%s\nstatus\nclose\n'                                         \
+           "$(test \"$mpd_pass\" && printf 'password %s' \"$mpd_pass\")" \
+    | $nc $mpd_host $mpd_port                                            \
+    | sed -ne '/^state: stop$/ q'                                        \
+           -e '/^songid: / s///p'
+}
+
+# ID for the song we're waiting for
+songid=$(getsongid)
+
+# Create temporary FIFO
+mknod --mode=600 "$tmpfifo" p
+
+# $count keeps track of how many songs have changed
+# This is the meat of the script, which keeps track of the current song and
+# whether or not it has changed. The very confusing voodoo with the named pipe
+# is to prevent netcat from hanging after the "idle" command has finished.
+# (Possible security risk - attacker could manipulate the daemon by piping to
+#  the named pipe before the script does.)
+count=0
+until [ $count -eq $nsongs ]; do
+    while [ "$songid" = "$(getsongid)" ]; do
+        printf '%s\nidle player\n'                                           \
+               "$(test \"$mpd_pass\" && printf 'password %s' \"$mpd_pass\")" \
+            | cat - "$tmpfifo"                                                   \
+            | $nc $mpd_host $mpd_port                                            \
+        | sed -n "/^changed.*/ s//close/w $tmpfifo"
+    done
+    count=$(($count + 1))
+    songid=$(getsongid)
+done
+
+# Remove temporary FIFO
+rm "$tmpfifo"

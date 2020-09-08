@@ -1,0 +1,8 @@
+[user]
+	email = natomanofglory@gmail.com
+	name = Kalelzar
+[pull]
+	rebase = false
+[filesystem "Oracle Corporation|1.8.0_252|/dev/sda3"]
+	timestampResolution = 1001 microseconds
+	minRacyThreshold = 4492 microseconds

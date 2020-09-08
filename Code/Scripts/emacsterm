@@ -1,0 +1,2 @@
+TERM="screen-bce"
+[ -z "$1" ] && emacsclient -t || emacsclient -t "$1"
