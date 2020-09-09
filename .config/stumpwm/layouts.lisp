@@ -5,6 +5,12 @@
 (defvar layouts nil
   "Layout map")
 
+(defvar layout-location (concat
+                          (namestring (user-homedir-pathname))
+                          ".local/share/stumpwm/")
+  "Location of layout files.")
+
+
 ;(setf layouts nil)
 
 (defun register-layout (name fancy-name keybinding &rest windows)
@@ -19,7 +25,13 @@
                  (kal/execterm "cava")
                  )
 
+
 (defcommand open-layout (layout) ((:string "Layout: "))
-            (dolist (window (cdr (assoc layout layouts :test #'string=)))
-              (run-commands window))
-            (restore-from-file layout))
+  (restore-from-file layout)
+  (restore-window-placement-rules
+   (concat layout-location
+           (concat layout "-rules.dump")))
+  (dolist (window (cdr (assoc layout layouts :test #'string=)))
+    (run-commands window)
+    (place-existing-windows))
+  (clear-window-placement-rules))

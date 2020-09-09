@@ -1,0 +1,6 @@
+((#A((1) BASE-CHAR . "9") 1 T T :CLASS "Sxiv" :INSTANCE "sxiv" :TITLE "sxiv"
+  :ROLE NIL)
+ (#A((1) BASE-CHAR . "9") 2 T T :CLASS "St" :INSTANCE "st" :TITLE "cava" :ROLE
+  NIL)
+ (#A((1) BASE-CHAR . "9") 0 T T :CLASS "St" :INSTANCE "st" :TITLE ".*\[ncmpcpp\].*" :ROLE
+  NIL))
