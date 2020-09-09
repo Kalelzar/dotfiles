@@ -49,6 +49,7 @@ pic*.png
 .config/calcurse
 .config/configstore
 .config/discord
+.config/dconf
 .config/easytag
 .config/enchant
 .config/GIMP
