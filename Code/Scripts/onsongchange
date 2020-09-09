@@ -2,4 +2,4 @@
 
 
 
-genthumb &> /dev/null && currentlyplaying
+genthumb &> /dev/null
