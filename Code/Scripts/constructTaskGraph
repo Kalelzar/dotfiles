@@ -16,5 +16,5 @@ then
 #    echo "$tasks" | tr ' ' $'\n' | wc -l
 #    echo "$hours" | tr ' ' $'\n' | wc -l
 
-    python ~/test.py "$tasks" "$hours" "30" "$rem"
+    pgraph "$tasks" "$hours" "30" "$rem"
 fi
