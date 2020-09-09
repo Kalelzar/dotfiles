@@ -8,10 +8,13 @@ Backgrounds
 Pictures
 Videos
 
+# Misc files
 .Xauthority
+pic*.png
 
 # App Data
-.local/share
+.local/share/*
+!.local/share/stumpwm
 .local/state
 .local/lib
 
