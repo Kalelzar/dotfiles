@@ -80,6 +80,7 @@ pic*.png
 .config/youtube-viewer/api.json
 .config/wall.png
 .config/transmission-daemon/stats.json
+.config/ncmpcpp/error.log
 
 # History files
 .bash_history
