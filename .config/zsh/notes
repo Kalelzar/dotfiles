@@ -142,7 +142,7 @@ welcomeMessage() {
 }
 
 
-[[ -o interactive ]] && welcomeMessage
+#[[ -o interactive ]] && welcomeMessage
 
 
 getTaskInfo(){
