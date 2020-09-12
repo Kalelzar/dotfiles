@@ -1,10 +1,10 @@
 # Standard Desktop Folders
-Music
-Downloads
-Documents
+Backgrounds
 Code/*
 !Code/Scripts
-Backgrounds
+Documents
+Downloads
+Music
 Pictures
 Videos
 
@@ -13,10 +13,10 @@ Videos
 pic*.png
 
 # App Data
+.local/lib
 .local/share/*
 !.local/share/stumpwm
 .local/state
-.local/lib
 
 # App Cache
 .cache
@@ -43,48 +43,49 @@ pic*.png
 .surf
 .texlive
 .w3m
+.config/GIMP
 .config/activitywatch
 .config/bless
 .config/bspwm
 .config/calcurse
 .config/configstore
-.config/discord
 .config/dconf
+.config/discord
 .config/easytag
 .config/enchant
-.config/GIMP
+.config/fontforge
 .config/hardinfo
 .config/htop
-.config/fontforge
 .config/i3
 .config/i3blocks
 .config/jgit
 .config/menus
+.config/mpd/playlists
+.config/ncmpcpp/error.log
 .config/nvim
 .config/procps
 .config/projectM
 .config/pulse
 .config/ranger
 .config/rclone
-.config/spotify
-.config/spicetify/Extracted
 .config/spicetify/Backup
+.config/spicetify/Extracted
+.config/spotify
 .config/sxhkd
 .config/sxiv
 .config/transmission-daemon/blocklists
-.config/transmission-daemon/resume
-.config/transmission-daemon/torrents
 .config/transmission-daemon/dht.dat
+.config/transmission-daemon/resume
+.config/transmission-daemon/stats.json
+.config/transmission-daemon/torrents
 .config/vifm
 .config/vlc
+.config/wall.png
 .config/xfce4
 .config/youtube-viewer/api.json
-.config/wall.png
-.config/transmission-daemon/stats.json
-.config/ncmpcpp/error.log
 
 # History files
 .bash_history
+.gnuplot_history
 .python_history
 .stumpish_history*
-.gnuplot_history
