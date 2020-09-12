@@ -44,6 +44,38 @@
       (format nil "move-~D ~D" type dir)
       (format nil "Move ~D ~D" type dir) "Frame"))
 
+(defun stumpwm::window-is-visible (window)
+  "Format visible windows differently from hidden windows"
+  (if (eq (current-window) window)
+      (format nil "^[")
+      (if (window-visible-p window)
+          (format nil "^[^b^1*")
+          (format nil "^[^5*")
+          )))
+
+(setf *window-formatters* (append *window-formatters* '((#\f window-is-visible))))
+
+(defcommand vpull-hidden-next () ()
+  (if (null (current-window))
+      (pull-hidden-next)
+      (unless (null (remove-if #'(lambda (window)
+                                   (window-visible-p window))
+                               (group-windows (current-group))))
+        (pull-hidden-next)
+        (echo-windows "%f%t^]")
+        (sleep 0.5))))
+
+
+(defcommand vpull-hidden-previous () ()
+  (if (null (current-window))
+      (pull-hidden-previous)
+      (unless (null (remove-if #'(lambda (window)
+                                   (window-visible-p window))
+                               (group-windows (current-group))))
+        (pull-hidden-previous)
+        (echo-windows "%f%t^]")
+        (sleep 0.5))))
+
 ;;Rebind groups to prefix number
 (mapcar #'(lambda (x)
             (redefine-key *top-map* (kbd (concat "H-" (write-to-string x)))
@@ -146,9 +178,9 @@
               "Volume -2" "System")
 
 ;; Frame controls
-(redefine-key *top-map* (kbd "H-SPC") "pull-hidden-next"
+(redefine-key *top-map* (kbd "H-SPC") "vpull-hidden-next"
               "Next window on stack" "Frame")
-(redefine-key *top-map* (kbd "H-S-SPC") "pull-hidden-previous"
+(redefine-key *top-map* (kbd "H-S-SPC") "vpull-hidden-previous"
               "Prev window on stack" "Frame")
 
 
@@ -184,6 +216,10 @@
 (redefine-key *root-map* (kbd "H-s") "exec maim -i \"$(xdotool getactivewindow)\" pic-window-\"$(date '+%y%m%d-%H%M-%S').png\""
               "Screenshot window"
               "System")
+
+(redefine-key *root-map* (kbd "w") "windows %f%n %t^]"
+              "Show windows"
+              "Frame")
 
 (redefine-key *root-map* (kbd "R") "loadrc" "Reload config file." "System")
 
