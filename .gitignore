@@ -11,7 +11,7 @@ Videos
 # Misc files
 .Xauthority
 pic*.png
-mpv-show*
+mpv-shot*
 
 # App Data
 .local/lib
