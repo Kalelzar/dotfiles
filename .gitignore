@@ -11,6 +11,7 @@ Videos
 # Misc files
 .Xauthority
 pic*.png
+mpv-show*
 
 # App Data
 .local/lib
@@ -61,6 +62,7 @@ pic*.png
 .config/jgit
 .config/menus
 .config/mpd/playlists
+.config/mpv/watch_later
 .config/ncmpcpp/error.log
 .config/nvim
 .config/procps
