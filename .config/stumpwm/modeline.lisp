@@ -20,7 +20,7 @@
  (format nil "^>^B^5*%c ^b^6*%w^7*x^6*%h^7*~%%t")
 
  *window-format*
-          " %15t "
+          " %f%15t^] "
 
  *group-formatters* (append *group-formatters*  '((#\w group-has-windows)))
 
