@@ -85,6 +85,7 @@ mpv-shot*
 .config/wall.png
 .config/xfce4
 .config/youtube-viewer/api.json
+.config/zsh/.zcompdump
 
 # History files
 .bash_history
