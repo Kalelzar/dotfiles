@@ -44,6 +44,7 @@ mpv-shot*
 .surf
 .texlive
 .w3m
+.authinfo.gpg
 .config/GIMP
 .config/activitywatch
 .config/bless
