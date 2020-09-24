@@ -6,6 +6,7 @@
 
 (ql:quickload :cl-ppcre)
 (ql:quickload :swank)
+;;(ql:update-all-dists)
 
 (unless swank-is-active
   (setf swank-is-active t)
@@ -42,8 +43,10 @@
 (kal/load "help")
 (kal/load "keybindings")
 (kal/load "layouts")
-;(kal/load "minimum-interaction-mode")
+(kal/load "minimum-interaction-mode")
 ;(kal/load "remap")
+
+(run-shell-command "setbg&" t)
 
 ;;; Groups
 

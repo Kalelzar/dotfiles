@@ -37,7 +37,6 @@
    "%g | "                 ; group name
    "%v ^>"
    (:eval (run-shell-command "activeTask limit 30" t))
-   (:eval (run-shell-command "echo -n \" $(livechart) |\"" t))
    (:eval (run-shell-command "echo -n \" ^[^B^5*$(mpdstatus)\"" t))
    (:eval (run-shell-command "echo -n \" ♬ $(pamixer --get-volume)% \"" t))
    "| ^[^5*%d^] | "                  ;time

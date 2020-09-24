@@ -221,17 +221,17 @@ f      (typecase next
 (redefine-key *top-map* (kbd "H-f") "fullscreen" "Fullscreen" "Frame")
 
 ;; Audio related controls
-(redefine-key *top-map* (kbd "H-=") "exec pamixer -i 2 && volumeosd"
+(redefine-key *top-map* (kbd "H-=") "exec pamixer -i 2 && volumeosd&"
               "Volume +2" "System")
-(redefine-key *top-map* (kbd "H--") "exec pamixer -d 2 && volumeosd"
+(redefine-key *top-map* (kbd "H--") "exec pamixer -d 2 && volumeosd&"
               "Volume -2" "System")
-(redefine-key *top-map* (kbd "H-M") "exec pamixer -t  && volumeosd"
+(redefine-key *top-map* (kbd "H-M") "exec pamixer -t  && volumeosd&"
               "Toggle mute" "System")
 (redefine-key *top-map* (kbd "XF86AudioRaiseVolume")
-              "exec pamixer -i 2 && volumeosd"
+              "exec pamixer -i 2 && volumeosd&"
               "Volume +2" "System")
 (redefine-key *top-map* (kbd "XF86AudioLowerVolume")
-              "exec pamixer -d 2 && volumeosd"
+              "exec pamixer -d 2 && volumeosd&"
               "Volume -2" "System")
 
 ;; Frame controls
