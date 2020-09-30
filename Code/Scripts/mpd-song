@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mpc status | head -1 | cut -d- -f2- | sed -E 's/[[:space:]]*(.*)[[:space:]]*/\1/g'
