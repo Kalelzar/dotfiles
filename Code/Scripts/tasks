@@ -30,16 +30,7 @@ then
     for file in ${files[*]}
     do
         path="$prefix/$file.org"
-        at="$(grep "\* $awrd" "$path")"
-        [ "$at" ] && {
-            if  [ -z "$activeTask" ] && [ "$(echo "$at" | wc -l)" -eq "1" ]
-            then
-                activeTask="$(echo "$at" | sed -E "s/[*]+ ACTIVE //" )"
-            else
-                echo -e "${w}There are more then 1 active tasks!${r}" 1>&2
-                activeTask="$(echo "$at" | head -1 | sed -E "s/[*]+ ACTIVE //")"
-            fi
-        }
+        activeTask="$(cat ~/.cache/activeTask)"
 
         nt="$(grep "\* $nwrd" "$path" | wc -l)"
         ntasks=$((nt+ntasks))
@@ -61,9 +52,6 @@ then
     echo "$dtasks $(date "+%H")" >> "$HOME/.cache/dtasks.daily"
     echo "$stasks $(date "+%H")" >> "$HOME/.cache/stasks.daily"
 
-    [ -z "$activeTask" ] && activeTask="None"
-
-    echo "${activeTask:0:30}" > "$HOME/.cache/activeTask"
     echo "$activeTask&$ntasks&$stasks&$itasks&$dtasks&$ctasks&$ptasks"
 
 else
