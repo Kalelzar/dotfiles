@@ -6,7 +6,7 @@
   "Format groups with windows differently from empty groups"
   (if (eq (current-group) group)
       (format nil "^[^5*^R")
-      (if (group-current-window group)
+      (if (> (list-length (group-windows group)) 0)
           (format nil "^[^B^5*")
           (format nil "^[^1*")
           )))
