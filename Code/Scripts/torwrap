@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
 ! pidof transmission-daemon >/dev/null && transmission-daemon
 
-$TERMINAL -e tremc
+$TERMINAL -e tremc &2> /dev/null
