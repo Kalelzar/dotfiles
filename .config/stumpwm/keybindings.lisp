@@ -76,7 +76,7 @@
                    (nth (+ 1 at) windows-for-cycle))))
     (message "~D" at)
     (unless (or (= 1 (list-length windows-for-cycle)) (null next))
-f      (typecase next
+      (typecase next
         (stumpwm::tile-window (pull-window next))
         (stumpwm::float-window (progn
                                  (really-raise-window next)
@@ -114,7 +114,7 @@ f      (typecase next
           (pull-hidden-next)
           (unless (null (remove-if #'(lambda (window)
                                        (or (window-visible-p window)
-                                 (equalp (type-of window) 'stumpwm::float-window)))
+                                           (equalp (type-of window) 'stumpwm::float-window)))
                                        (group-windows (current-group))))
             (pull-hidden-next)
             (echo-windows "%f%t^]")

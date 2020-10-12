@@ -13,17 +13,17 @@
 
 ;(setf layouts nil)
 
-(defun register-layout (name fancy-name keybinding &rest windows)
+(defun register-layout (name fancy-name keybinding category &rest windows)
   (redefine-key *layout-map* (kbd keybinding)
-                (concat "open-layout " name) fancy-name)
-  (setf layouts (acons name windows layouts))
-  )
+                (concat "open-layout " name)
+                fancy-name
+                )
+  (setf layouts (acons name windows layouts)))
 
-(register-layout "mp" "Music Player" "m"
+(register-layout "mp" "Music Player" "m" "Media"
                  (kal/execterm "ncmpcpp")
                  "exec sxiv -b -s f $HOME/.cache/songthumb"
-                 (kal/execterm "cava")
-                 )
+                 (kal/execterm "cava"))
 
 
 (defcommand open-layout (layout) ((:string "Layout: "))
