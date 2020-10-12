@@ -93,3 +93,11 @@ mpv-shot*
 .gnuplot_history
 .python_history
 .stumpish_history*
+/.config/nyxt/
+/.config/oomox/colors/colors-oomox
+/.config/oomox/colors/xresources-reverse
+/.config/qt5ct/
+/.gtkrc-2.0
+/.icons/
+/.local/src/aw-watcher-spotify/
+/.themes/
