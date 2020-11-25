@@ -1,68 +1,83 @@
 {
   "main_window_geometry": {
-    "__class__": "bytearray", 
-    "__value__": "AdnQywADAAAAAAAAAAAAAAAABVUAAALtAAAAAAAAAAAAAAVVAAAC7QAAAAAAAAAABVYAAAAAAAAAAAAABVUAAALt"
-  }, 
+    "__class__": "bytearray",
+    "__value__": "AdnQywADAAAAAAAAAAAAAAAAAqoAAAL/AAAAAAAAAAAAAAKqAAAC/wAAAAAAAAAABVYAAAAAAAAAAAAAAqoAAAL/"
+  },
   "main_window_state": {
-    "__class__": "bytearray", 
-    "__value__": "AAAA/wAAAAH9AAAAAgAAAAAAAAEAAAADAPwCAAAAAvsAAAAWAHMAZQBhAHIAYwBoAC0AZABvAGMAawAAAAAAAAADAAAAAKAA////+wAAABAAdABvAGMALQBkAG8AYwBrAAAAAAD/////AAAAjgD///8AAAABAAAAAAAAAAD8AgAAAAT7AAAAHgBoAGkAZwBoAGwAaQBnAGgAdABzAC0AZABvAGMAawAAAAAA/////wAAANwA////+wAAABYAbABvAG8AawB1AHAALQBkAG8AYwBrAAAAAAD/////AAAAbAD////7AAAAHABiAG8AbwBrAG0AYQByAGsAcwAtAGQAbwBjAGsAAAAAAP////8AAAD+AP////sAAAAcAGkAbgBzAHAAZQBjAHQAbwByAC0AZABvAGMAawAAAAAA/////wAAABYA////AAAFVgAAAu4AAAAEAAAABAAAAAgAAAAI/AAAAAEAAAAAAAAAAQAAAB4AYQBjAHQAaQBvAG4AcwBfAHQAbwBvAGwAYgBhAHICAAAAAP////8AAAAAAAAAAA=="
-  }, 
-  "old_prefs_migrated": true, 
+    "__class__": "bytearray",
+    "__value__": "AAAA/wAAAAH9AAAAAgAAAAAAAAEAAAADAPwCAAAAAvsAAAAWAHMAZQBhAHIAYwBoAC0AZABvAGMAawAAAAAAAAADAAAAAKAA////+wAAABAAdABvAGMALQBkAG8AYwBrAAAAAAD/////AAAAjgD///8AAAABAAAAAAAAAAD8AgAAAAT7AAAAHgBoAGkAZwBoAGwAaQBnAGgAdABzAC0AZABvAGMAawAAAAAA/////wAAANwA////+wAAABYAbABvAG8AawB1AHAALQBkAG8AYwBrAAAAAAD/////AAAAjAD////7AAAAHABiAG8AbwBrAG0AYQByAGsAcwAtAGQAbwBjAGsAAAAAAP////8AAAD+AP////sAAAAcAGkAbgBzAHAAZQBjAHQAbwByAC0AZABvAGMAawAAAAAA/////wAAABYA////AAACqwAAAwAAAAAEAAAABAAAAAgAAAAI/AAAAAEAAAAAAAAAAQAAAB4AYQBjAHQAaQBvAG4AcwBfAHQAbwBvAGwAYgBhAHICAAAAAP////8AAAAAAAAAAA=="
+  },
+  "old_prefs_migrated": true,
   "session_data": {
-    "base_font_size": 17, 
+    "base_font_size": 33,
     "columns_per_screen": {
-      "landscape": 1, 
+      "landscape": 1,
       "portrait": 1
-    }, 
-    "controls_help_shown_count": 2, 
-    "current_color_scheme": "black", 
+    },
+    "controls_help_shown_count": 2,
+    "current_color_scheme": "black",
     "footer": {
-      "left": "pos-book", 
-      "middle": "pos-chapter", 
+      "left": "pos-book",
+      "middle": "pos-chapter",
       "right": "progress"
-    }, 
+    },
     "header": {
-      "left": "title", 
-      "middle": "top-section", 
+      "left": "title",
+      "middle": "top-section",
       "right": "series"
-    }, 
-    "hide_tooltips": null, 
-    "keyboard_shortcuts": {}, 
+    },
+    "hide_tooltips": null,
+    "highlight_style": {
+      "kind": "color",
+      "type": "builtin",
+      "which": "yellow"
+    },
+    "keyboard_shortcuts": {},
     "left-margin": {
-      "left": "clock", 
-      "middle": "empty", 
+      "left": "clock",
+      "middle": "empty",
       "right": "empty"
-    }, 
-    "lines_per_sec_auto": 1.2, 
-    "margin_left": 40, 
-    "margin_right": 40, 
-    "read_mode": "flow", 
+    },
+    "lines_per_sec_auto": 1.2,
+    "margin_left": 40,
+    "margin_right": 40,
+    "read_mode": "flow",
     "right-margin": {
-      "left": "empty", 
-      "middle": "empty", 
+      "left": "empty",
+      "middle": "empty",
       "right": "empty"
-    }, 
+    },
     "standalone_font_settings": {
       "mono_family": "Fira Code Retina"
-    }, 
-    "standalone_misc_settings": {}, 
+    },
+    "standalone_misc_settings": {},
     "standalone_recently_opened": [
       {
         "authors": [
-          "Takedzuki Jou"
-        ], 
-        "key": "/home/kalelzar/Documents/Library/Takedzuki Jou/Arrival of a Devil King (201)/Arrival of a Devil King - Takedzuki Jou.epub", 
-        "pathtoebook": "/home/kalelzar/Documents/Library/Takedzuki Jou/Arrival of a Devil King (201)/Arrival of a Devil King - Takedzuki Jou.epub", 
-        "timestamp": "2020-07-22T19:19:12.920Z", 
-        "title": "Arrival of a Devil King"
-      }, 
+          "Noel Welsh",
+          "Dave Gurnell"
+        ],
+        "key": "/home/kalelzar/Documents/Library/Noel Welsh/Scala with Cats (284)/Scala with Cats - Noel Welsh.epub",
+        "pathtoebook": "/home/kalelzar/Documents/Library/Noel Welsh/Scala with Cats (284)/Scala with Cats - Noel Welsh.epub",
+        "timestamp": "2020-11-13T18:20:45.430Z",
+        "title": "Scala with Cats"
+      },
       {
         "authors": [
           "Takedzuki Jou"
-        ], 
-        "key": "/home/kalelzar/Documents/Library/Takedzuki Jou/Heretic God (146)/Heretic God - Takedzuki Jou.epub", 
-        "pathtoebook": "/home/kalelzar/Documents/Library/Takedzuki Jou/Heretic God (146)/Heretic God - Takedzuki Jou.epub", 
-        "timestamp": "2020-07-21T16:57:42.693Z", 
+        ],
+        "key": "/home/kalelzar/Documents/Library/Takedzuki Jou/Arrival of a Devil King (201)/Arrival of a Devil King - Takedzuki Jou.epub",
+        "pathtoebook": "/home/kalelzar/Documents/Library/Takedzuki Jou/Arrival of a Devil King (201)/Arrival of a Devil King - Takedzuki Jou.epub",
+        "timestamp": "2020-07-22T19:19:12.920Z",
+        "title": "Arrival of a Devil King"
+      },
+      {
+        "authors": [
+          "Takedzuki Jou"
+        ],
+        "key": "/home/kalelzar/Documents/Library/Takedzuki Jou/Heretic God (146)/Heretic God - Takedzuki Jou.epub",
+        "pathtoebook": "/home/kalelzar/Documents/Library/Takedzuki Jou/Heretic God (146)/Heretic God - Takedzuki Jou.epub",
+        "timestamp": "2020-07-21T16:57:42.693Z",
         "title": "Heretic God"
       }
     ]

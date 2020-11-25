@@ -1,35 +1,36 @@
 {
-  "add books dialog dir": "/home/kalelzar/Downloads", 
+  "add books dialog dir": "/home/kalelzar/Downloads",
   "catalogs_to_be_synced": {
-    "__class__": "set", 
+    "__class__": "set",
     "__value__": []
-  }, 
-  "database location dialog": "/home/kalelzar/Documents/Library", 
+  },
+  "database location dialog": "/home/kalelzar/Documents/Library",
   "notified-version-updates": {
-    "__class__": "set", 
+    "__class__": "set",
     "__value__": [
+      "5.5",
       "4.21"
     ]
-  }, 
-  "s_r_search_mode": 0, 
+  },
+  "s_r_search_mode": 0,
   "sort_history": [
     [
-      "series", 
+      "series",
       true
-    ], 
+    ],
     [
-      "title", 
+      "title",
       true
-    ], 
+    ],
     [
-      "timestamp", 
+      "timestamp",
       false
-    ], 
+    ],
     [
-      "timestamp", 
+      "timestamp",
       false
     ]
-  ], 
-  "welcome_wizard_device": "smartphone", 
+  ],
+  "welcome_wizard_device": "smartphone",
   "welcome_wizard_was_run": true
 }
