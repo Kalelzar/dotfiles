@@ -4,8 +4,10 @@ vol="$(pamixer --get-volume)"
 
 #[ "$vol" = "0" ] || [ "$vol" = "100" ] && exit
 
-killall aosd_cat
-echo "🔉 $vol%" | aosd_cat -n "Arial Black 24" -u 1000 -b 127 \
-                            -B "$(cat "$HOME/.cache/wal/colors" | head -1 )" \
-                            -R "$(cat "$HOME/.cache/wal/colors" | head -2 | tail -1 )" \
-                            -S none -f 0 -y -384 -x 640 -a 1
+#killall aosd_cat
+#echo "🔉 $vol%" | aosd_cat -n "Arial Black 24" -u 1000 -b 127 \
+#                            -B "$(cat "$HOME/.cache/wal/colors" | head -1 )" \
+#                            -R "$(cat "$HOME/.cache/wal/colors" | head -2 | tail -1 )" \
+#                            -S none -f 0 -y -384 -x 640 -a 1
+
+stumpish eval "(message \"$vol\")"
