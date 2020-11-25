@@ -4,8 +4,6 @@
 
 (export '(*bg-map* *headphone-map* *layout-map*))
 
-
-
 (defun range (max &key (min 0) (step 1))
   "Get a list of integers."
   (loop for n from min below max by step
@@ -15,8 +13,7 @@
   (undefine-key map key)
   (define-key map key command)
   (when name (map-command-to-name command name))
-  (when category (map-command-to-category name category))
-  )
+  (when category (map-command-to-category name category)))
 
 (map-command-to-category "Prefix key" "Keymap")
 
@@ -24,7 +21,21 @@
   "Start a terminal application"
   (concat (concat "exec $TERMINAL -e '" cmd) "'"))
 
-(defcommand kal/print-output (cmd) ()
+
+(defcommand exec-in-terminal (command) ((:shell "Command"))
+    "Evaluate the given shell COMMAND inside a temporary terminal window.
+The terminal used is the one pointed to by the TERMINAL environment variable."
+  (run-shell-command (format nil
+                             "$TERMINAL -e '~D'"
+                             command)))
+
+(defcommand watch-link-from-clipboard () ()
+  (run-or-raise "mpv --ytdl-format='bestvideo[height<=1080][fps<=30]+bestaudio' \"$(xclip -o)\""
+                '(:class "mpv")))
+
+;; (gnext)
+
+(defcommand kal/print-output (cmd) ((:shell "Command"))
   (let ((v (run-shell-command cmd t)))
   (message v)
   v))
@@ -60,6 +71,32 @@
           )))
 
 (setf *window-formatters* (append *window-formatters* '((#\f window-is-visible))))
+
+(defun change-pulseaudio-volume (volume-delta)
+  (let ((command (concat "pamixer "
+                         (cond
+                           ((zerop volume-delta) "-t --get-volume-human")
+                           ((positive-integer-p volume-delta)
+                            (format nil
+                                    "-i ~D --get-volume"
+                                    volume-delta))
+                           ((negative-integer-p volume-delta)
+                            (format nil
+                                    "-d ~D --get-volume"
+                                    (abs volume-delta)))))))
+    (message "Volume ~D" (run-shell-command command t))))
+
+(defcommand pulse-volume-change (by) (:number "Change by")
+  (change-pulseaudio-volume by))
+
+(defcommand pulse-volume-increase () ()
+  (pulse-volume-change 2))
+
+(defcommand pulse-volume-decrease () ()
+  (pulse-volume-change -2))
+
+(defcommand pulse-toggle-mute () ()
+  (pulse-volume-change 0))
 
 (defun cycle-windows-forward ()
   (let* ((windows (group-windows (current-group)))
@@ -172,7 +209,7 @@
 ;;; Keymaps
 
 (defvar *layout-map* (make-sparse-keymap)
-  "Keymap for common window layouts.")
+  "Keymap* for common window layouts.")
 
 (redefine-key *root-map* (kbd "l") '*layout-map* "Layouts" "Keymap")
 
@@ -203,6 +240,11 @@
 
 (redefine-key *top-map* (kbd "H-RET") "exec st" "Terminal" "App")
 (redefine-key *root-map* (kbd "RET") "exec" "Run command" "System")
+(redefine-key *root-map*
+              (kbd "S-RET")
+              "exec-in-terminal"
+              "Run command in terminal."
+              "System")
 (redefine-key *top-map* (kbd "H-w") "exec firefox" "Firefox" "App")
 
 (redefine-key *top-map* (kbd "H-e") "exec emacsvi" "Emacs" "App")
@@ -220,18 +262,19 @@
 
 (redefine-key *top-map* (kbd "H-f") "fullscreen" "Fullscreen" "Frame")
 
+
 ;; Audio related controls
-(redefine-key *top-map* (kbd "H-=") "exec pamixer -i 2 && volumeosd&"
+(redefine-key *top-map* (kbd "H-=") "pulse-volume-increase"
               "Volume +2" "System")
-(redefine-key *top-map* (kbd "H--") "exec pamixer -d 2 && volumeosd&"
+(redefine-key *top-map* (kbd "H--") "pulse-volume-decrease"
               "Volume -2" "System")
-(redefine-key *top-map* (kbd "H-M") "exec pamixer -t  && volumeosd&"
+(redefine-key *top-map* (kbd "H-M") "pulse-toggle-mute"
               "Toggle mute" "System")
 (redefine-key *top-map* (kbd "XF86AudioRaiseVolume")
-              "exec pamixer -i 2 && volumeosd&"
+              "pulse-volume-increase"
               "Volume +2" "System")
 (redefine-key *top-map* (kbd "XF86AudioLowerVolume")
-              "exec pamixer -d 2 && volumeosd&"
+              "pulse-volume-decrease"
               "Volume -2" "System")
 
 ;; Frame controls
@@ -280,12 +323,18 @@
 
 (redefine-key *root-map* (kbd "R") "loadrc" "Reload config file." "System")
 
+
+(redefine-key *root-map* (kbd "p")
+              "watch-link-from-clipboard"
+              "Open link in clipboard in mpv."
+              "Media")
+
 ;; Headphone controls
 (redefine-key *headphone-map* (kbd "XF86AudioRaiseVolume") "exec mpc next"
               "Next song" "Music controls")
 (redefine-key *headphone-map* (kbd "XF86AudioLowerVolume") "exec mpc prev"
               "Prev song" "Music controls")
-(redefine-key *headphone-map* (kbd "XF86AudioMute") "exec pamixer -t && volumeosd"
+(redefine-key *headphone-map* (kbd "XF86AudioMute") "pulse-toggle-mute"
               "Mute/unmute" "System")
 (redefine-key *headphone-map* (kbd "H-p") "exec mpc toggle"
               "Pause/unpause"

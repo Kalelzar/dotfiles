@@ -1,5 +1,5 @@
-;;; -*- mode: lisp -*-
-;;; config.lisp --- StumpWM Configuration
+;;;; -*- mode: lisp -*-
+;;;; config.lisp --- StumpWM Configuration
 
 
 (defvar swank-is-active nil)
@@ -24,7 +24,7 @@
                           (user-homedir-pathname)) ".config/stumpwm/config"))
   "The directory the config file is located.")
 
-;; From https://github.com/alezost/stumpwm-config/
+;;; From https://github.com/alezost/stumpwm-config/
 (defun kal/load (filename)
   "Load a file FILENAME (without extension) from `kal/config-directory'."
   (let ((file (merge-pathnames (concat filename ".lisp")
