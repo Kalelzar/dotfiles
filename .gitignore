@@ -115,3 +115,4 @@ mpv-shot*
 /.sbt/1.0/templates/
 /.sbt/1.0/zinc/
 /.sbt/boot/
+/.ssh/

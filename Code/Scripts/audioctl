@@ -1,0 +1,237 @@
+#!/bin/bash
+
+list-apps(){
+    pulsemixer --list-sinks |
+        grep "Sink input" |
+        sed -E "
+        s/Sink input:|ID:|Name:|Channels: [0-9]+, |//g;
+        /Mute: 0/{
+            s/Mute: 0,//g;
+            s/Volumes: \['([0-9]+%)'.*\]/: \1/g
+        }
+        /Mute: 1/{
+            s/Mute: 1,/: muted/g;
+            s/Volumes: \['([0-9]+%)'.*\]//g
+        }
+        s/(sink-input-[0-9]+),/[\1]/g;
+        s/(^|[[:space:]])[[:space:]]+/\1/g;
+        s/, //g;" |
+        tr $'\n' ',' |
+        sed 's/,/\n/g;
+        s/\n$//g'
+}
+
+with=-1
+
+with-id(){
+    with="$1"
+}
+
+with-app(){
+    local app=$1
+
+    local result
+    result="$(pulsemixer --list-sinks |
+                      grep "Name: $app," |
+                      sed -E 's/.*(sink-input-[0-9]+).*/\1/g;
+                        /Sink/d')"
+
+    local resultCount
+    resultCount="$(echo "$result" | wc -l)"
+
+    [ "$resultCount" -gt 1 ] && {
+        echo "There are multiple outputs called '$app'." >&2
+        exit 1
+    }
+
+    [ "$result" = "" ] && {
+        echo "App '$app' doesn't exist or isn't playing audio." >&2
+        exit 2
+    }
+
+    with="$result"
+}
+
+mute(){
+    [ "$with" = -1 ] && {
+        pulsemixer --mute
+    } || {
+        if ! pulsemixer --id "$with" --mute
+        then
+            echo "Failed to mute. Aborting..."
+            exit 3;
+        fi
+    }
+}
+
+unmute(){
+    [ "$with" = -1 ] && {
+        pulsemixer --unmute
+    } || {
+        if ! pulsemixer --id "$with" --unmute
+        then
+            echo "Failed to unmute. Aborting..."
+            exit 3;
+        fi
+    }
+}
+
+toggle-mute(){
+    [ "$with" = -1 ] && {
+        pulsemixer --toggle-mute
+    } || {
+        if ! pulsemixer --id "$with" --toggle-mute
+        then
+            echo "Failed to toggle mute. Aborting..."
+            exit 3;
+        fi
+    }
+}
+
+get-mute-raw(){
+    [ "$with" = -1 ] && {
+        pulsemixer --get-mute
+    } || {
+        if ! pulsemixer --id "$with" --get-mute
+        then
+            echo "Failed to get mute. Aborting..."
+            exit 3;
+        fi
+    }
+}
+
+get-mute(){
+    get-mute-raw | sed 's/1/Muted/g;s/0/Unmuted/g;' | tr -d $'\n'
+}
+
+set-to(){
+    [[ "$1" =~ [0-9]+ ]] || {
+        echo "Cannot set volume to $1."
+        exit 4;
+    }
+
+    [ "$with" = -1 ] && {
+        pulsemixer --set-volume "$1"
+    } || {
+        if ! pulsemixer --id "$with" --set-volume "$1"
+        then
+            echo "Failed to set volume. Aborting..."
+            exit 3;
+        fi
+    }
+}
+
+change(){
+    [[ "$1" =~ [+-][0-9]+ ]] || {
+        echo "Cannot change volume by $1."
+        exit 4;
+    }
+
+    [ "$with" = -1 ] && {
+        pulsemixer --change-volume "$1"
+    } || {
+        if ! pulsemixer --id "$with" --change-volume "$1"
+        then
+            echo "Failed to change volume. Aborting..."
+            exit 3;
+        fi
+    }
+}
+
+inc(){
+    change "+$(echo "$1" | sed 's/^[+-]//g')"
+}
+
+dec(){
+    change "-$(echo "$1" | sed 's/^[+-]//g')"
+}
+
+get-raw(){
+    [ "$with" = -1 ] && {
+        pulsemixer --get-volume | sed -E 's/([0-9]+).*/\1/'
+    } || {
+        if ! pulsemixer --id "$with" --get-volume
+        then
+            echo "Failed to get volume. Aborting..."
+            exit 3;
+        fi | sed -E 's/([0-9]+).*/\1/'
+    }
+}
+
+name(){
+    pulsemixer -l |
+        grep "ID: $1" |
+        sed -E 's/.*Name: (.*), Mute.*/\1/g'
+}
+
+id(){
+    pulsemixer -l |
+        grep "Name: $1" |
+        sed -E 's/.*ID: (.*), Name.*/\1/g'
+}
+
+get(){
+    local id
+    [ "$with" = '-1' ] && id="global" || id="$with"
+    echo -n "[$id] $(name "$with"): $(get-raw)%"
+}
+
+while [ "$1" != "" ]
+do
+    case "$1" in
+        with-app)
+            shift
+            with-app "$1"
+            ;;
+        with-id)
+            shift
+            with-id "$1"
+            ;;
+        with-global)
+            with="-1"
+            ;;
+        mute)
+            mute
+            ;;
+        unmute)
+            unmute
+            ;;
+        toggle-mute)
+            toggle-mute
+            ;;
+        get-mute)
+            get-mute
+            ;;
+        set)
+           shift
+           set-to "$1"
+           ;;
+        get)
+            get
+            ;;
+        change)
+            shift
+            change "$1"
+            ;;
+        inc)
+            shift
+            inc "$1"
+            ;;
+        dec)
+            shift
+            dec "$1"
+            ;;
+        list-apps)
+            list-apps
+            ;;
+        name)
+            shift
+            name "$1"
+            ;;
+        id)
+            shift
+            id "$1"
+            ;;
+    esac
+    shift
+done
