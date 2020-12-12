@@ -117,3 +117,6 @@ mpv-shot*
 /.sbt/boot/
 /.ssh/
 *.bz2
+/.local/src/ALAuto/
+*.pyc
+/.#.mailcap
