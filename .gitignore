@@ -116,3 +116,4 @@ mpv-shot*
 /.sbt/1.0/zinc/
 /.sbt/boot/
 /.ssh/
+*.bz2
