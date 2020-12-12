@@ -124,3 +124,4 @@ mpv-shot*
 /.config/ppsspp/PSP/Cheats/
 *.glshadercache
 /.config/Kitware/
+/.config/QtProject.conf
