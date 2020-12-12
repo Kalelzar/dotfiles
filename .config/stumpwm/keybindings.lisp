@@ -144,19 +144,26 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
     ))
 
 
+(defcommand really-float-this () ()
+  (unless (window-floating-p (current-window))
+    (float-this)
+    (toggle-always-on-top)
+    (float-window-move-resize (current-window)
+                              :width 480
+                              :height 270)))
+
 (defcommand vpull-hidden-next () ()
   (let ((windows-in-group (group-windows (current-group))))
-    (when (not (null windows-in-group))
+    (unless (null windows-in-group)
       (if (null (current-window))
           (pull-hidden-next)
           (unless (null (remove-if #'(lambda (window)
                                        (or (window-visible-p window)
-                                           (equalp (type-of window) 'stumpwm::float-window)))
-                                       (group-windows (current-group))))
+                                           (window-floating-p window)))
+                                       windows-in-group))
             (pull-hidden-next)
             (echo-windows "%f%t^]")
             (sleep 0.5))))))
-
 
 (defcommand vpull-hidden-previous () ()
   (let ((windows-in-group (group-windows (current-group))))

@@ -46,8 +46,6 @@
 (kal/load "minimum-interaction-mode")
 ;(kal/load "remap")
 
-(run-shell-command "setbg&" t)
-
 ;;; Groups
 
 (defcommand kal/set-up-groups () ()
@@ -75,5 +73,7 @@
       *normal-border-width* 0
       *window-border-style* :none
       *new-window-preferred-frame* '(:empty :focused))
+
+;;(run-shell-command "setbg&!" t)
 
 ;;; config.lisp ends here
