@@ -119,7 +119,8 @@ mpv-shot*
 *.bz2
 /.local/src/ALAuto/
 *.pyc
-/.#*
+.#*
 /.config/ppsspp/PSP/PPSSPP_STATE/
 /.config/ppsspp/PSP/Cheats/
 *.glshadercache
+/.config/Kitware/
