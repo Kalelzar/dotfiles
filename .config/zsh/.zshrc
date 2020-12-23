@@ -122,11 +122,5 @@ preexec() {
     printf "\033]0;%s\a" "$1"
 }
 
-# Set up thefuck
-
-eval $(thefuck --alias)
-
-bindkey -s '\C-s' 'fuck\n'
-
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh 2>/dev/null
