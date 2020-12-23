@@ -1,0 +1,511 @@
+@import url("colors.css");
+
+
+@-moz-document domain(youtube.com) {
+    ytd-multi-page-menu-renderer, .ytd-masthead, .ytd-guide-renderer,
+    ytd-mini-guide-renderer, .ytd-mini-guide-renderer, .ytd-popup-container,
+    ytd-active-account-header-renderer, #guide-content,
+    ytd-simple-menu-header-renderer, .ytd-account-settings,
+    .ytd-menu-popup-renderer, .yt-dropdown-menu, .ytd-playlist-panel-renderer,
+    .ytd-rich-metadata-renderer, ytd-post-renderer[uses-compact-lockup_],
+    .ytd-miniplayer {
+        background-color: var(--background) !important;
+        color: var(--foreground) !important;
+    }
+
+    ytd-two-column-browse-results-renderer.grid-3-columns {
+        width: 660px !important;
+    }
+
+    ytd-two-column-browse-results-renderer.grid-5-columns {
+        width: 1100px !important;
+    }
+
+    div#meta.ytd-grid-video-renderer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-right: 0px !important;
+    }
+
+    #meta > h3.ytd-grid-video-renderer {
+        display: flex;
+        align-items: center;
+    }
+
+    a#video-title.ytd-grid-video-renderer {
+        flex-basis: -moz-available;
+        padding-right: 0px;
+        text-align: -moz-center;
+    }
+
+    #metadata-line, #overlays {
+        display: none !important;
+    }
+
+
+    /* Realign recommendations START */
+
+    #contents.ytd-compact-autoplay-renderer, #items.ytd-watch-next-secondary-results-renderer #contents.ytd-item-section-renderer {
+        display: flex !important;
+        flex-direction: inherit;
+        flex-wrap: wrap !important;
+    }
+
+    #items.ytd-watch-next-secondary-results-renderer yt-chip-cloud-chip-renderer {
+        flex-direction: column !important;
+        flex-grow: 1 !important;
+        flex-basis: -moz-max-content !important;
+        flex-shrink: 0 !important;
+        flex-direction: column !important;
+        align-self: center !important;
+        width: -moz-available !important;
+    }
+
+    #items.ytd-watch-next-secondary-results-renderer yt-related-chip-cloud-renderer {
+        flex-grow: 1 !important;
+        align-self: center;
+    }
+
+    #items.ytd-watch-next-secondary-results-renderer #scroll-container {
+        flex-grow: 1 !important;
+    }
+
+    #items.ytd-watch-next-secondary-results-renderer yt-chip-cloud-renderer {
+        align-items: center !important;
+        align-content: center !important;
+    }
+
+    #items.ytd-watch-next-secondary-results-renderer #chips {
+        flex-direction: column !important;
+        display: flex !important;
+        flex-grow: 1 !important;
+        align-content: center !important;
+        align-self: center !important;
+    }
+
+    ytd-compact-video-renderer {
+        flex-basis: -moz-min-content !important;
+        flex-shrink: 1 !important;
+        flex-direction: column !important;
+        padding: 0 !important;
+        margin-right: 6px !important;
+        max-width: 193px !important;
+    }
+
+    #items.ytd-watch-next-secondary-results-renderer {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+    }
+
+
+    #dismissible.ytd-compact-video-renderer {
+        max-width: 193px !important;
+    }
+
+    ytd-compact-radio-renderer.style-scope > div:nth-child(1) {
+        flex-direction: column !important;
+        margin-right: 6px !important;
+        background-color: var(--background-dark) !important;
+        padding: 4px;
+        max-width: 193px !important;
+        border-style: inset !important;
+        border-width: 1px !important;
+        border-color: var(--accent2) !important;
+        border-radius: 0px 0px 18px 18px !important;
+        box-shadow: -5px 5px 4px 2px var(--background-dark);
+    }
+
+    .details.ytd-compact-video-renderer {
+        background-color: var(--background-light) !important;
+        border-radius: 0px 0px 18px 18px !important;
+    }
+
+    ytd-thumbnail.ytd-compact-radio-renderer {
+        width: 193px !important;
+        height: 109px !important;
+    }
+
+
+    #related ytd-thumbnail img#img {
+        width: 193px !important;
+    }
+
+    ytd-thumbnail.ytd-rich-metadata-renderer {
+        height: 100px !important;
+    }
+
+    ytd-compact-video-renderer:not([watch-feed-big-thumbs]) ytd-thumbnail.ytd-compact-video-renderer {
+        height: 108px !important;
+        width: 193px !important;
+    }
+
+    div.ytd-watch-next-secondary-results-renderer:nth-child(2) {
+        flex-direction: row !important;
+    }
+
+    #dismissable.ytd-compact-video-renderer{
+        flex-direction: column !important;
+        flex-basis: -moz-min-content;
+    }
+
+    .metadata.ytd-compact-video-renderer{
+        padding: 0px !important;
+    }
+
+    #video-title.ytd-compact-video-renderer{
+        text-align: center;
+    }
+
+    div.ytd-badge-supported-renderer, span.ytd-badge-supported-renderer {
+        display: none !important;
+    }
+
+    ytd-badge-supported-renderer {
+        height: 0px !important;
+        display: grid !important;
+    }
+
+    #items.ytd-vertical-list-renderer {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+    }
+
+    a#video-title.ytd-video-renderer {
+        flex-basis: -moz-available !important;
+        padding-right: 0px !important;
+        text-align: -moz-center !important;
+    }
+
+    ytd-video-renderer.ytd-vertical-list-renderer {
+        padding-top: 5px !important;
+    }
+
+    .ytd-vertical-list-renderer ytd-thumbnail {
+        height: 108px !important;
+        width: 193px !important;
+        min-width: 193px !important;
+    }
+
+    .ytd-vertical-list-renderer .text-wrapper {
+        max-width: 193px !important;
+    }
+
+    .ytd-vertical-list-renderer #dismissable {
+        display: flex !important;
+        flex-direction: column !important;
+        margin-right: 6px !important;
+        align-items: center !important;
+        background-color: var(--background-light) !important;
+        padding: 4px;
+        border-style: inset !important;
+        border-width: 1px !important;
+        border-color: var(--accent2) !important;
+        border-radius: 0px 0px 18px 18px !important;
+        box-shadow: -5px 5px 4px 2px var(--background-dark);
+    }
+
+    .ytd-vertical-list-renderer .ytd-badge-supported-renderer.badge-style-type-live-now {
+        position: relative !important;
+        width: -moz-available !important;
+        height: 197px !important;
+        right: 360px !important;
+        bottom: 120px !important;
+        border-radius: 0px 0px 18px 18px !important;
+        box-shadow: -5px 5px 4px 2px var(--background-dark);
+        background-color: rgba(255, 0, 0, 0.05) !important;
+        display: unset !important;
+    }
+
+    .ytd-badge-supported-renderer.badge-style-type-live-now {
+        position: relative !important;
+        width: 202px !important;
+        height: 181px !important;
+        bottom: 189px !important;
+        border-radius: 0px 0px 18px 18px !important;
+        background-color: rgba(255, 0, 0, 0.05) !important;
+        display: unset !important;
+    }
+
+
+    .metadata > a.yt-simple-endpoint.ytd-compact-video-renderer {
+        display: flex !important;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    ytd-thumbnail {
+        margin: 0px !important;
+    }
+
+    /* Realign recommendations END */
+
+    ytd-app {
+        margin: 0 !important;
+    }
+
+    .ytd-searchbox {
+        background-color: inherit !important;
+    }
+
+    ytd-searchbox.ytd-masthead {
+        background-color: var(--background-light) !important;
+        margin-right: 10px !important;
+        box-shadow: 0px 0px 5px 3px var(--background-light);
+    }
+
+    #voice-search-button {
+        display: none !important;
+    }
+
+    ytd-grid-video-renderer{
+        align-content: center;
+        padding: 0 !important;
+        padding-right: 1px !important;
+        margin-right: 6px !important;
+    }
+
+    ytd-author-comment-badge-renderer {
+        background-color: var(--background-light) !important;
+        padding: 4px;
+        border-style: outset !important;
+        border-width: 1px !important;
+        border-color: var(--accent2) !important;
+        border-radius: 18px !important;
+    }
+
+
+
+    #dismissable.ytd-rich-grid-media,
+    ytd-grid-video-renderer,
+    ytd-compact-video-renderer{
+        background-color: var(--background-light) !important;
+        padding: 4px;
+        border-style: outset !important;
+        border-width: 1px !important;
+        border-color: var(--accent2) !important;
+        border-radius: 0px 0px 18px 18px !important;
+        box-shadow: -5px 5px 4px 2px var(--background-dark);
+    }
+
+    #dismissable.ytd-grid-video-renderer {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    ytd-toggle-button-renderer {
+        background-color: var(--background) !important;
+        margin-bottom: 3px !important;
+        border-radius: 12px !important;
+    }
+
+
+    .ytd-page-manager {
+        color: var(--foreground) !important;
+        background: var(--background) !important;
+    }
+
+    #movie_player {
+        background-color: var(--background) !important;
+    }
+
+    #masthead-container {
+        z-index: 2011 !important;
+    }
+
+    .sbdd_a {
+        background-color: var(--background-light) !important;
+        color: var(--foreground) !important;
+        top: 43px !important;
+        box-shadow: 0px 3px 5px 5px var(--background-light) !important;
+    }
+
+    .sbdd_b {
+        box-shadow: none !important;
+    }
+
+    #container.ytd-searchbox {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    ytd-app, .ytd-shelf-renderer,
+    ytd-rich-grid-renderer, .ytp-popup, .ytd-comments,
+    .ytd-item-section-renderer, .yt-dropdown-menu#label-icon,
+    .yt-dropdown-menu#icon-label, g,
+    ytd-playlist-sidebar-renderer.ytd-browse,
+    .ytd-two-column-browse-results-renderer, .sbsb_a, .gsfs, .sbsb_b,
+    .sbsc_c, .sbsb_d, .sbdd_b, .sbfl_a, .sbfl_b {
+        background-color: inherit !important;
+        color: inherit !important;
+    }
+
+    ytd-comment-renderer {
+        background-color: var(--background-light) !important;
+        border-radius: 18px 18px 0px 0px !important;
+        padding-top: 5px !important;
+        padding-left: 5px !important;
+    }
+
+    div#replies {
+        background-color: var(--background-light) !important;
+        border-radius: 0px 0px 18px 18px !important;
+    }
+
+    #comment + div#replies[hidden]{
+        display: block !important;
+        height: 18px !important;
+    }
+
+    .ytd-comment-action-buttons-renderer yt-icon-button#button {
+        padding-top: 4px !important;
+        padding-left: 4px !important;
+        padding-bottom: 4px !important;
+        padding-right: 4px !important;
+        position: relative !important;
+        top: -4px !important;
+        width: 32px !important;
+    }
+
+    .dropdow-trigger {
+        background-color: transparent !important;
+    }
+
+    .dropdown-trigger > #button {
+        border-radius: 18px !important
+    }
+
+    .ytd-comment-action-buttons-renderer button#button > ytd-icon {
+        width: 16px !important;
+    }
+
+    .ytd-comment-action-buttons-renderer ytd-toggle-button-renderer {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    a {
+        color: var(--link) !important;
+    }
+
+    .sbdd_b {
+        border-color: var(--background-light)   !important;
+    }
+
+    #right-arrow-button,
+    #left-arrow-button {
+        background-color: var(--background) !important;
+        opacity: 0.98 !important;
+        color: var(--accent1) !important;
+        border-color: var(--accent2) !important;
+        border-width: 1px !important;
+        border-style: inset !important;
+        width: 70% !important;
+    }
+
+    #right-arrow-button ytd-button-renderer {
+        margin: 0px !important;
+        margin-right: 12px !important;
+    }
+
+    #left-arrow {
+        left: -6px !important;
+    }
+
+    #right-arrow {
+        right: -6px !important;
+    }
+
+    #left-arrow-button ytd-button-renderer {
+        margin: 0px !important;
+        /*margin-left: 12px !important;*/
+        padding-right: 12px !important
+    }
+
+    #right-arrow-button {
+        border-radius: 32px 0px 0px 32px !important;
+    }
+
+    #left-arrow-button {
+        border-radius: 0px 32px 32px 0px !important;
+    }
+
+    #chips {
+        border: none !important;
+        background-color: var(--background) !important;
+    }
+
+
+    ytd-feed-filter-chip-bar-renderer {
+        border: none !important;
+        background-color: var(--background) !important;
+    }
+
+    .ytd-feed-filter-chip-bar-renderer::after,
+    .ytd-feed-filter-chip-bar-renderer::before {
+        display: none !important;
+    }
+
+    #channel-header, paper-tabs, #tabs-inner-container {
+        background-color: var(--background) !important;
+    }
+
+    yt-chip-cloud-chip-renderer {
+        color: var(--foreground) !important;
+        background-color: var(--background-light) !important;
+    }
+
+    yt-chip-cloud-chip-renderer.iron-selected {
+        border-color: var(--accent2) !important;
+    }
+
+    .ytd-thumbnail-overlay-resume-playback-renderer, .ytp-play-progress,
+    .ytp-scrubber-button {
+        background-color: var(--icon-light) !important;
+    }
+
+    .ytp-progress-list {
+        background-color: var(--icon-dark) !important;
+    }
+
+    ytd-thumbnail-overlay-resume-playback-renderer, .ytp-load-progress,
+    .ytd-subscribe-button-renderer, .ytp-volume-slider-handle {
+        background-color: var(--icon) !important;
+    }
+
+    .ytp-hover-progress {
+        background-color: var(--accent1) !important;
+    }
+
+    .ytd-subscribe-button-renderer {
+        color: var(--background) !important;
+    }
+
+    .ytp-svg-fill, button.ytp-button path {
+        fill: var(--icon) !important;
+    }
+
+    yt-icon, .ytp-volume-slider, .ytp-volume-slider-handle, .ytp-volume-panel {
+        color: var(--icon) !important;
+    }
+
+    .ytd-video-primary-info-renderer, #video-title {
+        color: var(--foreground) !important;
+    }
+
+    yt-icon-button.style-default-active  path {
+        fill: var(--accent1) !important;
+    }
+
+    div#newness-dot {
+        background-color: var(--accent2) !important;
+    }
+
+    .yt-formatted-string yt-formatted-string {
+        color: var(--foreground-light) !important;
+    }
+
+}

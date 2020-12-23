@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+profiles="$(find "$HOME/.mozilla/firefox" -maxdepth 1 \
+-type d -regex ".*.default.*")"
+
+for i in ${profiles}
+do
+    ln -s "$XDG_CONFIG_HOME/firefox-chrome" "$i/chrome"
+done

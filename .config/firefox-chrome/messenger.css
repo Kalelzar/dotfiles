@@ -1,0 +1,172 @@
+@import url("colors.css");
+
+@-moz-document domain(messenger.com) {
+
+    /* Background */
+    ._4sp8 {
+        background-color: var(--background) !important;
+        color: var(--foreground) !important;
+    }
+
+
+    path {
+        fill: var(--icon) !important;
+    }
+
+    /* Conversation name color */
+    ._7st9 {
+        color: var(--foreground) !important;
+    }
+
+    /* Accents */
+    ._1ht3 ._1htf {
+        color: var(--accent1) !important;
+    }
+
+    /* Unread message dot */
+    ._6zv_._6zv_ {
+        background-color: var(--accent1) !important;
+    }
+
+    /* Timestamp in conversation */
+    ._1ht7 {
+        color: var(--accent2) !important;
+    }
+
+    /* Chats header text */
+    ._6-xo {
+        color: var(--icon) !important;
+    }
+
+    /* Contacts header text */
+    ._6ybl {
+        color: var(--icon) !important;
+    }
+
+    /* Contacts name text */
+    ._8slc {
+        color: var(--foreground-light) !important;
+    }
+
+    /* Contact search bar background */
+    ._58al {
+        background-color: var(--background-light) !important;
+    }
+
+    ::placeholder {
+        color: var(--foreground-dark) !important;
+    }
+
+    /* Self chat text */
+    ._3058._ui9._hh7._6ybn._s1-._52mr._43by._6ybp._3oh- {
+        background-image: none !important;
+        background-color: var(--accent2) !important;
+    }
+
+    /* Chat text*/
+    ._hh7 {
+        color: var(--background) !important;
+        background-color: var(--accent1) !important ;
+    }
+
+    /* Gif menu weird tob bar thing */
+    ._3mtr ._4qcs {
+        background: none !important;
+    }
+
+    /* Chat overflow text */
+    ._2i-c ._54nf ._54nh {
+        color: var(--foreground-light) !important;
+    }
+
+    /* Arrow thingy for overflow menus */
+    ._53io {
+        display: none;
+    }
+
+    /* Conversation header title */
+    ._17w2 {
+        color: var(--icon) !important;
+    }
+
+    /* Contact menu */
+    ._558b ._54ng {
+        background-color: var(--background-light) !important;
+    }
+
+    /* Searchbox text */
+    ._58al {
+        color: var(--foreground) !important;
+    }
+
+    /* Reply text background */
+    ._3egs {
+        background-color: var(--background) !important;
+    }
+
+    /* Writing text background */
+    ._17pz {
+        background-color: var(--background) !important;
+    }
+
+    /* Weird gif underbar thingy */
+    .uiScrollableArea.contentBefore::before, .uiScrollableArea.contentAfter::after {
+        display: none !important;
+    }
+
+    /* Reply text */
+    ._kmc._7kpg ._1p1t {
+        color: var(--foreground-dark) !important;
+    }
+
+    /* Sidemenu add to group text */
+    ._4rpj {
+        color: var(--accent2) !important;
+    }
+
+    ._4k7a {
+        color: var(--foreground) !important;
+    }
+
+    /* Emoji menu */
+    ._53ij {
+        background-color: var(--background-light) !important;
+    }
+
+    /* Sidemenu Category title */
+    ._1lj0._6ybm {
+        color: var(--accent1) !important;
+    }
+
+    /* Sidemenu options */
+    ._3szq {
+        color: var(--foreground-light) !important;
+    }
+
+    /* Sidemenu subtext */
+    ._87b_, ._7ht_, ._5qsj {
+        color: var(--subtext) !important;
+    }
+
+    /* Poster and Post time */
+    ._ih3 {
+        color: var(--foreground-dark) !important;
+    }
+    _58nk ._3oh- {
+        color: var(--background) !important;
+    }
+    /* Chat bar background */
+    ._5irm._7mkm {
+        background-color: var(--background) !important;
+    }
+
+    /* Chat input */
+    ._7kpk {
+        background-color: var(--background-light) !important;
+    }
+
+    a {
+        color: var(--link) !important;
+    }
+
+}

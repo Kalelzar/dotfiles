@@ -1,0 +1,9 @@
+@import url("colors.css");
+@import url("youtube.css");
+@import url("google.css");
+@import url("browser.css");
+@import url("messenger.css");
+
+html {
+    scrollbar-width: none !important;
+}
