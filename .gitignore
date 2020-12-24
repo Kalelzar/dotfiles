@@ -20,7 +20,7 @@ mpv-shot*
 .local/state
 
 # App Cache
-.cache
+.cache/*
 !.cache/wal/
 
 # Ignored configs
@@ -126,3 +126,22 @@ mpv-shot*
 *.glshadercache
 /.config/Kitware/
 /.config/QtProject.conf
+/.cache/wal/colors-kitty.conf
+/.cache/wal/colors-konsole.colorscheme
+/.cache/wal/colors-putty.reg
+/.cache/wal/*.json
+/.cache/wal/*.h
+/.cache/wal/colors.Xresources
+/.cache/wal/colors.hs
+/.cache/wal/colors.ini
+/.cache/wal/colors.scss
+/.cache/wal/colors.sh
+/.cache/wal/colors.yml
+/.cache/wal/schemes/
+/.cache/wal/sequences
+/.cache/wal/wal
+/.cache/wal/colors-wal.vim
+/.cache/wal/colors-waybar.css
+/.cache/wal/colors-tty.sh
+/.cache/wal/colors-sway
+/.cache/wal/colors-rofi-light.rasi
