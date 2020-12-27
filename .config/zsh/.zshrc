@@ -5,7 +5,7 @@ autoload -U colors && colors	# Load colors
 setopt prompt_subst
 
 NEWLINE=$'\n'
-PS1="%B%{$fg[red]%}[%{$fg[magenta]%}%~%{$fg[red]%}] [%{$fg[blue]%}%T%{$fg[red]%}]%{$reset_color%}${NEWLINE}%(?.%{$fg[green]%}.%{$fg[magenta]%})%?%{$reset_color%} %(!.#.$)%b "
+PS1="%B%{$fg[red]%}[${${(%):-%m}#zoltan-}:%{$fg[magenta]%}%~%{$fg[red]%}] [%{$fg[blue]%}%T%{$fg[red]%}]%{$reset_color%}${NEWLINE}%(?.%{$fg[green]%}.%{$fg[magenta]%})%?%{$reset_color%} %(!.#.$)%b "
 
 # Show current git root and branch in the prompt.
 # NOTE: Currently disabled

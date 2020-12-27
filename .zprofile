@@ -9,7 +9,7 @@
 export PATH="$PATH:$(du "$HOME/Code/Scripts" | cut -f2 | paste -sd ':')"
 
 # Adds `/usr/share/stumpwm/contrib/util/stumpish` to $PATH
-export PATH="$PATH:/usr/share/stumpwm/contrib/util/stumpish"
+export PATH="$PATH:/usr/share/stumpwm/contrib/util/stumpish:$HOME/.local/src/stumpwm-contrib/util/stumpish"
 
 # Default programs:
 export EDITOR="emacsvi"
