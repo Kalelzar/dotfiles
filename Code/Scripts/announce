@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 espeak -v mb-en1 -s 140 "$1" --pho | mbrola /usr/share/mbrola/en1/en1 - output.wav &> /dev/null
 aplay output.wav &> /dev/null
 rm output.wav &> /dev/null
