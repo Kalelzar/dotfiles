@@ -4,6 +4,8 @@
 
 #TODO: Transfer all of this to the StumpWM config.
 
+export SBCL_HOME="/usr/lib/sbcl"
+
 mpd &		        # music player daemon-you might prefer it as a service though
 rebindKeys &		# rebind Caps Lock to a more useful key
 # setbg &			# set the background with the `setbg` script
