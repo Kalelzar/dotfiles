@@ -13,6 +13,10 @@
         color: var(--foreground) !important;
     }
 
+    #guide-inner-content {
+        scrollbar-width: none !important;
+    }
+
     ytd-two-column-browse-results-renderer.grid-3-columns {
         width: 660px !important;
     }
