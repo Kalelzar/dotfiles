@@ -1,0 +1,33 @@
+#!/bin/python
+
+from __future__ import print_function
+from terminaltables import DoubleTable
+
+import sys
+
+def table_from_string(string: str) -> DoubleTable:
+    list=[]
+    for i in string.split("\n"):
+        if len(i) == 0: continue
+        list.append([])
+        for j in i.split(","):
+            if len(j) > 30:
+                list[-1].append(j[-30:-1]+j[-1])
+            elif len(j) == 0:
+                continue
+            else:
+                list[-1].append(j)
+        list[-1] = tuple(list[-1])
+    return DoubleTable(tuple(list),"")
+
+
+def main():
+    string=""
+    for line in sys.stdin:
+        string+=line
+    table=table_from_string(string)
+    table.justify_columns[2] = 'right'
+    print(table.table)
+
+if __name__ == '__main__':
+    main()
