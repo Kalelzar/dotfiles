@@ -145,3 +145,5 @@ mpv-shot*
 /.cache/wal/colors-tty.sh
 /.cache/wal/colors-sway
 /.cache/wal/colors-rofi-light.rasi
+/Games/
+/.stumpwm.d/
