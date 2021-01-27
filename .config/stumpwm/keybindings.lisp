@@ -78,11 +78,11 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
                            ((zerop volume-delta) "-t --get-volume-human")
                            ((positive-integer-p volume-delta)
                             (format nil
-                                    "-i ~D --get-volume"
+                                    "-i ~D --get-volume-human"
                                     volume-delta))
                            ((negative-integer-p volume-delta)
                             (format nil
-                                    "-d ~D --get-volume"
+                                    "-d ~D --get-volume-human"
                                     (abs volume-delta)))))))
     (message "Volume ~D" (run-shell-command command t))))
 
