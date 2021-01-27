@@ -38,7 +38,7 @@
    "%v ^>"
    (:eval (run-shell-command "activeTask limit 30" t))
    (:eval (run-shell-command "echo -n \" ^[^B^5*$(mpdstatus)\"" t))
-   (:eval (run-shell-command "echo -n \" ♬ $(pamixer --get-volume)% \"" t))
+   (:eval (run-shell-command "echo -n \" ♬ $(pulsebinder machine print | cut -d, -f5,6 | sed -E 's/false,(.*)/\\1%/;s/true,.*/muted/') \"" t))
    "| ^[^5*%d^] | "                  ;time
    (:eval (run-shell-command "battery" t))
    ))
