@@ -288,7 +288,7 @@ song_columns_list_format = (50)[green]{t|f:Title} (20)[white]{a}  (20)[cyan]{b} 
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-execute_on_song_change = "onsongchange&"
+execute_on_song_change='onsongchange&'
 #
 ##
 ## Note: Custom command that will be executed each time player state
