@@ -2,10 +2,9 @@
 
 # Ran when startx/xinit is ran.
 
-#TODO: Transfer all of this to the StumpWM config.
-
 export SBCL_HOME="/usr/lib/sbcl"
 
+pulseaudio --start
 mpd &		        # music player daemon-you might prefer it as a service though
 rebindKeys &		# rebind Caps Lock to a more useful key
 # setbg &			# set the background with the `setbg` script
@@ -15,10 +14,18 @@ xset r rate 300 50 &	# Speed xrate up
 
 pywalfox --daemon & # Pywal colors for firefox
 
+sarge &
 
-xinput --set-prop "$(xinput \
+touchpadID="$(xinput \
                     | grep "Elantech" \
-                    | sed -E 's$.*id=([0-9]+).*$\1$')" 299 1 &
+                    | sed -E 's$.*id=([0-9]+).*$\1$')"
+
+touchpadTapID="$(xinput list-props "$touchpadID" \
+                       | grep -E "Tapping Enabled \(" \
+                       | cut -d' ' -f4 \
+                       | sed -E 's/\(([0-9]+)\).*/\1/')"
+
+xinput --set-prop "$touchpadID" "$touchpadTapID" 1 &
 
 unclutter &		# Remove mouse when idle
 
