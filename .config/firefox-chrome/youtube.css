@@ -25,6 +25,97 @@
         width: 1100px !important;
     }
 
+    /*
+#text.ytd-channel-name {
+  text-align: center;
+  width: -moz-fit-content !important;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+}
+
+ytd-video-meta-block {
+  flex-grow: 1;
+}
+
+.secondary-metadata {
+  height: -moz-max-content;
+  flex-grow: 1;
+}
+
+ytd-video-meta-block {
+  height: max-content;
+}
+
+#metadata.ytd-video-meta-block {
+  height: -moz-max-content;
+  flex-grow: 1;
+}
+
+#byline-container.ytd-video-meta-block {
+  flex-grow: 1;
+  height: -moz-max-content;
+}
+
+ytd-compact-video-renderer.style-scope:nth-child(116) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > a:nth-child(1) > div:nth-child(2) > ytd-video-meta-block:nth-child(1) > div:nth-child(1) > div:nth-child(1) > ytd-channel-name:nth-child(1) > div:nth-child(1) > div:nth-child(1) > yt-formatted-string:nth-child(1) {
+  width: -moz-min-content;
+}
+
+yt-formatted-string[ellipsis-truncate] {
+  white-space: normal;
+}
+
+#byline-container.ytd-video-meta-block {
+  flex-grow: 1;
+}
+
+.yt-simple-endpoint {
+  flex-grow: 1;
+  flex-basis: -moz-fit-content;
+}
+
+.details.ytd-compact-video-renderer {
+  height: -moz-available;
+  flex-grow: 1;
+}
+
+a.yt-simple-endpoint.ytd-compact-video-renderer {
+  height: 100%;
+  align-items: center;
+  vertical-align: -moz-middle-with-baseline;
+  display: inline-flex;
+}
+
+#dismissable.ytd-compact-video-renderer {
+  flex-grow: 1;
+}
+
+
+
+
+@document domain("youtube.com") {
+  .metadata.ytd-compact-video-renderer {
+    height: 100%;
+  }
+}
+
+
+*/
+
+    span.style-scope.ytd-comment-renderer {
+        max-width: 100% !important;
+        overflow: hidden !important;
+        display: block !important;
+        width: 100% !important;
+        overflow-wrap: anywhere !important;
+    }
+
+    .published-time-text > .yt-formatted-string {
+        text-align: right !important;
+        width: 100% !important;
+    }
+
     div#meta.ytd-grid-video-renderer {
         display: flex;
         flex-direction: column;
