@@ -16,3 +16,6 @@
 [submodule "/home/kalelzar/.local/src/st"]
 	path = .local/src/st
 	url = https://github.com/Kalelzar/st.git
+[submodule ".local/src/Sarge"]
+	path = .local/src/Sarge
+	url = git@github.com:RedDocMD/Sarge
