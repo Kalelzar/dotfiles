@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Get ID of touchpad
+touchpadID="$(xinput \
+                    | grep "Elantech" \
+                    | sed -E 's$.*id=([0-9]+).*$\1$')"
+
+# Get the property ID of 'Tapping Enabled'
+touchpadTapID="$(xinput list-props "$touchpadID" \
+                       | grep -E "Tapping Enabled \(" \
+                       | cut -d' ' -f4 \
+                       | sed -E 's/\(([0-9]+)\).*/\1/')"
+
+# Enable tapping on touchpad.
+xinput --set-prop "$touchpadID" "$touchpadTapID" 1 &

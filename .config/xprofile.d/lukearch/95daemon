@@ -1,0 +1,8 @@
+#!/bin/sh
+sarge &              # Battery info
+
+# Track activity
+# TODO(kalelzar): Move to 00daemon after aw is setup on all systems.
+aw-server &
+aw-watcher-window &
+aw-watcher-afk &

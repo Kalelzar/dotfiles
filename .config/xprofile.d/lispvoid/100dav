@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rclone mount Music: "$HOME/Music" --vfs-cache-mode full&
