@@ -1,0 +1,81 @@
+#!/bin/bash
+
+KALTEMPLATE_VERSION="0.1"
+
+SCOPE="global"
+
+echoCentered(){
+    local str="$1"
+    local row="$2"
+    local width="$(tput cols)"
+    local strlen=${#str}
+    tput cup $row "$(((width / 2) - (strlen / 2)))"
+    echo "$str"
+}
+
+prepareConfig(){
+    local configdir="$XDG_CONFIG_HOME/kaltemplate"
+    [ -z "$XDG_CONFIG_HOME"] && configdir="$HOME/.kaltemplate"
+
+    mkdir -p "kaltemplate"
+}
+
+createTemplate(){
+
+    local width="$(tput cols)"
+    local height="$(tput lines)"
+
+
+
+    # Store screen contents
+    tput smcup
+    tput clear
+    echoCentered "kaltemplate version $KALTEMPLATE_VERSION" 1
+    echoCentered "Create Template" 2
+    tput cup $((height/3)) 0
+    tput dl1
+    echo -n "Name: "
+    read -r name
+    echoCentered "Name: $name" 5
+    tput cup $((height/3)) 0
+    tput dl1
+    echo -n "Deploy to: "
+    read -r path
+    echoCentered "Deploy to: $path" 6
+    local response=""
+    tput cup $((height/3)) 0
+    tput dl1
+    echo -n "Is this correct? [y/n]: "
+    while [ -n response ]
+    do
+        read -r response
+        case "$response" in
+            y|Y)
+                prepareConfig
+            ;;
+            n|N)
+            ;;
+            *)
+                tput cup $((height/3)) 0
+                tput dl1
+                echo -n "Answer with y/n: "
+                response=""
+                ;;
+        esac
+    done
+
+}
+
+while [ -n "$1" ]
+do
+    case "$1" in
+        new)
+            createTemplate
+            shift
+        ;;
+        *)
+            echo "Unrecognized command-line argument: $1"
+            exit 1
+        ;;
+    esac
+done
