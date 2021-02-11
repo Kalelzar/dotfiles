@@ -20,6 +20,7 @@ export VISUAL="emacsvi"
 export TERMINAL="st"
 export BROWSER="firefox"
 export READER="zathura"
+export PAGER="less"
 
 # ~/ Clean-up:
 export XDG_CONFIG_HOME="$HOME/.config"
