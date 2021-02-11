@@ -1,17 +1,25 @@
-#!/bin/bash
+#!/bin/zsh
 
 [ -f "$HOME/.cache/songthumb.lock" ] && exit 1;
 
-touch "$HOME/.cache/songthumb.lock"
+makethumbnail(){
+    touch "$HOME/.cache/songthumb.lock"
 
-current="$(mpc -f "%file%" current)"
-ffmpegthumbnailer -i "$HOME/Music/$current"\
-                  -o "$HOME/.cache/songthumb.new"\
-                  -s 0 &> /dev/null
-file "$HOME/.cache/songthumb.new" | grep 'empty' &> /dev/null
+    current="$(mpc -f "%file%" current)"
+    ffmpegthumbnailer -i "$HOME/Music/$current"\
+                      -o "$HOME/.cache/songthumb.new"\
+                      -s 0 &> /dev/null
+    file "$HOME/.cache/songthumb.new" | grep 'empty' &> /dev/null
 
-[ "$?" != "0" ] \
-    && cp "$HOME/.cache/songthumb.new" "$HOME/.cache/songthumb" \
-    || cp "$HOME/.config/.nothumb" "$HOME/.cache/songthumb"
+    [ "$?" != "0" ] \
+        && cp "$HOME/.cache/songthumb.new" "$HOME/.cache/songthumb" \
+            || {
+          cover="$HOME/Music/${current:h}/cover.jpg"
+          [ -f "$cover" ] && cp "$cover" "$HOME/.cache/songthumb" \
+                  || cp "$HOME/.config/.nothumb" "$HOME/.cache/songthumb"
+        }
 
-rm "$HOME/.cache/songthumb.lock"
+    rm "$HOME/.cache/songthumb.lock"
+}
+
+makethumbnail &!
