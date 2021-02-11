@@ -10,7 +10,7 @@ numb=$(printf "%0.f\n" "`echo "$(tput cols) - $num - 1" | bc`")
 numc=$(printf "%0.f\n" "`echo "$(tput lines) - 2" | bc`")
 
 HIGHLIGHT_SIZE_MAX=262143  # 256KiB
-HIGHLIGHT_TABWIDTH=8
+HIGHLIGHT_TABWIDTH=2
 HIGHLIGHT_STYLE='pablo'
 
 set -C -f -u
