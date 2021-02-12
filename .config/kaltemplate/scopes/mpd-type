@@ -1,2 +1,3 @@
 #!/bin/sh
+# Type of the 'mpd' daemon. Either 'mpdhost' or 'mpdsatellite'
 [ "$(uname -n)" = "lukearch" ] && echo "mpdhost" || echo "mpdsatellite"
