@@ -1,2 +1,4 @@
 #!/bin/sh
+# Default scope.
+# Scope based on the system hostname.
 echo "global"

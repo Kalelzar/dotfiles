@@ -1,0 +1,94 @@
+#!/bin/bash
+
+scopedir(){
+    [ -z "$XDG_CONFIG_HOME" ] \
+        && echo "$HOME/.kaltemplate/scopes" \
+        ||     echo "${XDG_CONFIG_HOME}/kaltemplate/scopes"
+}
+
+SCOPEDIR=""
+
+prepare() {
+
+    SCOPEDIR="$(scopedir)"
+
+    # Generate default scopes if they don't already exist
+    [ -d "$SCOPEDIR" ] || {
+        mkdir -p "$SCOPEDIR"
+        echo -e "#!/bin/sh\n# Default scope.\necho 'global'" > "$SCOPEDIR/global"
+        echo -e "#!/bin/sh\n# Scope based on the system hostname.\nuname -n" > "$SCOPEDIR/host"
+    }
+
+}
+
+list() {
+    for i in $(ls -1 "$SCOPEDIR")
+    do
+        echo -n "$i"
+        echo ": $(cat "$SCOPEDIR/$i" | head -2 | tail -1)" 1>&2
+        echo
+    done
+}
+
+evalScope() {
+
+    local scope="$1"
+    "$SCOPEDIR/$scope"
+}
+
+collect() {
+    echo "Looking for available scopes in '$SCOPEDIR'" 1>&2
+    n=0
+    for i in $(list 2>/dev/null)
+    do
+        local scope="$(evalScope "$i")"
+        echo "  Found scope '$scope' of type '$i'" 1>&2
+        echo "$scope"
+        n=$(( ++n ))
+    done
+    echo "Found $n scopes." 1>&2
+}
+
+new(){
+    local scope="$1"
+    [ -f "$SCOPEDIR/$scope" ] \
+        && echo "Scope '$scope' already exists. Use 'edit' instead." \
+        || {
+            echo -e "#!/bin/sh\n# Insert Description Here\n" > "$SCOPEDIR/$scope"
+            "$EDITOR" "$SCOPEDIR/$scope"
+            chmod +x "$SCOPEDIR/$scope"
+        }
+}
+
+edit(){
+    local scope="$1"
+    [ -f "$SCOPEDIR/$scope" ] \
+        && "$EDITOR" "$SCOPEDIR/$scope" \
+        || echo "Scope '$scope' doesn't exist. Use 'new' instead."
+}
+
+prepare
+
+case "$1" in
+    scopedir)
+        scopedir
+        ;;
+    eval)
+        shift
+        evalScope "$1"
+        ;;
+    collect)
+        collect
+        ;;
+    new)
+        shift
+        [ -z "$1" ] && echo "'new' requires a scope name" || new "$1"
+        ;;
+    edit)
+        shift
+        [ -z "$1" ] && echo "'edit' requires a scope name" || edit "$1"
+        ;;
+    list)
+        list
+        ;;
+esac

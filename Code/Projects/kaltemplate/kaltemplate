@@ -2,14 +2,14 @@
 
 KALTEMPLATE_VERSION="0.1"
 
-SCOPE="global"
-
 HIGHLIGHT_TABWIDTH=2
 HIGHLIGHT_STYLE='pablo'
 HIGHLIGHT_FORMAT='ansi'
 if [ "$( tput colors )" -ge 256 ]; then
-    Highlight_FORMAT='xterm256'
+    HIGHLIGHT_FORMAT='xterm256'
 fi
+
+"$(echo $0 | rev | cut -d/ -f2- | rev)/scope"
 
 echoCentered(){
     local str="$1"

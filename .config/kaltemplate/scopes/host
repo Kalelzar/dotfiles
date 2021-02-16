@@ -1,2 +1,3 @@
 #!/bin/sh
+# Scope based on the system hostname.
 uname -n
