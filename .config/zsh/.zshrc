@@ -90,6 +90,7 @@ bindkey '\M-w' copy-region-as-kill-deactivate-mark
 
 #Change directory with fzf
 bindkey -s '\C-f' 'cd "$(dirname "$(fzf)")"\n'
+bindkey -s '\C-s' 'eval "$(fc -l -n 0 | sort -u | fzf)"\n'
 
 # Edit line in editor (Default: emacs) with C-x C-e:
 autoload edit-command-line
