@@ -39,3 +39,4 @@ application/xhtml+xml=firefox.desktop;
 application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 application/vnd.lotus-organizer=emacs.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=calibre-ebook-viewer.desktop;
