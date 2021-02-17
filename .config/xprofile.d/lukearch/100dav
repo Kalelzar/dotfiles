@@ -1,4 +1,4 @@
 #!/bin/sh
 
 # Start a simple WebDAV server on port 8080
-rclone serve webdav "$HOME" --addr ":8080" &
+rclone serve webdav "$HOME/Music" --addr ":8080" &
