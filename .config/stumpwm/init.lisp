@@ -38,12 +38,13 @@
 
 (run-shell-command "xsetroot -cursor_name left_ptr" t)
 
-
+(kal/load "keymap")
 (kal/load "modeline")
 (kal/load "help")
+(kal/load "keytranslation")
 (kal/load "keybindings")
 (kal/load "layouts")
-(kal/load "minimum-interaction-mode")
+;(kal/load "minimum-interaction-mode")
 ;(kal/load "remap")
 
 ;;; Groups

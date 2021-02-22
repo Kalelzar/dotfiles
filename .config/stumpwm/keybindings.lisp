@@ -15,6 +15,10 @@
   (when name (map-command-to-name command name))
   (when category (map-command-to-category name category)))
 
+(defun redefine-key-with-alternatives (map key command &optional name category)
+  (dolist (alternative (key-alternatives key))
+    (redefine-key map alternative command name category)))
+
 (map-command-to-category "Prefix key" "Keymap")
 
 (defun kal/execterm (cmd)
@@ -196,6 +200,8 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 
 ;;; Set prefix key
 (set-prefix-key (kbd "H-a"))
+(redefine-key-with-alternatives *top-map* (kbd "H-a") '*root-map*
+                                "Prefix key" "Keymap")
 
 ;; Unbind all default keys
 
@@ -206,11 +212,12 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 
 ;;; Restore defaults
 
-(redefine-key *root-map* (kbd "C-g") "abort" "Abort" "System")
-(redefine-key *root-map* (kbd "k") "delete" "Close window" "Frame")
-(redefine-key *root-map* (kbd "a") "time" "Time" "System")
+(redefine-key-with-alternatives *root-map* (kbd "C-g") "abort" "Abort" "System")
+(redefine-key-with-alternatives *root-map* (kbd "k") "delete" "Close window"
+                                "Frame")
+(redefine-key-with-alternatives *root-map* (kbd "a") "time" "Time" "System")
 (redefine-key *root-map* (kbd ";") "colon" "Run StumpWM Command" "System")
-(redefine-key *root-map* (kbd "r") "iresize" "Resize" "Frame")
+(redefine-key-with-alternatives *root-map* (kbd "r") "iresize" "Resize" "Frame")
 
 
 ;;; Keymaps
@@ -218,7 +225,7 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (defvar *layout-map* (make-sparse-keymap)
   "Keymap* for common window layouts.")
 
-(redefine-key *root-map* (kbd "l") '*layout-map* "Layouts" "Keymap")
+(redefine-key-with-alternatives *root-map* (kbd "l") '*layout-map* "Layouts" "Keymap")
 
 (defvar *headphone-map* (make-sparse-keymap)
   "Key map for audio controls from headphones")
@@ -229,12 +236,16 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (defvar *bg-map* (make-sparse-keymap)
   "Key map for background controls")
 
-(redefine-key *root-map* (kbd "B") '*bg-map*
+(redefine-key-with-alternatives *root-map* (kbd "B") '*bg-map*
               "Background controls" "Keymap")
 
 ;;; Help
 
-(redefine-key *layout-map* (kbd "h") "show-keymap *layout-map*" "Help" "System")
+(redefine-key-with-alternatives *layout-map*
+                                (kbd "h")
+                                "show-keymap *layout-map*"
+                                "Help"
+                                "System")
 (redefine-key *root-map* (kbd "h") "show-keymap *root-map*" "Help" "System")
 (redefine-key *top-map* (kbd "H-h") "show-keymap *top-map*" "Help" "System")
 (redefine-key *headphone-map* (kbd "h")
