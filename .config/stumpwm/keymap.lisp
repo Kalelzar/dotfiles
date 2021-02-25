@@ -4,7 +4,8 @@
 ;; Variables ;;
 ;;;;;;;;;;;;;;;
 
-(setf *available-keyboard-layouts* '(("us" . nil) ("bg" . "phonetic")))
+(defvar *default-layout* "us")
+(defvar *available-keyboard-layouts* '(("us" . nil) ("bg" . "phonetic")))
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Helper functions ;;
