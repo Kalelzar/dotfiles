@@ -6,6 +6,10 @@
 # to clean up.
 
 # Adds `~/.local/bin` to $PATH
+
+export PATH="$PATH:$HOME/.local/bin"
+
+# Adds `~/Code/Scripts` to $PATH
 export PATH="$PATH:$(du "$HOME/Code/Scripts" | cut -f2 | paste -sd ':')"
 
 # Adds `/usr/share/stumpwm/contrib/util/stumpish` to $PATH
@@ -43,6 +47,7 @@ export KODI_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/kodi"
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/password-store"
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export ANDROID_SDK_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/android"
+export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
