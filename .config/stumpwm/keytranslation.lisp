@@ -1,5 +1,59 @@
 (in-package :stumpwm)
 
+;;;; NEW
+
+(defun keysym (name)
+  (stumpwm::keysym-name->keysym name))
+
+(defstruct translation-table
+  (layout "bg" :type string)
+  (a->b nil :type hash-table)
+  (b->a nil :type hash-table))
+
+(defvar *key-translations* nil
+  "List of key translations between different keyboard layouts.
+Allows for seamless use of keybindings in all layouts.")
+
+;; (setq *key-translations* nil)
+
+(defun make-key-translation (layout map)
+  (let ((a->b (make-hash-table))
+        (b->a (make-hash-table)))
+      (dolist (key map)
+        (let ((in-layout-1 (car key))
+              (in-layout-2 (cdr key)))
+          (setf (gethash in-layout-1 a->b) in-layout-2
+                (gethash in-layout-2 b->a) in-layout-1)))
+      (setf *key-translations* (append *key-translations*
+                                       (list (make-translation-table
+                                              :layout layout
+                                              :a->b a->b
+                                              :b->a b->a))))))
+
+(defun eval-key-translation (to)
+  (let* ((cmd-template (concat kal/config-directory
+                              "utils/equivmodmap \"~D\" \"~D\""))
+         (cmd (format nil
+                      cmd-template
+                      *default-layout*
+                      to)))
+                                        ;(eval (read-from-string (run-shell-command cmd t)))
+    cmd))
+
+
+;(dolist (layout-pair *available-keyboard-layouts*)
+;  (let ((layout (concat (car layout-pair) " " (cdr layout-pair))))
+;    (unless (eq layout *default-layout*)
+;    (eval-key-translation layout))))
+
+
+
+
+
+
+
+;;;; OLD
+
 (defvar *cyrillic->latin* (make-hash-table)
   "A conversion table between keysyms from cyrillic to latin.")
 

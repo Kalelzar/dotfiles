@@ -151,3 +151,8 @@ mpv-shot*
 ttttttttttttttttttttttttttttttttttttttttttt
 /.config/mpd/mpd.db
 /.config/mpd/mpd.pid
+/quicklisp/
+/.zcompdump
+/.inputrc
+/.config/gtk-2.0/gtkfilechooser.ini
+/.cache/

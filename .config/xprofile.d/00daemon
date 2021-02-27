@@ -6,3 +6,7 @@ dunst &              # Use dunst for notifications
 pywalfox --daemon &  # Use pywal colors in Firefox
 unclutter -grab &    # Remove mouse when idle
 emacs --daemon &     # Start emacs in daemon mode
+
+aw-server &
+aw-watcher-window &
+aw-watcher-afk &

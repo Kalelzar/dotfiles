@@ -1,0 +1,24 @@
+#!/bin/bash
+
+getList(){
+    local locale1="$1"
+    local locale2="$2"
+
+    echo ";;; Conversion tables between '$locale1' and '$locale2'" 1>&2
+
+    echo ";;; Load '$locale1'" 1>&2
+    local a="$(setxkbmap $locale1 && rebindKeys && xmodmap -pke | sed -E 's/^keycode[[:space:]]+([0-9]+)/\1A/g')"
+
+    echo ";;; Load '$locale2'" 1>&2
+    local b="$(setxkbmap $locale2 && rebindKeys && xmodmap -pke | sed -E 's/^keycode[[:space:]]+([0-9]+)/\1B/g')"
+
+    setxkbmap "us" && rebindKeys
+    echo -e "$a\n$b" | \
+        sort -u |\
+        sed -E '/[0-9]+[AB] =$/d' |\
+        sed -E 'N;s/([0-9]+)[AB] = (.*)\n\1[AB] = (.*)/\1 = \2|\3\n/g;P;D;' |\
+        sed -E '/^$/d;s/^[0-9]+ = //g'
+}
+
+
+getList "$1" "$2" | python connect.py
