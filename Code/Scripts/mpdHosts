@@ -1,0 +1,5 @@
+#!/bin/bash
+
+addr="$(ip addr | grep 192.168 | sed -E 's|.*inet (.*)/24.*|\1|g')"
+
+nmap -p 6600 192.168.0.100-108 --min-parallelism 4 -oG >(grep open | cut -d' ' -f2 | sed "s/$addr/localhost/g") &>/dev/null
