@@ -5,11 +5,23 @@
 (defun stumpwm::group-has-windows (group)
   "Format groups with windows differently from empty groups"
   (if (eq (current-group) group)
+;      (if (typep group stumpwm::float-group)
+;          (format nil "^[^55^R")
       (format nil "^[^5*^R")
+ ;         )
       (if (> (list-length (group-windows group)) 0)
           (format nil "^[^B^5*")
-          (format nil "^[^1*")
-          )))
+          (format nil "^[^1*"))))
+
+(defun group-name-or-empty (group)
+  "Return the GROUP name if non-empty or focused or an empty string."
+  (if (or (eq (current-group)
+              group)
+          (> (list-length (group-windows group))
+             0))
+      (group-name group)
+      ""))
+
 
 (setf
 
@@ -19,13 +31,13 @@
  *window-info-format*
  (format nil "^>^B^5*%c ^b^6*%w^7*x^6*%h^7*~%%t")
 
- *window-format*
-          " %f%15t^] "
+ *window-format* " %f%15t^] "
 
- *group-formatters* (append *group-formatters*  '((#\w group-has-windows)))
+ *group-formatters* (append *group-formatters*  '((#\w group-has-windows)
+                                                  (#\T group-name-or-empty)))
 
  *group-format*
- "%w%t^]"
+ "%w%T^]"
 
  *time-format-string-default*
  (format nil "^5*%H:%M:%S~%^2*%A~%^7*%d %B")

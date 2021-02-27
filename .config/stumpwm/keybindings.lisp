@@ -218,6 +218,8 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (redefine-key-with-alternatives *root-map* (kbd "a") "time" "Time" "System")
 (redefine-key *root-map* (kbd ";") "colon" "Run StumpWM Command" "System")
 (redefine-key-with-alternatives *root-map* (kbd "r") "iresize" "Resize" "Frame")
+(redefine-key *root-map* (kbd "=") "balance-frames" "Balance Frames" "Frame")
+
 
 
 ;;; Keymaps
@@ -246,13 +248,25 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
                                 "show-keymap *layout-map*"
                                 "Help"
                                 "System")
-(redefine-key *root-map* (kbd "h") "show-keymap *root-map*" "Help" "System")
-(redefine-key *top-map* (kbd "H-h") "show-keymap *top-map*" "Help" "System")
-(redefine-key *headphone-map* (kbd "h")
-              "show-keymap *headphone-map*"
-              "Help"
-              "System")
-(redefine-key *bg-map* (kbd "h") "show-keymap *bg-map*" "Help" "System")
+(redefine-key-with-alternatives *root-map*
+                                (kbd "h")
+                                "show-keymap *root-map*"
+                                "Help" "System")
+(redefine-key-with-alternatives *top-map*
+                                (kbd "H-h")
+                                "show-keymap *top-map*"
+                                "Help"
+                                "System")
+(redefine-key-with-alternatives *headphone-map*
+                                (kbd "h")
+                                "show-keymap *headphone-map*"
+                                "Help"
+                                "System")
+(redefine-key-with-alternatives *bg-map*
+                                (kbd "h")
+                                "show-keymap *bg-map*"
+                                "Help"
+                                "System")
 
 ;;; Common commands
 
@@ -263,22 +277,47 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
               "exec-in-terminal"
               "Run command in terminal."
               "System")
-(redefine-key *top-map* (kbd "H-w") "exec firefox" "Firefox" "App")
+(redefine-key-with-alternatives *top-map*
+                                (kbd "H-w")
+                                "exec firefox"
+                                "Firefox"
+                                "App")
 
-(redefine-key *top-map* (kbd "H-e") "exec emacsvi" "Emacs" "App")
-(redefine-key *top-map* (kbd "H-m") (kal/execterm "ncmpcpp") "Music player" "App")
-(redefine-key *top-map* (kbd "H-n") (kal/execterm "newsboat")
-              "RSS Feeds" "App")
-(redefine-key *top-map* (kbd "H-p") "exec mpc toggle"
-              "Toggle play/pause" "Music controls")
+(redefine-key-with-alternatives *top-map*
+                                (kbd "H-e")
+                                "exec emacsvi"
+                                "Emacs"
+                                "App")
+(redefine-key-with-alternatives *top-map*
+                               (kbd "H-m")
+                               (kal/execterm "ncmpcpp")
+                               "Music player"
+                               "App")
+(redefine-key-with-alternatives *top-map*
+                                (kbd "H-n")
+                                (kal/execterm "newsboat")
+                                "RSS Feeds"
+                                "App")
+(redefine-key-with-alternatives *top-map*
+                                (kbd "H-p")
+                                "exec mpc toggle"
+                                "Toggle play/pause"
+                                "Music controls")
 (redefine-key *top-map* (kbd "H-.") "exec mpc next"
               "Next song" "Music controls")
 (redefine-key *top-map* (kbd "H-,") "exec mpc prev"
               "Prev song" "Music controls")
-(redefine-key *top-map* (kbd "H-r") (kal/execterm "lfrun")
-              "File manager" "App")
+(redefine-key-with-alternatives *top-map*
+                                (kbd "H-r")
+                                (kal/execterm "lfrun")
+                                "File manager"
+                                "App")
 
-(redefine-key *top-map* (kbd "H-f") "fullscreen" "Fullscreen" "Frame")
+(redefine-key-with-alternatives *top-map*
+                                (kbd "H-f")
+                                "fullscreen"
+                                "Fullscreen"
+                                "Frame")
 
 
 ;; Audio related controls
@@ -286,8 +325,8 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
               "Volume +2" "System")
 (redefine-key *top-map* (kbd "H--") "pulse-volume-decrease"
               "Volume -2" "System")
-(redefine-key *top-map* (kbd "H-M") "pulse-toggle-mute"
-              "Toggle mute" "System")
+(redefine-key-with-alternatives *top-map* (kbd "H-M") "pulse-toggle-mute"
+                                "Toggle mute" "System")
 (redefine-key *top-map* (kbd "XF86AudioRaiseVolume")
               "pulse-volume-increase"
               "Volume +2" "System")
@@ -306,9 +345,17 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
   (kal/register-frame-move-key dir "focus" *top-map* "H-")
   (kal/register-frame-move-key dir "window" *root-map* ""))
 
-(redefine-key *root-map* (kbd "f") "float-this" "Float window" "Floating")
-(redefine-key *root-map* (kbd "F") "unfloat-this" "Tile window" "Floating")
-(redefine-key *root-map* (kbd "H-f") "flatten-floats"
+(redefine-key-with-alternatives *root-map*
+                                (kbd "f")
+                                "float-this"
+                                "Float window"
+                                "Floating")
+(redefine-key-with-alternatives *root-map*
+                                (kbd "F")
+                                "unfloat-this"
+                                "Tile window"
+                                "Floating")
+(redefine-key-with-alternatives *root-map* (kbd "H-f") "flatten-floats"
               "Tile all windows" "Floating")
 
 
@@ -320,24 +367,30 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 
 ;;; Uncommon commands
 
-(redefine-key *root-map* (kbd "b") "kal/toggle-mode-line" "Toggle mode-line"
-              "System")
-(redefine-key *root-map* (kbd "t") "exec torwrap"
+(redefine-key-with-alternatives *root-map* (kbd "b") "kal/toggle-mode-line"
+                                "Toggle mode-line"
+                                "System")
+(redefine-key-with-alternatives *root-map* (kbd "t") "exec torwrap"
               "Torrents"
               "App")
-(redefine-key *root-map* (kbd "s") "exec currentlyplaying"
+(redefine-key-with-alternatives *root-map* (kbd "s") "exec currentlyplaying"
               "Current song"
               "Music controls")
-(redefine-key *root-map* (kbd "T") (kal/execterm "htop")
+(redefine-key-with-alternatives *root-map* (kbd "T") (kal/execterm "htop")
               "System monitor"
               "App")
-(redefine-key *root-map* (kbd "H-s") "exec maim -i \"$(xdotool getactivewindow)\" pic-window-\"$(date '+%y%m%d-%H%M-%S').png\""
-              "Screenshot window"
-              "System")
+(redefine-key-with-alternatives *root-map* (kbd "H-s")
+                                "exec maim -i \"$(xdotool getactivewindow)\" pic-window-\"$(date '+%y%m%d-%H%M-%S').png\""
+                                "Screenshot window"
+                                "System")
 
-(redefine-key *root-map* (kbd "w") "windows %f%n %t^]"
+(redefine-key-with-alternatives *root-map* (kbd "w") "windows %f%n %t^]"
               "Show windows"
               "Frame")
+
+(redefine-key-with-alternatives *root-map* (kbd "G") "vgroups %w%t^] %f%t^]"
+                                "Show Groups"
+                                "System")
 
 (redefine-key *root-map* (kbd "R") "loadrc" "Reload config file." "System")
 

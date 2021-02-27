@@ -151,12 +151,14 @@ This also includes all the false bindings of KEYMAP as returned by
                                         from (car size)
                                         below (+ 1 (cdr size))
                                         by 1
-                                        collect " "))))
-    (format nil
+                                     collect " "))))
+    (if (null (search "Cyrillic" (car binding)))
+        (format nil
             "^[^5*~D^]~D~D~%"
             (car binding)
             spacing
-            (cdr binding))))
+            (cdr binding))
+        "")))
 
 (defun max-length (strings)
   "Return the size of the longest string in the list of STRINGS given."
