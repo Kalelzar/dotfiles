@@ -156,3 +156,5 @@ ttttttttttttttttttttttttttttttttttttttttttt
 /.inputrc
 /.config/gtk-2.0/gtkfilechooser.ini
 /.cache/
+/.sbt/1.0/swoval-jni/
+/.sqlite_history

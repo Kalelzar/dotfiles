@@ -1,0 +1,30 @@
+#!/bin/bash
+
+book="$(calibredb list -f "title,series_index,series,authors"\
+                       --sort-by "series"\
+                       --ascending\
+                       --separator "│"\
+                       -w 500\
+                        | tail -n +2\
+                        | dmenu -l 35 -i\
+                        | sed 's/│/|/g'\
+                        | cut -d'|' -f1)"
+
+[ -z "$book" ] && exit 1
+
+formats="$(calibredb list -w 1000\
+                          -f "formats"\
+                          -s "id:$book"\
+                          --separator '|'\
+                           | tail -n +2 \
+                           | cut -d'|' -f2-\
+                           | sed -E 's/\[(.*)\]/\1/g; s/\.(epub|pdf|mobi|txt), /.\1\n/g' \
+                           | dmenu -l 5\
+                                   -p 'Open File: ')"
+
+if [ -z "$formats" ]
+then
+    exit 1
+else
+    zathura "$formats"
+fi
