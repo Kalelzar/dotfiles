@@ -44,6 +44,9 @@ alias \
 
 
 alias \
+    open-pdf='tmp="$(find ~/Downloads -iname "*.pdf" | sort | dmenu -l 12 -p "Open PDF: ")";[ -z "$tmp"] || z "$tmp" &!'
+
+alias \
 	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/zshnameddirrc" \
 	tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" \
         lf="lfrun" \
