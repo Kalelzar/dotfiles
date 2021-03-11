@@ -421,6 +421,11 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
                                 "Open PDF"
                                 "Media")
 
+(redefine-key-with-alternatives *open-map* (kbd "b")
+                                "exec list-books"
+                                "Open Books"
+                                "Media")
+
 ;; Headphone controls
 (redefine-key *headphone-map* (kbd "XF86AudioRaiseVolume") "exec mpc next"
               "Next song" "Music controls")
