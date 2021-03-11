@@ -29,7 +29,7 @@ while [ -e "$tmpfifo" ]; do
 done
 
 # Remove temporary FIFO if the script is killed
-trap "rm \"$tmpfifo\"; exit" SIGHUP SIGINT SIGTERM
+trap "rm \"$tmpfifo\"; exit" HUP INT TERM
 
 
 # Default values for MPD's host and port
