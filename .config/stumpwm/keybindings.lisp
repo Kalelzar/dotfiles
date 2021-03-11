@@ -2,7 +2,7 @@
 
 (in-package :stumpwm)
 
-(export '(*bg-map* *headphone-map* *layout-map*))
+(export '(*bg-map* *headphone-map* *layout-map* *open-map*))
 
 (defun range (max &key (min 0) (step 1))
   "Get a list of integers."
@@ -163,7 +163,11 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
           (pull-hidden-next)
           (unless (null (remove-if #'(lambda (window)
                                        (or (window-visible-p window)
-                                           (window-floating-p window)))
+                                           (window-floating-p window)
+                                           (and (string= (window-class window)
+                                                         "St")
+                                                (string/= (window-title window)
+                                                          "st"))))
                                        windows-in-group))
             (pull-hidden-next)
             (echo-windows "%f%t^]")
@@ -241,6 +245,12 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (redefine-key-with-alternatives *root-map* (kbd "B") '*bg-map*
               "Background controls" "Keymap")
 
+(defvar *open-map* (make-sparse-keymap)
+  "Key map for quick opening of files.")
+
+(redefine-key-with-alternatives *root-map* (kbd "o") '*open-map*
+               "Quick Open" "Keymap")
+
 ;;; Help
 
 (redefine-key-with-alternatives *layout-map*
@@ -265,6 +275,12 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (redefine-key-with-alternatives *bg-map*
                                 (kbd "h")
                                 "show-keymap *bg-map*"
+                                "Help"
+                                "System")
+
+(redefine-key-with-alternatives *open-map*
+                                (kbd "h")
+                                "show-keymap *open-map*"
                                 "Help"
                                 "System")
 
@@ -399,6 +415,11 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
               "watch-link-from-clipboard"
               "Open link in clipboard in mpv."
               "Media")
+
+(redefine-key-with-alternatives *open-map* (kbd "p")
+                                "exec open-pdf"
+                                "Open PDF"
+                                "Media")
 
 ;; Headphone controls
 (redefine-key *headphone-map* (kbd "XF86AudioRaiseVolume") "exec mpc next"
