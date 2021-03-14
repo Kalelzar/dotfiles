@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 
 
@@ -22,15 +22,26 @@ formats="$(calibredb list -w 1000\
                           -f "formats"\
                           -s "id:$book"\
                           --separator '|'\
-                           | head -n -1 \
+                           | tail -n +2 \
                            | cut -d'|' -f2-\
-                           | sed -E 's/\[(.*)\]/\1/g; s/\.(epub|pdf|mobi|txt), /.\1\n/g' \
-                           | dmenu -l 5\
-                                   -p 'Open File: ')"
+                           | sed -E 's/\[(.*)\]/\1/g; s/\.(epub|pdf|mobi|txt), /.\1\n/g')"
 
-if [ -z "$formats" ]
+prefix="$(echo "$formats" \
+              | rev \
+              | cut -d/ -f2- \
+              | rev \
+              | uniq)"
+
+format="$(echo "$formats" \
+             | rev \
+             | cut -d/ -f1 \
+             | rev \
+             | dmenu -l 5 \
+                     -p 'Open File:')"
+
+if [ -z "$format" ]
 then
     exit 1
 else
-    $READER "$formats"
+    $READER "$prefix/$format"
 fi
