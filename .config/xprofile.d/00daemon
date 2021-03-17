@@ -10,3 +10,4 @@ emacs --daemon &     # Start emacs in daemon mode
 aw-server &
 aw-watcher-window &
 aw-watcher-afk &
+aw-watcher-mpd &
