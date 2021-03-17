@@ -1,13 +1,21 @@
-#!/bin/sh
-
-# Clear the last preview (if any)
-"$HOME/.config/lf/image" clear
+#!/usr/bin/env sh
 
 
 # Calculate where the image should be placed on the screen.
 num=$(printf "%0.f\n" "`echo "$(tput cols) / 2" | bc`")
 numb=$(printf "%0.f\n" "`echo "$(tput cols) - $num - 1" | bc`")
 numc=$(printf "%0.f\n" "`echo "$(tput lines) - 2" | bc`")
+
+image() {
+    if [ -n "$DISPLAY" ]; then
+	declare -p -A cmd=([action]=add [identifier]="PREVIEW" \
+			         [x]="$2" [y]="$3" [max_width]="$4" [max_height]="$5" \
+			         [path]="$1") > "$FIFO_UEBERZUG"
+	exit 1
+    else
+	chafa "$1" -s "${4}x${5}"
+    fi
+}
 
 HIGHLIGHT_SIZE_MAX=262143  # 256KiB
 HIGHLIGHT_TABWIDTH=2
@@ -16,6 +24,7 @@ HIGHLIGHT_STYLE='pablo'
 set -C -f -u
 IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
 
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf/thumbnail.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$1")" | sha256sum | awk '{print $1}'))"
 
 mimetype="$(file --dereference  --brief --mime-type -- "$1")"
 
@@ -51,22 +60,22 @@ handle_mime(){
         application/x-object) nm "$1" | less ;;
         application/torrent|application/x-bittorrent) transmission-show "$1" ;;
         application/epub+zip)
-            CACHE=$(mktemp /tmp/thumbcache.XXXXX)
-            epub-thumbnailer "$1" "$CACHE" 1024
-            "$HOME/.config/lf/image" draw "$CACHE" "$num" 1 "$numb" "$numc"
+            [ ! -f "$CACHE" ] && \
+                epub-thumbnailer "$1" "$CACHE" 1024
+            image "$CACHE" "$num" 1 "$numb" "$numc"
             ;;
         application/pdf)
-            CACHE=$(mktemp /tmp/thumbcache.XXXXX)
-            pdftoppm -png -f 1 -singlefile "$1" "$CACHE"
-            $HOME/.config/lf/image draw "$CACHE.png" $num 1 $numb $numc
+            [ ! -f "${CACHE}.png" ] && \
+                pdftoppm -png -f 1 -singlefile "$1" "$CACHE"
+            image "${CACHE}.png" $num 1 $numb $numc
             ;;
         *opendocument*) odt2txt "$1";;
         image/*)
-            "$HOME/.config/lf/image" draw "$1" "$num" 1 "$numb" "$numc";;
+            image "$1" "$num" 1 "$numb" "$numc";;
         video/*|audio/*)
-            CACHE=$(mktemp /tmp/thumbcache.XXXXX)
-            ffmpegthumbnailer -i "$1" -o "$CACHE" -s 0
-            "$HOME/.config/lf/image" draw "$CACHE" $num 1 $numb $numc
+            [ ! -f "${CACHE}.png" ] && \
+                ffmpegthumbnailer -i "$1" -o "${CACHE}.png" -s 0
+            image "${CACHE}.png" $num 1 $numb $numc
             mediainfo "$1"
             ;;
         application/octet-stream)
