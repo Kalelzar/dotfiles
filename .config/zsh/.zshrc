@@ -36,7 +36,6 @@ vcs_info_wrapper() {
 # Convenience
 
 setopt autocd		# Automatically cd into typed directory.
-stty stop undef		# Disable ctrl-s to freeze terminal.
 
 # History in cache directory:
 HISTSIZE=10000
