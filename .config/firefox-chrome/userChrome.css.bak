@@ -110,7 +110,7 @@ panelview {
 }
 
 #urlbar, .searchbar-textbox {
-    box-shadow: none !important;
+    box-shadow: 0 0 0 5px black !important;
 }
 
 /* Hover on buttons in dropdown menus */

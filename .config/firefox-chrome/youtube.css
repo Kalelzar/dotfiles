@@ -450,7 +450,7 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
   }
 
   ytd-app, .ytd-shelf-renderer,
-  ytd-rich-grid-renderer, .ytp-popup, .ytd-comments,
+  ytd-rich-grid-renderer,.ytd-comments,
   .ytd-item-section-renderer, .yt-dropdown-menu#label-icon,
   .yt-dropdown-menu#icon-label, g,
   ytd-playlist-sidebar-renderer.ytd-browse,
@@ -458,6 +458,16 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
   .sbsc_c, .sbsb_d, .sbdd_b, .sbfl_a, .sbfl_b {
     background-color: inherit !important;
     color: inherit !important;
+  }
+
+  .html5-video-info-panel {
+    background-color: var(--background) !important;
+    opacity: 0.8 !important;
+  }
+
+  .ytp-popup {
+    background-color: var(--background) !important;
+    opacity: 0.8 !important;
   }
 
   ytd-comment-renderer {

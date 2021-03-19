@@ -4,5 +4,5 @@
 #tabbrowser-tabpanels,
 browser[type=content-primary],
 browser[type=content] > html{
-    background: var(--background) !important
+  /*background: var(--background) !important;*/
 }
