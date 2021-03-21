@@ -1,0 +1,4 @@
+{
+  "default.profile.alsa_card.usb-C-Media_Electronics_Inc._USB_Audio_Device-00": { "name": "output:iec958-stereo" },
+  "default.profile.alsa_card.pci-0000_00_1b.0": { "name": "input:analog-stereo" }
+}
