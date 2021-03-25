@@ -75,8 +75,8 @@ handle_mime(){
         video/*|audio/*)
             [ ! -f "${CACHE}.png" ] && \
                 ffmpegthumbnailer -i "$1" -o "${CACHE}.png" -s 0
-            image "${CACHE}.png" $num 1 $numb $numc
             mediainfo "$1"
+            image "${CACHE}.png" $num 1 $numb $numc
             ;;
         application/octet-stream)
             mediainfo "$1" ;;
