@@ -1,0 +1,21 @@
+#!/bin/bash
+
+res="$(xwininfo -root | grep Height | sed -E 's/[[:space:]]+//g' | cut -d: -f2)"
+lines=$(((7*res - 72)/156))
+
+current=$(mpc -f "%position%💌%title%💌%artist%💌%album%" current)
+queued=$(mpc -f "%position%💌%title%💌%artist%💌%album%" queued)
+
+playlist="$(mpc -f "##💌%position%💌%title%💌%artist%💌%album%" playlist | sed -E "s/#💌($current)/>💌\1/g;s/#💌($queued)/*💌\1/g;s/#💌/ 💌/g" | sed 's/,/^/g;s/💌/,/g')"
+
+playlistid="$(echo -e "?,ID,Title,Artist,Album\n$playlist" \
+                   | csv-format \
+                   | tr '^' ',' \
+                   | dmenu -l $lines -i -r -p "Pick song: " \
+                   | sed 's/║/|/g' \
+                   | cut -d'|' -f3)"
+
+[[ "$playlistid" =~ [[:digit:]]+ ]] || exit 1
+
+
+mpc play $playlistid

@@ -387,14 +387,17 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
                                 "Toggle mode-line"
                                 "System")
 (redefine-key-with-alternatives *root-map* (kbd "t") "exec torwrap"
-              "Torrents"
-              "App")
+                                "Torrents"
+                                "App")
 (redefine-key-with-alternatives *root-map* (kbd "s") "exec currentlyplaying"
-              "Current song"
-              "Music controls")
+                                "Current song"
+                                "Music controls")
+(redefine-key-with-alternatives *root-map* (kbd "S") "exec select-from-playlist"
+                                "Select from playlist"
+                                "Music controls")
 (redefine-key-with-alternatives *root-map* (kbd "T") (kal/execterm "htop")
-              "System monitor"
-              "App")
+                                "System monitor"
+                                "App")
 (redefine-key-with-alternatives *root-map* (kbd "H-s")
                                 "exec maim -i \"$(xdotool getactivewindow)\" pic-window-\"$(date '+%y%m%d-%H%M-%S').png\""
                                 "Screenshot window"
