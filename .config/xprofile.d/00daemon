@@ -1,6 +1,5 @@
 #!/bin/sh
 
-pulseaudio --start & # Start PulseAudio
 mpd &		     # Start Music Player Daemon
 dunst &              # Use dunst for notifications
 pywalfox --daemon &  # Use pywal colors in Firefox
