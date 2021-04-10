@@ -284,6 +284,22 @@ createTemplate(){
     tput rmcup
 }
 
+linkTemplates(){
+    collectTemplates
+    while read -r template;
+    do
+        echo "Linking '$(basename "$template")'"
+        local path="$(cat "$template/.template" | sed "s|~|$HOME|g")"
+        echo "  Deploying to '$path'"
+
+        [ -f "$path" ] && {
+            rm "$path"
+        }
+
+        ln -s "$template/.kalc" "$path"
+    done < <(find "$(configdir)/templates" -mindepth 1 -maxdepth 1 -type d)
+}
+
 while [ -n "$1" ]
 do
     case "$1" in
@@ -307,6 +323,10 @@ do
             ;;
         collect)
             collectTemplates
+            shift
+            ;;
+        link)
+            linkTemplates
             shift
             ;;
         viewTemplate)
