@@ -1,4 +1,5 @@
 playlist_directory	"~/.config/mpd/playlists"
+pid_file                "~/.config/mpd/mpd.pid"
 
 auto_update "yes"
 restore_paused "yes"
