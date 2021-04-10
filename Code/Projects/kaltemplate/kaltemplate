@@ -76,7 +76,7 @@ collectUnits(){
     shift
     for i in $@
     do
-        find "$template/$i" -type f -regex ".*.unit"
+        [ -d "$template/$i" ] && find "$template/$i" -type f -regex ".*.unit"
     done
 }
 
@@ -163,11 +163,13 @@ dereferenceUnit(){
 
     [ -d "$(configdir)/templates/$template" ] || {
         echo -e "Cannot dereference unit '$unit'.\nTemplate '$template' doesn't exist."
+        createTemplate
         return 1
     }
 
     [ -d "$(configdir)/templates/$template/$scope" ] || {
         echo -e "Cannot dereference unit '$unit'.\nTemplate '$template' doesn't have scope '$scope'."
+        mkdir "$(configdir)/templates/$template/$scope"
         return 2
     }
 
