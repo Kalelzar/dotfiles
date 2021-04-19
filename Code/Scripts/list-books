@@ -1,6 +1,4 @@
-#!/bin/zsh
-
-
+#!/bin/sh
 
 
 res="$(xwininfo -root | grep Height | sed -E 's/[[:space:]]+//g' | cut -d: -f2)"
