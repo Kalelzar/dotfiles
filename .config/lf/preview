@@ -80,6 +80,8 @@ handle_mime(){
             ;;
         application/octet-stream)
             mediainfo "$1" ;;
+        application/x-dosexec)
+            winedump "$1" ;;
         */x-empty)
             echo "<EMPTY>" ;;
         *)
