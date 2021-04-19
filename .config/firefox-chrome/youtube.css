@@ -286,6 +286,18 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     display: block !important;
   }
 
+  #meta > h3 .badge.badge-style-type-collection.style-scope.ytd-badge-supported-renderer {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    backface-visibility: ;
+    background-color: var(--accent2);
+    border-radius: 20px;
+    color: var(--background-dark);
+    padding: 2px;
+  }
+
   #dismissible.ytd-rich-grid-media {
     display: flex !important;
     flex-direction: column !important;
