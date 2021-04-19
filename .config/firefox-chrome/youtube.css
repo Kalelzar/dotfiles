@@ -282,11 +282,19 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     display: flex !important;
   }
 
+  ytd-rich-grid-media[is-dismissed] {
+    display: block !important;
+  }
+
   #dismissible.ytd-rich-grid-media {
     display: flex !important;
     flex-direction: column !important;
     min-height: -moz-available !important;
     min-width: 100% !important;
+  }
+
+  ytd-rich-grid-media[is-dismissed] > #dismissible.ytd-rich-grid-media {
+    display: none !important;
   }
 
   #avatar-link.ytd-rich-grid-media {
