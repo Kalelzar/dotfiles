@@ -1,0 +1,102 @@
+#!/bin/bash
+
+
+PLAYER="$(mpris-player)"
+
+act-on-player(){
+    playerctl -p "$PLAYER" "$@"
+}
+
+play(){
+    act-on-player play
+}
+
+pause(){
+    act-on-player pause
+}
+
+toggle(){
+    act-on-player play-pause
+}
+
+stop(){
+    act-on-player stop
+}
+
+loop(){
+    act-on-player loop "$1"
+}
+
+shuffle(){
+    act-on-player shuffle "$1"
+}
+
+volume(){
+    act-on-player volume "$1"
+}
+
+next(){
+    act-on-player next
+}
+
+previous(){
+    act-on-player previous
+}
+
+status(){
+    act-on-player status
+}
+
+position(){
+    act-on-player position "$1"
+}
+
+current(){
+    act-on-player -f "{{artist}} - {{title}} {{emoji(status)}}" metadata
+}
+
+parseCMDOptions(){
+    case "$1" in
+        play)
+            play
+            ;;
+        pause)
+            pause
+            ;;
+        toggle)
+            toggle
+            ;;
+        stop)
+            stop
+            ;;
+        volume)
+            volume "$2"
+            ;;
+        position)
+            position "$2"
+            ;;
+        next)
+            next
+            ;;
+        previous)
+            previous
+            ;;
+        current)
+            current
+            ;;
+        status)
+            status
+            ;;
+        loop)
+            loop "$2"
+            ;;
+        shuffle)
+            shuffle "$2"
+            ;;
+        *)
+            printf "Unrecognized command '%s'\n" "$1"
+            ;;
+    esac
+}
+
+parseCMDOptions "$@"

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+playerctl metadata -a -f "{{playerName}}|{{status}}|{{title}}"

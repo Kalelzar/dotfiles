@@ -1,10 +1,10 @@
 #!/bin/sh
 
-res="$(mpc status | sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*/⏸/g;/\\[playing\\].*/d" | paste -sd ' ')"
+res="$(mpris-control current | sed "/^volume:/d;s/\\&/&amp;/g;s/️//g;/\\[playing\\].*/d" | paste -sd ' ')"
 song="$(echo "$res" | cut -d- -f2-)"
 elipsischeck="$(echo "$res" | cut -d- -f1 | wc -c)"
 #echo "$res"
 elispis=""
-[[ "$elipsischeck" -gt "25" ]] && elipsis="..."
+[ "$elipsischeck" -gt "25" ] && elipsis="..."
 artist="$(echo "$res" | cut -d- -f1 | sed -E 's/(.{0,25}).* .*/\1/')"
 echo "^[^R$artist$elipsis^] -$song^] |"
