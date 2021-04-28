@@ -5,4 +5,4 @@ printf "Beginning upgrade.\\n"
 yay -Syu
 
 printf "\\nUpgrade complete.\\nPress <Enter> to exit window.\\n\\n"
-read -r
+read -r temp
