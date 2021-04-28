@@ -316,13 +316,18 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
                                 "App")
 (redefine-key-with-alternatives *top-map*
                                 (kbd "H-p")
-                                "exec mpc toggle"
+                                "exec mpris-control toggle"
                                 "Toggle play/pause"
                                 "Music controls")
-(redefine-key *top-map* (kbd "H-.") "exec mpc next"
+(redefine-key *top-map* (kbd "H-.") "exec mpris-control next"
               "Next song" "Music controls")
-(redefine-key *top-map* (kbd "H-,") "exec mpc prev"
+(redefine-key *top-map* (kbd "H-,") "exec mpris-control previous"
               "Prev song" "Music controls")
+(redefine-key-with-alternatives *root-map*
+                                (kbd "p")
+                                "exec mpris-choose"
+                                "Select active player"
+                                "Music controls")
 (redefine-key-with-alternatives *top-map*
                                 (kbd "H-r")
                                 (kal/execterm "lfrun")
@@ -430,13 +435,13 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
                                 "Media")
 
 ;; Headphone controls
-(redefine-key *headphone-map* (kbd "XF86AudioRaiseVolume") "exec mpc next"
+(redefine-key *headphone-map* (kbd "XF86AudioRaiseVolume") "exec mpris-control next"
               "Next song" "Music controls")
-(redefine-key *headphone-map* (kbd "XF86AudioLowerVolume") "exec mpc prev"
+(redefine-key *headphone-map* (kbd "XF86AudioLowerVolume") "exec mpris-control previous"
               "Prev song" "Music controls")
 (redefine-key *headphone-map* (kbd "XF86AudioMute") "pulse-toggle-mute"
               "Mute/unmute" "System")
-(redefine-key *headphone-map* (kbd "H-p") "exec mpc toggle"
+(redefine-key *headphone-map* (kbd "H-p") "exec mpris-control toggle"
               "Pause/unpause"
               "Music controls")
 (redefine-key *headphone-map* (kbd "a") "exec mpdannounce"
