@@ -1,0 +1,5 @@
+database {
+         plugin          "simple"
+         path            "~/.config/mpd/mpd.db"
+         cache_directory "~/.cache/mpd/cache"
+}

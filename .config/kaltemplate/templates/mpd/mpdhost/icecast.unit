@@ -1,0 +1,14 @@
+#audio_output {
+#       type     "shout"
+#       encoding "ogg"
+#       name     "MPD Icecast"
+#       host     "localhost"
+#       port     "14000"
+#       mount    "/stream"
+#       user     "source"
+#       password #(secure icecast-password)
+#       quality  "0"
+#       format   "44100:16:2"
+#
+#       description "MPD Stream over Icecast"
+#}
