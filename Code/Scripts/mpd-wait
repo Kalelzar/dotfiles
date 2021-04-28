@@ -37,7 +37,7 @@ mpd_host=localhost
 mpd_port=6600
 
 # Check environment variables for alternate values
-if [ "$MPD_HOST" ] && $(printf %s "$MPD_HOST" | grep @ &>/dev/null); then
+if [ "$MPD_HOST" ] && $(printf %s "$MPD_HOST" | grep @ >/dev/null 2>&1); then
     mpd_host="$(printf $MPD_HOST | sed 's/.*@//')"
     mpd_pass="$(printf $MPD_HOST | sed 's/\(.*\)@.*/\1/')"
 elif [ "$MPD_HOST" ]; then
@@ -78,7 +78,7 @@ done
 test -z "$nc" && printf '%s: netcat is a dependency of this script\n' "$progname" >&2
 
 # Tests that MPD is running
-printf 'ping\nclose\n' | $nc $mpd_host $mpd_port | grep '^OK MPD [0-9.]*' &>/dev/null \
+printf 'ping\nclose\n' | $nc $mpd_host $mpd_port | grep '^OK MPD [0-9.]*' >/dev/null 2>&1 \
 || { printf '%s: daemon is not running\n' "$progname" >&2;  exit 2; }
 
 # Tests that $nsongs is a non-negative integer
