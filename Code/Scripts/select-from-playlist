@@ -11,7 +11,7 @@ playlist="$(mpc -f "##💌%position%💌%title%💌%artist%💌%album%" playlist
 playlistid="$(echo -e "?,ID,Title,Artist,Album\n$playlist" \
                    | csv-format \
                    | tr '^' ',' \
-                   | dmenu -l $lines -i -r -p "Pick song: " \
+                   | dmenu -l $lines -i -r \
                    | sed 's/║/|/g' \
                    | cut -d'|' -f3)"
 
