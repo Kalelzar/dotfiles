@@ -27,6 +27,8 @@ application/x-extension-xht=firefox.desktop
 x-scheme-handler/discord-694795560288256021=discord-694795560288256021.desktop
 x-scheme-handler/org-protocol=org-protocol.desktop
 video/*=mpv.desktop
+x-scheme-handler/discord-478576776990425110=discord-478576776990425110.desktop
+x-scheme-handler/tg=userapp-Telegram Desktop-OXWJ20.desktop
 
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;
@@ -42,3 +44,5 @@ application/x-extension-xhtml=firefox.desktop;
 application/x-extension-xht=firefox.desktop;
 application/vnd.lotus-organizer=emacs.desktop;
 application/vnd.openxmlformats-officedocument.wordprocessingml.document=calibre-ebook-viewer.desktop;
+text/x-c=emacs.desktop;
+x-scheme-handler/tg=userapp-Telegram Desktop-OXWJ20.desktop;
