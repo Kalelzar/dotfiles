@@ -1,52 +1,34 @@
-#!/bin/bash
+#!/bin/python
+import sys
+import math
+
+def printTopLine(length):
+    print("┏" + "━"*length + "┓")
+
+def printBotLine(length):
+    print("┗" + "━"*length + "┛")
+
+def surroundLine(length, line):
+    linelen = len(line)
+
+    #Always non-negative since 'linelen' is at most 'length'
+    diff = length - linelen
+
+    padLeft = " "*(diff // 2)
+    padRight = " "*(math.ceil(diff / 2))
+    print(f"┃{padLeft}{line}{padRight}┃")
+
+def main():
+    lines = []
+    mwidth = 0
+    for line in sys.stdin:
+        lines.append(line[:-1])
+        mwidth = max(mwidth, len(line[:-1]))
+    printTopLine(mwidth)
+    for line in lines:
+        surroundLine(mwidth, line)
+    printBotLine(mwidth)
 
 
-vbar="┃"
-hbar="━"
-
-ltcorner="┏"
-rtcorner="┓"
-lbcorner="┗"
-rbcorner="┛"
-
-lines=()
-len=0
-oldifs="$IFS"
-IFS=$'\n'
-while read -r line
-do
-        lines+=("$line")
-        linelen="${#line}"
-        [ "$len" -lt "$linelen" ] && len="$linelen"
-done < "${1:-/dev/stdin}"
-
-echo -n "$ltcorner"
-
-for _ in $(seq 1 "$len")
-do
-echo -n "$hbar"
-done
-
-echo "$rtcorner"
-
-
-for i in ${lines[*]}
-do
-    echo -n "$vbar"
-    echo -n "$i"
-    clen="${#i}"
-    delta="$((len-clen))"
-    [ "$delta" -gt "0" ] && tput cuf "$delta"
-    echo "$vbar"
-done
-
-IFS="$oldifs"
-
-echo -n "$lbcorner"
-
-for _ in $(seq 1 "$len")
-do
-echo -n "$hbar"
-done
-
-echo "$rbcorner"
+if __name__ == "__main__":
+    main()
