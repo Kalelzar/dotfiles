@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Scanning '$1'" 1>&2
+
+if [ "$(file "$1" | grep -E "sh(ell)? script" | grep -cv "binary data")" = 0 ]
+then
+    exit 0
+fi
+
+for i in $(used-utils "$1")
+do
+    [ -n "$i" ] && pacman -Qo "$i" 2>&1 \
+        | sed -E 's/.*by (.*) .*$/\1/g;s/.*No package owns (.*)/\1/g'
+done | sed '/^$/d'  | sort -u

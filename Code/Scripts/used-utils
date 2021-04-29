@@ -1,0 +1,146 @@
+#!/bin/bash
+
+shell-scripts-in(){
+    local path="$1"
+    find "$path" -maxdepth 1 -type f 2>/dev/null
+}
+
+get-scripts(){
+    for i in $(echo "$PATH" | tr ':' $'\n')
+    do
+        shell-scripts-in "$i"
+    done
+}
+
+DUMPDIR="$HOME/.cache/used-utils/dumps/"
+
+commands(){
+    local file="$1"
+    tr $'\n' ';' < "$file" |
+        sed -E 's/[[:space:]]+/ /g;s/^[[:space:]]//g;s/;($|#|\{|}|;;|esac);//g'|
+        perl -pe 's/(^|;)(.*?) /\n\1\n/g' |
+        perl -pe 's/\$\((.*?)(?:\)|\||;)/\n\1\n/g' |
+        perl -pe 's/\|(?: |;)(.*)?(?:$|\||;)/\n\1\n/g' |
+        perl -pe 's/if ([^[][^[:space:]]+)( |;)/\n\1\n/g' |
+        cut -d' ' -f1 |
+        sed -E 's/^[[:space:]]+//g;s/^(.+) |$/\1/g; /^".*"$/d;/^$/d;/"/d; /^(;|\||<|>|do|done|local|while|case|for|if|then|fi|esac|in)$/d; /^\(/d;/^[^[:space:]]+=$/d;/^[^(].*\)$/d; /^[^[:space:]]+\(\)\{?/d;s/\$\{?[^[:space:]]+}?//g; s/(.*)[[:space:]]+$/\1/g;/^[^[:space:]]+ in$/d; /^in$/d; /^\//d; /s\//d;/^\|$/d' |
+        sort
+}
+
+parse-shell-line(){
+    local line="$(echo "$1" | sed -E 's/[[:space:]]+/ /g;s/^[[:space:]]+//g;s/[[:space:]]+$//g')"
+
+    echo "Parsing $line" 1>&2
+
+    local keyword="$(echo "$line" | cut -d' ' -f1)"
+
+    local linetype="none"
+
+    case "$keyword" in
+        *=*)
+            linetype="assignment"
+            local assigned="$(echo "$line" | cut -d= -f2-)"
+            parse-shell-line "$assigned"
+            ;;
+        local)
+            linetype="local-assignment"
+            parse-shell-line "$(echo "$line" | cut -d' ' -f2-)"
+            ;;
+        \$\(*)
+            linetype="shell-substitution"
+            local inner="$(echo "$line" | sed -E 's/\$\((.*)\).*/\1@\2/')"
+            parse-shell-line "$(echo "$inner" | cut -d@ -f1)"
+            parse-shell-line "$(echo "$inner" | cut -d@ -f2-)"
+            ;;
+        \|)
+            linetype="pipe-continuation"
+            parse-shell-line "$(echo "$line" | sed 's/^[|]//g')"
+            ;;
+        \&)
+            linetype="and-continuation"
+            parse-shell-line "$(echo "$line" | sed 's/^&//g')"
+            ;;
+        \"*)
+            linetype="quoted"
+            local insideQuotes="$(echo "$line" | cut -d'"' -f2-)"
+            local extracted="$(echo "$insideQuotes" | perl -pe 's/.*?\$[(](.*)[)]|.*/\1\n/g')"
+            for i in $extracted
+            do
+                parse-shell-line "$i"
+            done
+            ;;
+        "if")
+            linetype="conditional"
+            parse-shell-line "$(echo "$line" | sed -E 's/if (.*)/\1/g')"
+            ;;
+        "while")
+            linetype="while loop"
+            parse-shell-line "$(echo "$line" | sed -E 's/while (.*)/\1/g')"
+            ;;
+        "for")
+            linetype="for loop"
+            parse-shell-line "$(echo "$line" | sed -E 's/for (.*) in (.*)/\2/g;s/for [(]{2}.*[)]{2}//g')"
+            ;;
+        "[")
+            linetype="1-bracket-conditional"
+            parse-shell-line "$(echo "$line" | perl -pe 's/[[].*?[]]( |;)(.*)/\2/g' | sed 's/[[].*[]]//g')"
+            ;;
+        "[[")
+            linetype="2-bracket-conditional"
+            parse-shell-line "$(echo "$line" | perl -pe 's/[[]{2}.*?[]]{2} (&&|[|]{2}) (.*)/\2/g' | sed 's/[[]{2}.*[]]{2}//g')"
+            ;;
+        \#*)
+            linetype="comment"
+            ;;
+        *\(\))
+            linetype="function-declaration"
+            ;;
+        ""|"}"|"fi"|"else"|"then"|";;")
+            linetype="ignore"
+            ;;
+        *)
+            linetype="util"
+            parse-shell-line "$(echo "$line" | cut -s -d\| -f2-)"
+            parse-shell-line "$(echo "$line" | cut -s -d\& -f2-)"
+            echo "$keyword"
+            ;;
+    esac
+
+    case "$linetype" in
+        ignore|comment)
+        ;;
+        *)
+            echo "$linetype: '$line'" 1>&2
+        ;;
+    esac
+}
+
+get-utils-in-line(){
+    local line="$1"
+    local file="$2"
+
+    local dump="$DUMPDIR/$file"
+    mkdir -p "${dump:r}"
+
+    parse-shell-line "$(echo "$line" |
+     sed -E 's/[[:space:]]+/ /g;s/^[[:space:]]+//g;')"
+
+}
+
+get-utils-in-file(){
+    local file="$1"
+    while read -r line
+    do
+        get-utils-in-line "$line" "$file"
+    done < "$file"
+}
+
+files=$(get-scripts)
+echo "$files" | rev | cut -d/ -f1 | rev | sort > "$XDG_CACHE_HOME/cmd-dump"
+
+
+commands "$1" | uniq > "$XDG_CACHE_HOME/cmd-temp"
+
+get-utils-in-file "$1" 2>/dev/null | sort -u > "$XDG_CACHE_HOME/cmd-util"
+
+comm <(comm ~/.cache/cmd-util  ~/.cache/cmd-dump -12) <(comm ~/.cache/cmd-temp ~/.cache/cmd-dump -12) --output-delimiter=''
