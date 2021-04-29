@@ -419,7 +419,7 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (redefine-key *root-map* (kbd "R") "loadrc" "Reload config file." "System")
 
 
-(redefine-key *root-map* (kbd "p")
+(redefine-key *root-map* (kbd "P")
               "watch-link-from-clipboard"
               "Open link in clipboard in mpv."
               "Media")
