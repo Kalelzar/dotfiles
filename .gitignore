@@ -148,7 +148,6 @@ mpv-shot*
 /.cache/wal/colors-rofi-light.rasi
 /Games/
 /.stumpwm.d/
-ttttttttttttttttttttttttttttttttttttttttttt
 /.config/mpd/mpd.db
 /.config/mpd/mpd.pid
 /quicklisp/
@@ -158,3 +157,13 @@ ttttttttttttttttttttttttttttttttttttttttttt
 /.cache/
 /.sbt/1.0/swoval-jni/
 /.sqlite_history
+/Code/Projects/IPL-personal/
+/Code/Projects/IPL/
+/.slime-history.eld
+/.node_repl_history
+/.rustup/update-hashes/
+/.rustup/toolchains/
+/.org-timestamps/
+/.config/calibre/plugins/*.zip
+/.config/SoundWire/
+.local/src
