@@ -167,3 +167,6 @@ mpv-shot*
 /.config/calibre/plugins/*.zip
 /.config/SoundWire/
 .local/src
+/.parsec/lock
+/.parsec/parsecd-150-68.so
+/.parsec/user.bin
