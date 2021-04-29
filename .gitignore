@@ -170,3 +170,5 @@ mpv-shot*
 /.parsec/lock
 /.parsec/parsecd-150-68.so
 /.parsec/user.bin
+/.local/bin/
+/.local/pkg/
