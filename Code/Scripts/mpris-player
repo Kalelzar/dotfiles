@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/bin/sh
 
 
 [ -f "$XDG_CACHE_HOME/mpris-player" ] && {
     player="$(cat "$XDG_CACHE_HOME/mpris-player")"
-    if playerctl metadata -a -f "{{playerName}}" | grep "$player" &>/dev/null
+    if playerctl metadata -a -f "{{playerName}}" | grep "$player" >/dev/null 2>&1
     then
         echo "$player"
         exit
@@ -12,8 +12,9 @@
 
 active=$(mpris-status | grep '|Playing|' | cut -d'|' -f1)
 
-[ -z "$active" ] && {
+if [ -z "$active" ]
+then
     playerctl metadata -a -f "{{playerName}}" | head -1
-} || {
+else
     echo "$active"
-}
+fi
