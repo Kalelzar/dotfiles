@@ -334,6 +334,37 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
                                 "File manager"
                                 "App")
 
+(redefine-key *top-map*
+              (kbd "XF86AudioNext")
+              "exec mpris-control next"
+              "Next song"
+              "Music controls")
+
+(redefine-key *top-map*
+              (kbd "XF86AudioPrev")
+              "exec mpris-control previous"
+              "Prev song"
+              "Music controls")
+
+(redefine-key *top-map*
+              (kbd "XF86AudioPlay")
+              "exec mpris-control play"
+              "Play song"
+              "Music controls")
+
+(redefine-key *top-map*
+              (kbd "XF86AudioStop")
+              "exec mpris-control pause"
+              "Pause song"
+              "Music controls")
+
+(redefine-key *top-map*
+              (kbd "XF86AudioPause")
+              "exec mpris-control pause"
+              "Pause song"
+              "Music controls")
+
+
 (redefine-key-with-alternatives *top-map*
                                 (kbd "H-f")
                                 "fullscreen"
