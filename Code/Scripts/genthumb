@@ -5,18 +5,25 @@
 makethumbnail(){
     touch "$HOME/.cache/songthumb.lock"
 
-    current="$(mpc -f "%file%" current)"
-    ffmpegthumbnailer -i "$HOME/Music/$current"\
-                      -o "$HOME/.cache/songthumb.new"\
-                      -s 0 &> /dev/null
-    file "$HOME/.cache/songthumb.new" | grep 'empty' &> /dev/null
+    mprisURL="$(playerctl -p "$(mpris-player)" metadata -f '{{mpris:artUrl}}')"
 
+    if [ -n "$mprisURL" ]
+    then
+        curl -s "$mprisURL" > "$XDG_CACHE_HOME/songthumb.new"
+    else
+        current="$(mpc -f "%file%" current)"
+        ffmpegthumbnailer -i "$HOME/Music/$current"\
+                          -o "$XDG_CACHE_HOME/songthumb.new"\
+                          -s 0 &> /dev/null
+    fi
+
+    file "$HOME/.cache/songthumb.new" | grep 'empty' &> /dev/null
     [ "$?" != "0" ] \
-        && cp "$HOME/.cache/songthumb.new" "$HOME/.cache/songthumb" \
+        && cp "$XDG_CACHE_HOME/songthumb.new" "$XDG_CACHE_HOME/songthumb" \
             || {
           cover="$HOME/Music/${current:h}/cover.jpg"
-          [ -f "$cover" ] && cp "$cover" "$HOME/.cache/songthumb" \
-                  || cp "$HOME/.config/.nothumb" "$HOME/.cache/songthumb"
+          [ -f "$cover" ] && cp "$cover" "$XDG_CACHE_HOME/songthumb" \
+                  || cp "$HOME/.config/.nothumb" "$XDG_CACHE_HOME/songthumb"
         }
 
     rm "$HOME/.cache/songthumb.lock"
