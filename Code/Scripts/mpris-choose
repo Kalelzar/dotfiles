@@ -3,5 +3,5 @@
 
 currentPlayer="$(mpris-player)"
 
-selected="$(echo -e "Player|Status|Title\n$(mpris-status)" | tr ',|' '`,' | csv-format | tr '`' ',' | dmenu -l 10 | sed 's/║/|/g;s/^|//g;s/|$//g' | sed -E 's/[[:space:]]+/ /g;s/(^|[|]) /\1/g;s/ ($|[|])/\1/g' | cut -d'|' -f1)"
+selected="$(echo -e "Player|Status|Title\n$(mpris-status)" | tr ',|' '`,' | csv-format | tr '`' ',' | sed 's/🪛/|/g' | dmenu -l 10 | sed 's/║/|/g;s/^|//g;s/|$//g' | sed -E 's/[[:space:]]+/ /g;s/(^|[|]) /\1/g;s/ ($|[|])/\1/g' | cut -d'|' -f1)"
 echo "$selected" | tee "$XDG_CACHE_HOME/mpris-player"

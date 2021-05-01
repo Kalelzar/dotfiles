@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 mpdst(){
-    res="$(playerctl -p "$(mpris-player)" metadata -f "{{artist}}|{{title}}")"
+    res="$(playerctl -p "$(mpris-player)" metadata -f "{{artist}}🔨{{title}}" | sed 's/|/🪛/g;s/🔨/|/g')"
     song="$(echo "$res" | cut -d\| -f2)"
     elipsischeck="$(echo "$res" | cut -d\| -f1 | wc -c)"
     elipsis=""
-    [[ "$elipsischeck" -gt "25" ]] && elipsis="..."
+    [ "$elipsischeck" -gt "25" ] && elipsis="..."
     artist="$(echo "$res" | cut -d\| -f1 | sed -E 's/(.{0,25}).*/\1/')"
-    echo "$artist$elipsis - $song"
+    echo "$artist$elipsis - $song" | sed 's/🪛/|/g'
 }
 
 art(){
@@ -17,4 +17,4 @@ art(){
 
 art
 
-notify-send "$(mpdst)" -i "$XDG_CACHE_HOME/mpris-cover" &> /dev/null
+notify-send "MPRIS [$(mpris-player)]" "$(mpdst)" -i "$XDG_CACHE_HOME/mpris-cover" >/dev/null 2>&1
