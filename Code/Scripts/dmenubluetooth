@@ -1,28 +1,42 @@
-#!/bin/bash
+#!/bin/sh
 
 notify-send "Bluetooth" "Scanning for devices"
-bluetoothctl --timeout=5 scan on >& /dev/null
-dev="$(bluetoothctl devices | grep -vE "^\[" | cut -d' ' -f3- | dmenu  -r -p "Select which device to connect to")"
+bluetoothctl power on >/dev/null 2>&1
+bluetoothctl --timeout=5 scan on >/dev/null 2>&1
+dev="$(bluetoothctl devices | grep -vE "^\[" | cut -d' ' -f3- | dmenu  -l 10 -r -p "Select which device to connect to")"
 mac="$(bluetoothctl paired-devices | grep "$dev" | cut -d' ' -f2)"
 [ -z "$mac" ] && {
     notify-send "Bluetooth" "Attempting to pair with device $dev"
     mac="$(bluetoothctl devices | grep "$dev" | cut -d' ' -f2)"
-    bluetoothctl pair "$mac" >& /dev/null
-    [ "$?" != "0" ] && {
+    if bluetoothctl pair "$mac" >/dev/null 2>&1
+    then
+        notify-send "Bluetooth" "Pairing successful."
+    else
         notify-send "Bluetooth" "Failed to pair with device $dev"
         exit 1;
-    } || {
-        notify-send "Bluetooth" "Connection successful."
-        exit 0;
-    }
+    fi
 }
 
-bluetoothctl trust "$mac" >& /dev/null
+isConnected="$(bluetoothctl info "$mac" | grep -c "Connected: yes" )"
 
-bluetoothctl connect "$mac" >& /dev/null
+if [ "$isConnected" != "0" ]
+then
+    notify-send "Bluetooth" "Already connected. Disconnecting..."
+    bluetoothctl disconnect "$mac" >/dev/null 2>&1
+fi
 
-[ "$?" != "0" ] && {
-    notify-send "Bluetooth" "Failed to connect to device $dev"
-} || {
+
+isTrusted="$(bluetoothctl info "$mac" | grep -c "Trusted: yes" )"
+
+if [ "$isTrusted" = "0" ]
+then
+    notify-send "Bluetooth" "Trusting device."
+    bluetoothctl trust "$mac" >/dev/null 2>&1
+fi
+
+if bluetoothctl connect "$mac" >/dev/null 2>&1
+then
     notify-send "Bluetooth" "Connection successful."
-}
+else
+    notify-send "Bluetooth" "Failed to connect to device $dev"
+fi
