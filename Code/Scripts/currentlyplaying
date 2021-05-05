@@ -12,7 +12,12 @@ mpdst(){
 
 art(){
     art="$(playerctl -p "$(mpris-player)" metadata -f '{{mpris:artUrl}}')"
-    curl "$art" > "$XDG_CACHE_HOME/mpris-cover"
+    if [ -n "$art" ]
+    then
+        curl "$art" > "$XDG_CACHE_HOME/mpris-cover"
+    else
+        cp "$XDG_CONFIG_HOME/.nothumb" "$XDG_CACHE_HOME/mpris-cover"
+    fi
 }
 
 art
