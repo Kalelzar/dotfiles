@@ -139,13 +139,13 @@ collectTemplate(){
 viewTemplate(){
     local template="$1"
 
-     [ -z "$PAGER" ] && PAGER=less
+    [ -z "$PAGER" ] && PAGER=less
 
-    collectTemplate "$template" > tmp
+    [ -d "$XDG_CACHE_HOME/kaltemplate" ] || mkdir -p "$XDG_CACHE_HOME/kaltemplate"
 
-    $PAGER tmp
+    collectTemplate "$template" > "$XDG_CACHE_HOME/kaltemplate/tmp.template"
 
-    rm tmp
+    $PAGER "$XDG_CACHE_HOME/kaltemplate/tmp.template"
 }
 
 dereferenceUnit(){
