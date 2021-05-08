@@ -1,3 +1,4 @@
 #!/bin/sh
 sarge &              # Battery info
+mpDris2 &            # MPRIS for MPD
 pulseaudio --start & # Start PulseAudio
