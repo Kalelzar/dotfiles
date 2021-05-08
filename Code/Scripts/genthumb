@@ -1,32 +1,32 @@
-#!/bin/zsh
+#!/bin/sh
 
-[ -f "$HOME/.cache/songthumb.lock" ] && exit 1;
+#[ -f "$HOME/.cache/songthumb.lock" ] && exit 1;
 
 makethumbnail(){
-    touch "$HOME/.cache/songthumb.lock"
+    #touch "$HOME/.cache/songthumb.lock"
 
     mprisURL="$(playerctl -p "$(mpris-player)" metadata -f '{{mpris:artUrl}}')"
 
     if [ -n "$mprisURL" ]
     then
-        curl -s "$mprisURL" > "$XDG_CACHE_HOME/songthumb.new"
+        curl -s "$mprisURL" > "$XDG_CACHE_HOME/songthumb"
     else
-        current="$(mpc -f "%file%" current)"
-        ffmpegthumbnailer -i "$HOME/Music/$current"\
-                          -o "$XDG_CACHE_HOME/songthumb.new"\
-                          -s 0 &> /dev/null
+        current="$(playerctl -p "$(mpris-player)" metadata -f '{{xesam:url}}')"
+        currentPath="$(echo "$current" | rg -o "file://.*" | sed 's#file://##g')"
+        currentDir="$(dirname "$currentPath")"
+
+        if ! ffmpegthumbnailer -i "$currentPath"\
+                          -o "$currentDir/cover.jpg"\
+                          -q 10\
+                          -s 0 >/dev/null 2>&1
+        then
+            cp "$XDG_CONFIG_HOME/.nothumb" "$currentDir/cover.jpg"
+        fi
+
+        cp "$currentDir/cover.jpg" "$XDG_CACHE_HOME/songthumb"
     fi
 
-    file "$HOME/.cache/songthumb.new" | grep 'empty' &> /dev/null
-    [ "$?" != "0" ] \
-        && cp "$XDG_CACHE_HOME/songthumb.new" "$XDG_CACHE_HOME/songthumb" \
-            || {
-          cover="$HOME/Music/${current:h}/cover.jpg"
-          [ -f "$cover" ] && cp "$cover" "$XDG_CACHE_HOME/songthumb" \
-                  || cp "$HOME/.config/.nothumb" "$XDG_CACHE_HOME/songthumb"
-        }
-
-    rm "$HOME/.cache/songthumb.lock"
+    #rm "$HOME/.cache/songthumb.lock"
 }
 
-makethumbnail &!
+makethumbnail
