@@ -1,10 +1,6 @@
 #!/bin/sh
 
-#[ -f "$HOME/.cache/songthumb.lock" ] && exit 1;
-
 makethumbnail(){
-    #touch "$HOME/.cache/songthumb.lock"
-
     mprisURL="$(playerctl -p "$(mpris-player)" metadata -f '{{mpris:artUrl}}')"
 
     if [ -n "$mprisURL" ]
@@ -12,7 +8,7 @@ makethumbnail(){
         curl -s "$mprisURL" > "$XDG_CACHE_HOME/songthumb"
     else
         current="$(playerctl -p "$(mpris-player)" metadata -f '{{xesam:url}}')"
-        currentPath="$(echo "$current" | rg -o "file://.*" | sed 's#file://##g')"
+        currentPath="$(echo "$current" | sed 's#file://##g;tx;d;:x;p;d')"
         currentDir="$(dirname "$currentPath")"
 
         if ! ffmpegthumbnailer -i "$currentPath"\
@@ -25,8 +21,6 @@ makethumbnail(){
 
         cp "$currentDir/cover.jpg" "$XDG_CACHE_HOME/songthumb"
     fi
-
-    #rm "$HOME/.cache/songthumb.lock"
 }
 
 makethumbnail
