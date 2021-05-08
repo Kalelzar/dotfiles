@@ -1,11 +1,25 @@
 #!/bin/bash
 
+selectPlayer(){
+    local header="Player|Status|Title"
+    local current="$(mpris-player)"
+    echo -e "$header\n$(mpris-status)" \
+        | tr ',|' '`,' \
+        | sed -E "s/^($current)/(*) \1/g"\
+        | csv-format \
+        | grep -E '[[:alpha:]]' \
+        | tr '`' ',' \
+        | sed 's/🪛/|/g' \
+        | dmenu -l 10 \
+        | sed 's/║/|/g;s/^|//g;s/|$//g' \
+        | sed -E 's/[[:space:]]+/ /g;s/(^|[|]) /\1/g;s/ ($|[|])/\1/g' \
+        | cut -d'|' -f1\
+        | sed 's/^[(][*][)] //g'
+}
 
-currentPlayer="$(mpris-player)"
+selected="$(selectPlayer)"
 
-selected="$(echo -e "Player|Status|Title\n$(mpris-status)" | tr ',|' '`,' | csv-format | tr '`' ',' | sed 's/🪛/|/g' | dmenu -l 10 | sed 's/║/|/g;s/^|//g;s/|$//g' | sed -E 's/[[:space:]]+/ /g;s/(^|[|]) /\1/g;s/ ($|[|])/\1/g' | cut -d'|' -f1)"
-
-if [ -n "$selected" ]
+if [ -n "$selected" ] && [ "$selected" != "Player" ]
 then
     echo "$selected" | tee "$XDG_CACHE_HOME/mpris-player"
 fi
