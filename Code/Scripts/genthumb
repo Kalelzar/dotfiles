@@ -5,7 +5,15 @@ makethumbnail(){
 
     if [ -n "$mprisURL" ]
     then
-        curl -s "$mprisURL" > "$XDG_CACHE_HOME/songthumb"
+        if ! curl -s "$mprisURL" > "$XDG_CACHE_HOME/songthumb"
+        then
+            current="$(playerctl -p "$(mpris-player)" metadata -f '{{xesam:url}}')"
+            currentPath="$(echo "$current" | sed 's#^file://##g;tx;d;:x;p;d')"
+            currentDir="$(dirname "$currentPath")"
+
+            [ -f "$currentDir/cover.jpg" ] && cp "$currentDir/cover.jpg" \
+                                                 "$XDG_CACHE_HOME/songthumb"
+        fi
     else
         current="$(playerctl -p "$(mpris-player)" metadata -f '{{xesam:url}}')"
         currentPath="$(echo "$current" | sed 's#^file://##g;tx;d;:x;p;d')"
