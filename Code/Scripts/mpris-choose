@@ -5,16 +5,16 @@ selectPlayer(){
     local current="$(mpris-player)"
     echo -e "$header\n$(mpris-status)" \
         | tr ',|' '`,' \
-        | sed -E "s/^($current)/(*) \1/g"\
+        | sed -E "s/^($current)/➡ \1/g"\
         | csv-format \
         | grep -E '[[:alpha:]]' \
         | tr '`' ',' \
-        | sed 's/🪛/|/g' \
+        | sed -E 's/🪛/|/g;s/║ Playing ║/║ ▶ ║/g;s/║ Paused [ ]?║/║ ⏸ ║/g;s/║ Status [ ]?║/║ ⏯ ║/g' \
         | dmenu -l 10 \
         | sed 's/║/|/g;s/^|//g;s/|$//g' \
         | sed -E 's/[[:space:]]+/ /g;s/(^|[|]) /\1/g;s/ ($|[|])/\1/g' \
         | cut -d'|' -f1\
-        | sed 's/^[(][*][)] //g'
+        | sed 's/^➡ //g'
 }
 
 selected="$(selectPlayer)"
