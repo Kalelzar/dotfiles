@@ -6,6 +6,8 @@ pywalfox --daemon &  # Use pywal colors in Firefox
 unclutter -grab &    # Remove mouse when idle
 emacs --daemon &     # Start emacs in daemon mode
 
+mpDris2 &            # MPRIS for MPD
+
 aw-server &
 aw-watcher-window &
 aw-watcher-afk &
