@@ -8,7 +8,7 @@ makethumbnail(){
         curl -s "$mprisURL" > "$XDG_CACHE_HOME/songthumb"
     else
         current="$(playerctl -p "$(mpris-player)" metadata -f '{{xesam:url}}')"
-        currentPath="$(echo "$current" | sed 's#file://##g;tx;d;:x;p;d')"
+        currentPath="$(echo "$current" | sed 's#^file://##g;tx;d;:x;p;d')"
         currentDir="$(dirname "$currentPath")"
 
         if ! ffmpegthumbnailer -i "$currentPath"\
