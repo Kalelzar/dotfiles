@@ -1,20 +1,44 @@
 #!/bin/sh
 
+allPlayers(){
+    playerctl metadata -a -f "{{playerName}}"
+}
 
-[ -f "$XDG_CACHE_HOME/mpris-player" ] && {
-    player="$(cat "$XDG_CACHE_HOME/mpris-player")"
-    if playerctl metadata -a -f "{{playerName}}" | grep "$player" >/dev/null 2>&1
+isPlayer(){
+    if allPlayers | grep "$1" -q
     then
-        echo "$player"
-        exit
+        return 0
+    else
+        return 1
     fi
 }
 
-active=$(mpris-status | grep '|Playing|' | cut -d'|' -f1)
+[ -f "$XDG_CACHE_HOME/mpris-player" ] && {
+    active=$(mpris-status | grep '|Playing|' | cut -d'|' -f1)
+    player="$(cat "$XDG_CACHE_HOME/mpris-player")"
 
-if [ -z "$active" ]
-then
-    playerctl metadata -a -f "{{playerName}}" | head -1
-else
-    echo "$active"
-fi
+    if [ -z "$active" ]
+    then
+        if isPlayer "$player"
+        then
+            echo "$player"
+        else
+            allPlayers
+        fi
+    else
+        if echo "$active" | grep "$player" -q
+        then
+            echo "$player"
+        else
+            if [ -z "$active" ]
+            then
+                allPlayers
+            else
+                echo "$active"
+            fi
+        fi
+    fi | head -1
+    exit 0
+}
+
+allPlayers | head -1
