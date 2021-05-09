@@ -1,0 +1,12 @@
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -vI" \
+	mkd="mkdir -pv" \
+	yt="youtube-dl --add-metadata -i" \
+	yta="yt -x -f bestaudio/best" \
+        watchyt="mpv --ytdl-format='bestvideo[height<=1080][fps<=30]+bestaudio'"\
+	ffmpeg="ffmpeg -hide_banner" \
+        vi="emacsclient -c"\
+        vim="emacsclient -c"

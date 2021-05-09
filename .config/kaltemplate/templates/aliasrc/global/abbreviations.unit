@@ -1,0 +1,10 @@
+# These common commands are just too long! Abbreviate them.
+alias \
+	trem="transmission-remote" \
+	YT="youtube-viewer --resolution=720p -SV -C --use-color" \
+        rtv="rtv --enable-media --no-flash" \
+	f="$FILE" \
+	e="$EDITOR" \
+	v="$VISUAL" \
+	z="zathura" \
+        coverart="sxiv -b -s f $HOME/.cache/songthumb"

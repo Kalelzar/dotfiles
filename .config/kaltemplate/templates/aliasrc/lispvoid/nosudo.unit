@@ -1,0 +1,4 @@
+# Call these commands without sudo
+alias \
+      poweroff="sudo poweroff" \
+      reboot="sudo reboot" \

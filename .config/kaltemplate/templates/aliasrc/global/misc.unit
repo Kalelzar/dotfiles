@@ -1,0 +1,13 @@
+slideshow(){
+    local oldIFS=$IFS
+    IFS=$'\n'
+    sxiv -b -s f -S 5 $(find "$HOME/Backgrounds" -type f | shuf)
+    IFS=$oldIFS
+}
+
+
+alias \
+	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/zshnameddirrc" \
+	tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" \
+        lf="lfrun" \
+        lsd="ls -l | grep -E '^d'"

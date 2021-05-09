@@ -1,0 +1,4 @@
+# Common emacs utilities
+alias \
+    wl="emacsclient -c -e '(wl)'" \
+    magit="emacsclient -c -e '(magit)'"
