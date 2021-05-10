@@ -37,8 +37,8 @@ isPlayer(){
                 echo "$active"
             fi
         fi
-    fi | head -1
+    fi | head -1 | tee "$XDG_CACHE_HOME/mpris-player"
     exit 0
 }
 
-allPlayers | head -1
+allPlayers | head -1 | tee "$XDG_CACHE_HOME/mpris-player"
