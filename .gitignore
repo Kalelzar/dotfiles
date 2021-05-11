@@ -172,3 +172,4 @@ mpv-shot*
 /.parsec/user.bin
 /.local/bin/
 /.local/pkg/
+/.config/transmission/seen
