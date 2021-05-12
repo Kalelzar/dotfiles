@@ -77,7 +77,7 @@ collectUnits(){
     for i in $@
     do
         [ -d "$template/$i" ] && find "$template/$i" -type f -regex ".*.unit"
-    done | sort
+    done | sort --key="9" --field-separator='/'
 }
 
 collectTemplates(){
