@@ -1,3 +1,4 @@
+public(pacman).
 pacman(start__aalib).
 pacman(start__acl).
 pacman(start__acpi).
@@ -14,6 +15,7 @@ pacman(start__alsa__minustopology__minusconf).
 pacman(start__alsa__minusucm__minusconf).
 pacman(start__alsa__minusutils).
 pacman(start__android__minustools).
+pacman(start__android__minusudev).
 pacman(start__aom).
 pacman(start__archlinux__minuskeyring).
 pacman(start__argon2).
@@ -50,6 +52,7 @@ pacman(start__bluez__minustools).
 pacman(start__bluez__minusutils).
 pacman(start__boost).
 pacman(start__boost__minuslibs).
+pacman(start__bridge__minusutils).
 pacman(start__brotli).
 pacman(start__btrfs__minusprogs).
 pacman(start__bubblewrap).
@@ -77,6 +80,7 @@ pacman(start__cmake).
 pacman(start__colord).
 pacman(start__colorz).
 pacman(start__compiler__minusrt).
+pacman(start__containerd).
 pacman(start__coreutils).
 pacman(start__cpio).
 pacman(start__cppcheck).
@@ -102,6 +106,7 @@ pacman(start__diffutils).
 pacman(start__discord).
 pacman(start__dmraid).
 pacman(start__dnssec__minusanchors).
+pacman(start__docker).
 pacman(start__docx2txt).
 pacman(start__dosfstools).
 pacman(start__double__minusconversion).
@@ -667,6 +672,7 @@ pacman(start__openssl).
 pacman(start__optipng).
 pacman(start__opus).
 pacman(start__orc).
+pacman(start__os__minusprober).
 pacman(start__otf__minusfira__minuscode__minussymbol).
 pacman(start__p11__minuskit).
 pacman(start__p7zip).
@@ -899,6 +905,17 @@ pacman(start__rsync).
 pacman(start__rtkit).
 pacman(start__rtv).
 pacman(start__rubberband).
+pacman(start__ruby).
+pacman(start__ruby__minusffi).
+pacman(start__rubygems).
+pacman(start__ruby__minusirb).
+pacman(start__ruby__minusopen_uri_redirections).
+pacman(start__ruby__minusrb__minusinotify).
+pacman(start__ruby__minusrdoc).
+pacman(start__ruby__minusreline).
+pacman(start__ruby__minusrexml).
+pacman(start__ruby__minusrss).
+pacman(start__runc).
 pacman(start__run__minusparts).
 pacman(start__rustup).
 pacman(start__sassc).
@@ -992,6 +1009,7 @@ pacman(start__thin__minusprovisioning__minustools).
 pacman(start__tinyxml2).
 pacman(start__tracker3).
 pacman(start__transmission__minuscli).
+pacman(start__transmission__minusrss).
 pacman(start__transset__minusdf).
 pacman(start__tree).
 pacman(start__tremc).
