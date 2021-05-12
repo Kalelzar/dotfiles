@@ -1,0 +1,5 @@
+#!/bin/sh
+
+./pl-pkgs-local \
+    | sed 's/start__//g;s/__minus/-/g;s/__plus/+/g;s/__dot/./g;' \
+    | perl -pe "s/^(.*?)[[:space:]](.*)$/'\1' \2/g"
