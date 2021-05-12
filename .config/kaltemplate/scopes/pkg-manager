@@ -1,0 +1,12 @@
+#!/bin/sh
+# The package manager in use
+
+if which pacman >/dev/null 2>&1
+then
+    echo "pacman"
+elif which xbps-install >/dev/null 2>&1
+then
+    echo "xbps"
+else
+    echo "unknown"
+fi

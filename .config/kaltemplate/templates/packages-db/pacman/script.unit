@@ -1,0 +1,12 @@
+pacman -Qs -q > packages.temp
+
+echo "public(pacman)." > ${XDG_CONFIG_HOME}/pkgs/pacman.pl
+
+sort -u < packages.temp\
+     | sed -E\
+     -e 's/^/start__/g'\
+     -e 's/\-/__minus/g'\
+     -e 's/\+/__plus/g'\
+     -e 's/\./__dot/g'\
+     | sed -E 's/(.*)/pacman(\1)./g' >> ${XDG_CONFIG_HOME}/pkgs/pacman.pl
+rm packages.temp

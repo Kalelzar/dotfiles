@@ -1,0 +1,7 @@
+act(Pkg) :-
+    findNoEquivalent(Pkg) -> (write(Pkg), write(' has no equivalent.'),nl); true.
+
+main :-
+    forall(packageEval(Pkg),act(Pkg)).
+
+:- initialization(main).
