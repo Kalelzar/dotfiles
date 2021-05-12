@@ -1,30 +1,24 @@
-both(T) :- xbps(T), pacman(T).
-package(T) :- xbps(T); pacman(T).
+both(Pkg) :- xbps(Pkg), pacman(Pkg).
+package(Pkg) :- xbps(Pkg); pacman(Pkg).
 
-hasEquivalent(A) :- equivalence(A, B); equivalence(B, A).
+isXbps(Query) :- call(Query, start__xbps).
+isPacman(Query) :- call(Query, start__pacman).
+
+isPackageManager(Query) :- isXbps(Query); isPacman(Query).
+
 areEquivalent(A, B) :- equivalence(A, B); equivalence(B, A).
+hasEquivalent(Pkg1) :- !, areEquivalent(Pkg1, _).
 
-validatePackage(Input) :-
-    package(Input),
-    !, true;
-    write(Input),
+hasNoEquivalent(Pkg) :- hasEquivalent(Pkg) -> fail; true.
+
+findNoEquivalent(PkgQuery, Pkg) :-
+    isPackageManager(PkgQuery),
+    call(PkgQuery, Pkg),
+    hasNoEquivalent(Pkg).
+findNoEquivalent(Pkg) :- findNoEquivalent(package, Pkg).
+
+validatePackage(Pkg) :-
+    package(Pkg) -> true;
+    write(Pkg),
     write(' is not a package.'), nl,
     halt(1).
-
-validateEquivalence(Input, Output) :-
-    areEquivalent(Input, Output),
-    !, true;
-    (xbps(Input), !, write('XBPS '); pacman(Input), write('Pacman ')),
-    write('package '),
-    write(Input),
-    write(' has no equivalent'), nl,
-    halt(2).
-
-main :-
-    read(Input),
-    validatePackage(Input),
-    validateEquivalence(Input, Output),
-    write(Output),nl,
-    halt.
-
-:- initialization(main).
