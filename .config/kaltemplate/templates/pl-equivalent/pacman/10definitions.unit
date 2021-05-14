@@ -1,1 +1,1 @@
-packageEval(Pkg) :- pacman(Pkg).
+packageEval(Pkg) :- xbps(Pkg).

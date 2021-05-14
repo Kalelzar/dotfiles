@@ -1,0 +1,12 @@
+xbps-query -l | cut -d' ' -f2 | rev | cut -d- -f2- | rev > packages.temp
+
+echo "public(xbps)." > ${XDG_CONFIG_HOME}/pkgs/xbps.pl
+
+sort -u < packages.temp\
+     | sed -E\
+     -e 's/^/start__/g'\
+     -e 's/\-/__minus/g'\
+     -e 's/\+/__plus/g'\
+     -e 's/\./__dot/g'\
+     | sed -E 's/(.*)/xbps(\1)./g' >> ${XDG_CONFIG_HOME}/pkgs/xbps.pl
+rm packages.temp

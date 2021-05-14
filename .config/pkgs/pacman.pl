@@ -1,4 +1,3 @@
-public(pacman).
 pacman(start__aalib).
 pacman(start__acl).
 pacman(start__acpi).
