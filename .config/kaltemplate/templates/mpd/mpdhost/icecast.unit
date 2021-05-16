@@ -6,7 +6,7 @@
 #       port     "14000"
 #       mount    "/stream"
 #       user     "source"
-#       password #(secure icecast-password)
+#       password dot_secure(icecastPassword)
 #       quality  "0"
 #       format   "44100:16:2"
 #
