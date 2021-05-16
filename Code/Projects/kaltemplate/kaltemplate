@@ -80,6 +80,10 @@ collectUnits(){
     done | sort --key="9" --field-separator='/'
 }
 
+formatUnit(){
+    m4 ~/Code/Projects/kaltemplate/predef.m4 "$1"
+}
+
 collectTemplates(){
     scopes=( $(collectScopes) )
 
@@ -100,8 +104,8 @@ collectTemplates(){
         do
             n=$(( ++n ))
             echo "    Collecting '$(echo "$unit" | sed "s|$(configdir)/templates/||g;s/\.unit//g;s|/|.|g")' [$n/$unitCount]"
-            #format "$unit" >> "$template/.kalc"
-            cat "$unit" >> "$template/.kalc"
+            formatUnit "$unit" >> "$template/.kalc"
+            #cat "$unit" >> "$template/.kalc"
             echo >> "$template/.kalc"
         done
     done
