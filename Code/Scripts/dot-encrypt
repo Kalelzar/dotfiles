@@ -1,0 +1,7 @@
+#!/bin/sh
+while [ -n "$1" ]
+do
+    echo "Encrypting '$1'"
+    gpg2 --yes -r 'natomanofglory@gmail.com' -e "$1"
+    shift
+done

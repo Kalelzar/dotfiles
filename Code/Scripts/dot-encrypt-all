@@ -1,0 +1,6 @@
+#!/bin/sh
+while read -r line
+do
+    echo "Encrypting gpgdot template '$line'"
+    find "$line" -type f | grep -vE ".*.gpg$" | xargs dot-encrypt
+done < "$XDG_CONFIG_HOME/gpgdotrc"
