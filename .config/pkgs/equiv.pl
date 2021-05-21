@@ -1,5 +1,4 @@
-equivalence(T, T) :- both(T).
-equivalence(xbps, pacman).
-equivalence(xbps, yay).
-equivalence(emacs, emacs-common).
-equivalence(emacs, emacs-gtk3).
+equivalence(start__xbps, start__pacman).
+equivalence(start__xbps, start__yay).
+equivalence(start__emacs, start__emacs__minuscommon).
+equivalence(start__emacs, start__emacs__minusgtk3).
