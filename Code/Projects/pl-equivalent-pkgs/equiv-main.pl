@@ -1,7 +1,7 @@
 main :-
     read(Input),
     validatePackage(Input),
-    forall(areEquivalent(Input, Output),
+    forall(findEquivalent(Input, Output),
            (write(Output),nl)).
 
 :- initialization(main).

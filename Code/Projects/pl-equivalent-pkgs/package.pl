@@ -1,4 +1,3 @@
-both(Pkg) :- xbps(Pkg), pacman(Pkg).
 package(Pkg) :- xbps(Pkg); pacman(Pkg).
 
 isXbps(Query) :- call(Query, start__xbps).
@@ -6,10 +5,14 @@ isPacman(Query) :- call(Query, start__pacman).
 
 isPackageManager(Query) :- isXbps(Query); isPacman(Query).
 
-areEquivalent(A, B) :- equivalence(A, B); equivalence(B, A).
-hasEquivalent(Pkg1) :- !, areEquivalent(Pkg1, _).
+areEquivalent(A, A) :- xbps(A), pacman(A).
+areEquivalent(A, B) :- equivalence(A, B).
+areEquivalent(A, B) :- equivalence(B, A).
+hasEquivalent(Pkg) :- areEquivalent(Pkg, _).
 
-hasNoEquivalent(Pkg) :- hasEquivalent(Pkg) -> fail; true.
+findEquivalent(In, Out) :- setof(Out, areEquivalent(In, Out), Set), member(Out, Set).
+
+hasNoEquivalent(Pkg) :- \+(hasEquivalent(Pkg)).
 
 findNoEquivalent(PkgQuery, Pkg) :-
     isPackageManager(PkgQuery),
