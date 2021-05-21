@@ -1,6 +1,4 @@
-xbps-query -l | cut -d' ' -f2 | rev | cut -d- -f2- | rev > packages.temp
-
-echo "public(xbps)." > ${XDG_CONFIG_HOME}/pkgs/xbps.pl
+xpkg > packages.temp
 
 sort -u < packages.temp\
      | sed -E\
