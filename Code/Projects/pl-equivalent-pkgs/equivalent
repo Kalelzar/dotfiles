@@ -2,11 +2,9 @@
 
 while [ -n "$1" ]
 do
-    res="$(echo "$1" \
-            | sed 's/^/start__/g;s/-/__minus/g;s/+/__plus/g;s/\./__dot/g;s/$/./g'\
+    res="$(echo "'$1'." \
             | ./pl-equivalent-pkgs 2>/dev/null)"
-
     exitCode="$?"
-    echo "$res" | sed -E "s/^$/Package $1 has no equivalent./" | sed 's/start__//g;s/__minus/-/g;s/__plus/+/g;s/__dot/./g;' | sort -u
+    echo "$res" | sed -E "s/^$/Package $1 has no equivalent./" | sort -u
     shift
 done

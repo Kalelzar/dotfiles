@@ -1,7 +1,7 @@
 package(Pkg) :- xbps(Pkg); pacman(Pkg).
 
-isXbps(Query) :- call(Query, start__xbps).
-isPacman(Query) :- call(Query, start__pacman).
+isXbps(Query) :- call(Query, 'xbps').
+isPacman(Query) :- call(Query, 'pacman').
 
 isPackageManager(Query) :- isXbps(Query); isPacman(Query).
 

@@ -1,10 +1,5 @@
 xpkg > packages.temp
 
 sort -u < packages.temp\
-     | sed -E\
-     -e 's/^/start__/g'\
-     -e 's/\-/__minus/g'\
-     -e 's/\+/__plus/g'\
-     -e 's/\./__dot/g'\
-     | sed -E 's/(.*)/xbps(\1)./g' >> ${XDG_CONFIG_HOME}/pkgs/xbps.pl
+     | sed -E "s/(.*)/xbps('\1')./g" >> ${XDG_CONFIG_HOME}/pkgs/xbps.pl
 rm packages.temp
