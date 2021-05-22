@@ -1,0 +1,10 @@
+#!/bin/sh
+
+while [ -n "$1" ]
+do
+    res="$(echo "'$1'." \
+            | ./pl-alternative-pkgs 2>/dev/null)"
+    exitCode="$?"
+    echo "$res" | sed -E "s/^$/Package $1 has no alternative./" | sort -u
+    shift
+done
