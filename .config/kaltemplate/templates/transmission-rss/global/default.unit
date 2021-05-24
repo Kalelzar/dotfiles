@@ -1,5 +1,5 @@
 feeds:
   - url: http://www.shanaproject.com/feeds/secure/user/dot_secure(shanaid)
-    download_path: /home/kalelzar/Anime
+    download_path: /home/dot_user/Anime
 
 update_interval: 150
