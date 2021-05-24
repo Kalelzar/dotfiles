@@ -1,7 +1,7 @@
 package(Pkg) :- xbps(Pkg); pacman(Pkg).
 
-isXbps(Query) :- call(Query, 'xbps').
-isPacman(Query) :- call(Query, 'pacman').
+isXbps(Query) :- call(Query, 'void-repo-multilib').
+isPacman(Query) :- call(Query, 'base').
 
 isPackageManager(Query) :- isXbps(Query); isPacman(Query).
 
