@@ -1,4 +1,4 @@
-pacman -Qs -q > packages.temp
+pacman -Qqe > packages.temp
 
 sort -u < packages.temp\
      | sed -E "s/(.*)/pacman('\1')./g" > ${XDG_CONFIG_HOME}/pkgs/pacman.pl
