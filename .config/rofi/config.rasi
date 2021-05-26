@@ -1,0 +1,9 @@
+configuration {
+  sidebar-mode: true;
+  fullscreen: true;
+  auto-select: true;
+  monitor: "-2";
+  scroll-method: 1;
+  modi: [window, ssh, run];
+}
+@import "~/.cache/wal/colors-rofi-dark.rasi"

@@ -1,0 +1,203 @@
+* {{
+
+    font: "Fira Code 12";
+    active-background: {color3}CF;
+    active-foreground: @foreground;
+    normal-background: @background;
+    normal-foreground: @foreground;
+    urgent-background: {color5}CF;
+    urgent-foreground: @foreground;
+
+    alternate-active-background: @background;
+    alternate-active-foreground: @foreground;
+    alternate-normal-background: @background;
+    alternate-normal-foreground: @foreground;
+    alternate-urgent-background: @background;
+    alternate-urgent-foreground: @foreground;
+
+    selected-active-background: {color6}CF;
+    selected-active-foreground: {background};
+    selected-normal-background: {color4}CF;
+    selected-normal-foreground: {background};
+    selected-urgent-background: {color3}CF;
+    selected-urgent-foreground: {background};
+
+    background-color: @background;
+    background: #FFFFFF00;
+    foreground: {foreground};
+    border-color: {color3};
+    spacing: 2;
+}}
+
+#window {{
+
+    transparency: "screenshot";
+
+    background-color: 00000000;
+    border: 0;
+    padding: 2.5ch;
+}}
+
+#mainbox {{
+    border: 0;
+    padding: 0;
+}}
+
+#message {{
+    border: 2px 0px 0px;
+    border-color: @border-color;
+    padding: 1px;
+}}
+
+#textbox {{
+    text-color: @foreground;
+    padding: 1px;
+}}
+
+#inputbar {{
+    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
+}}
+
+#textbox-prompt-colon {{
+    expand: false;
+    str: "";
+    margin: 0px 0.3em 0em 0em;
+    text-color: @normal-foreground;
+}}
+
+#listview {{
+    fixed-height: 0;
+    orientation: horizontal;
+    border: 3px;
+    border-color: @border-color;
+    background-color: {background}CF;
+    spacing: 2px;
+    border-radius: 18px;
+    scrollbar: true;
+    padding: 6px;
+    margin: 0px 0px 15px 0px;
+    expand: true;
+}}
+
+element-icon {{
+    size: 48px;
+    padding: 0px 16px 0px 16px;
+    border-radius: 18px;
+    background-color: #FFFFFF2F;
+}}
+
+element-text {{
+   padding: 16px;
+}}
+
+#element {{
+    border: 0;
+    border-radius: 18px;
+}}
+
+#element.normal.normal {{
+    background-color: @normal-background;
+    text-color: @normal-foreground;
+}}
+
+#element.normal.urgent {{
+    background-color: @urgent-background;
+    text-color: @urgent-foreground;
+}}
+
+#element.normal.active {{
+    background-color: @active-background;
+    text-color: @active-foreground;
+}}
+
+#element.selected.normal {{
+    background-color: @selected-normal-background;
+    text-color: @selected-normal-foreground;
+}}
+
+#element.selected.urgent {{
+    background-color: @selected-urgent-background;
+    text-color: @selected-urgent-foreground;
+}}
+
+#element.selected.active {{
+    background-color: @selected-active-background;
+    text-color: @selected-active-foreground;
+}}
+
+#element.alternate.normal {{
+    background-color: @alternate-normal-background;
+    text-color: @alternate-normal-foreground;
+}}
+
+#element.alternate.urgent {{
+    background-color: @alternate-urgent-background;
+    text-color: @alternate-urgent-foreground;
+}}
+
+#element.alternate.active {{
+    background-color: @alternate-active-background;
+    text-color: @alternate-active-foreground;
+}}
+
+#scrollbar {{
+    width: 4px;
+    border: 0;
+    handle-width: 8px;
+    padding: 0;
+}}
+
+#sidebar {{
+    border: 4px 0px 0px;
+    border-color: @border-color;
+}}
+
+#button {{
+    text-color: @normal-foreground;
+    background-color: {color3}CF;
+}}
+
+#button.selected {{
+    background-color: @selected-normal-background;
+    text-color: @selected-normal-foreground;
+    border-radius: 18px;
+    margin: 0px 5px 0px 5px;
+}}
+
+
+
+#inputbar {{
+    spacing: 0;
+    text-color: @normal-foreground;
+    margin: 0px 0px 0px 0px;
+    background-color: {background}CF;
+    border-radius: 18px 18px 12px 12px;
+    border: 3px;
+}}
+
+#case-indicator {{
+    spacing: 0;
+    text-color: @normal-foreground;
+}}
+
+#entry {{
+    spacing: 0;
+    text-color: @normal-foreground;
+}}
+
+mode-switcher {{
+    expand: false;
+    orientation: horizontal;
+    spacing: 0px;
+    border: 3px;
+    border-radius: 18px;
+    background-color: {background}CF;
+}}
+
+#prompt {{
+    spacing: 0;
+    text-color: {background};
+    padding: 2px 5px 2px 5px;
+    background-color: {color3}CF;
+
+}}
