@@ -2,7 +2,7 @@
 # Interactively connect to a remote mpd host
 
 # Locate all active mpd hosts on the network and select one
-host="$(mpdHosts | dmenu)"
+host="$(mpdHosts | rofi -dmenu)"
 [ "$?" == "0" ] || exit
 [ -z "$host" ] && exit
 ncmpcpp -h "$host" "$@"

@@ -8,11 +8,12 @@ queued=$(mpc -f "%position%💌%title%💌%artist%💌%album%" queued)
 
 playlist="$(mpc -f "##💌%position%💌%title%💌%artist%💌%album%" playlist | sed -E "s/#💌($current)/>💌\1/g;s/#💌($queued)/*💌\1/g;s/#💌/ 💌/g" | sed 's/,/^/g;s/💌/,/g')"
 
-playlistid="$(echo -e "?,ID,Title,Artist,Album\n$playlist" \
+playlistid="$(echo -e "$playlist" \
                    | csv-format \
                    | tr '^' ',' \
-                   | dmenu -l $lines -i -r \
-                   | sed 's/║/|/g' \
+                   | sed -E 's/[╚═╩╝╠╬╣╔╦╗]//g;/^$/d;s/║/​/g'\
+                   | rofi -dmenu -l $lines -i -r \
+                   | sed 's/​/|/g'\
                    | cut -d'|' -f3)"
 
 [[ "$playlistid" =~ [[:digit:]]+ ]] || exit 1

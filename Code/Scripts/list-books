@@ -10,7 +10,7 @@ book="$(calibredb list -f "title,series_index,series,authors"\
                        --separator "│"\
                        -w 500\
                         | tail -n +2\
-                        | dmenu -l $lines -i\
+                        | rofi  -dmenu -l $lines -i\
                         | sed 's/│/|/g'\
                         | cut -d'|' -f1)"
 
@@ -34,7 +34,7 @@ format="$(echo "$formats" \
              | rev \
              | cut -d/ -f1 \
              | rev \
-             | dmenu -l 5 \
+             | rofi   -dmenu -l 5 \
                      -p 'Open File:')"
 
 if [ -z "$format" ]

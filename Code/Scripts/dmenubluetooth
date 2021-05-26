@@ -3,7 +3,7 @@
 notify-send "Bluetooth" "Scanning for devices"
 bluetoothctl power on >/dev/null 2>&1
 bluetoothctl --timeout=5 scan on >/dev/null 2>&1
-dev="$(bluetoothctl devices | grep -vE "^\[" | cut -d' ' -f3- | dmenu  -l 10 -r -p "Select which device to connect to")"
+dev="$(bluetoothctl devices | grep -vE "^\[" | cut -d' ' -f3- | rofi  -dmenu  -l 10 -r -p "Select which device to connect to")"
 
 [ -z "$dev" ] && exit 0
 
