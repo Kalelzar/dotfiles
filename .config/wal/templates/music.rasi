@@ -1,0 +1,133 @@
+configuration {{
+   disable-history: false;
+   fullscreen: false;
+   hide-scrollbar: true;
+   sidebar-mode: false;
+   scroll-method: 0;
+   monitor: "1";
+}}
+
+* {{
+
+    font: "Fira Code 39";
+    active-background: {color3}CF;
+    active-foreground: @foreground;
+    normal-background: @background;
+    normal-foreground: @foreground;
+    urgent-background: {color5}CF;
+    urgent-foreground: @foreground;
+
+    alternate-active-background: @background;
+    alternate-active-foreground: @foreground;
+    alternate-normal-background: @background;
+    alternate-normal-foreground: @foreground;
+    alternate-urgent-background: @background;
+    alternate-urgent-foreground: @foreground;
+
+    selected-active-background: {color6}CF;
+    selected-active-foreground: {background};
+    selected-normal-background: {color4}CF;
+    selected-normal-foreground: {background};
+    selected-urgent-background: {color3}CF;
+    selected-urgent-foreground: {background};
+
+    background-color: @background;
+    background: #FFFFFF00;
+    foreground: {foreground};
+    border-color: {color3};
+    spacing: 2;
+}}
+
+#window {{
+
+    fixed-columns: true;
+    fixed-width: true;
+    transparency: "screenshot";
+    location: center;
+    border: 0;
+    padding: 2.5ch;
+
+
+}}
+
+#mainbox {{
+   expand: false;
+   children: [ box-box-song, box-box-buttons, message-box];
+   spacing: 20px;
+}}
+
+#message-box {{
+    expand: false;
+    children: [spacer, message, spacer];
+    orientation: horizontal;
+}}
+
+#message {{
+    border: 3px;
+    expand: true;
+    border-radius: 18px;
+    border-color: @border-color;
+    background-color: {background}CF;
+    padding: 1px;
+    children: [textbox];
+}}
+
+#textbox {{
+    expand: false;
+    font: "Source Serif 16px";
+    width: 546px;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+}}
+
+#box-box-song {{
+   expand: false;
+   orientation: horizontal;
+   children: [spacer, box-song, spacer];
+}}
+
+#box-song {{
+   expand: false;
+   background-color: {background}CF;
+   border: 3px;
+   padding: 12px;
+   border-color: @border-color;
+   border-radius: 18px;
+   children: [icon-song];
+}}
+
+#icon-song {{
+    size: 512px;
+    filename: "/home/kalelzar/.cache/songthumb";
+}}
+
+#box-box-buttons {{
+   expand: false;
+   orientation: horizontal;
+   children: [spacer, listview, spacer];
+}}
+
+
+
+#listview {{
+   columns: 3;
+   lines: 1;
+   expand: true;
+   background-color: {background}CF;
+   border-radius: 18px;
+   border-color: @border-color;
+   border: 3px;
+   layout: vertical;
+   cycle: true;
+   dynamic: true;
+   spacing: 6px;
+   padding: 6px;
+}}
+
+element {{
+  padding: 0;
+}}
+
+element-text {{
+  padding: 6px;
+}}

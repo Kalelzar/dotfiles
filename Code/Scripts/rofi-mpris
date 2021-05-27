@@ -1,0 +1,30 @@
+#!/bin/sh
+
+genthumb
+
+if [ "$(mpris-control status)" = "Playing" ]
+then
+    playing="⏸"
+else
+    playing="▶"
+fi
+
+
+selected=$(printf "⏮\n$playing\n⏭" | rofi -dmenu \
+                      -mesg "$(mpris-control current | rev | cut -d ' ' -f2- | rev)" \
+                      -theme "$HOME/.cache/wal/music.rasi")
+
+case "$selected" in
+    ▶)
+        mpris-control play
+        ;;
+    ⏸)
+        mpris-control pause
+        ;;
+    ⏮)
+        mpris-control previous
+        ;;
+    ⏭)
+        mpris-control next
+        ;;
+esac

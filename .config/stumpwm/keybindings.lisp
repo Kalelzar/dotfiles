@@ -429,7 +429,7 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (redefine-key-with-alternatives *root-map* (kbd "t") "exec torwrap"
                                 "Torrents"
                                 "App")
-(redefine-key-with-alternatives *root-map* (kbd "s") "exec currentlyplaying"
+(redefine-key-with-alternatives *root-map* (kbd "s") "exec rofi-mpris"
                                 "Current song"
                                 "Music controls")
 (redefine-key-with-alternatives *root-map* (kbd "S") "exec select-from-playlist"
