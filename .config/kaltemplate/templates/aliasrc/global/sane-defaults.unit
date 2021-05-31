@@ -2,6 +2,7 @@
 alias \
 	cp="cp -iv" \
 	mv="mv -iv" \
+        mpc="mpc --port='dot_secure(mpdPort)'"\
 	rm="rm -vI" \
 	mkd="mkdir -pv" \
         sbcl="rlwrap sbcl" \
