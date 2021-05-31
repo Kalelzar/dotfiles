@@ -1,18 +1,32 @@
 #!/bin/bash
 
+export MPD_PORT="$(cat "$XDG_CONFIG_HOME/kaltemplate/capabilities/mpdPort.cpb")"
+
 res="$(xwininfo -root | grep Height | sed -E 's/[[:space:]]+//g' | cut -d: -f2)"
 lines=$(((7*res - 72)/156))
 
 current=$(mpc -f "%position%💌%title%💌%artist%💌%album%" current)
 queued=$(mpc -f "%position%💌%title%💌%artist%💌%album%" queued)
 
-playlist="$(mpc -f "##💌%position%💌%title%💌%artist%💌%album%" playlist | sed -E "s/#💌($current)/>💌\1/g;s/#💌($queued)/*💌\1/g;s/#💌/ 💌/g" | sed 's/,/^/g;s/💌/,/g')"
+playlist="$(mpc -f "##💌%position%💌%title%💌%artist%💌%album%" playlist \
+                | sed -E "s/#💌($current)/>💌\1/g;s/#💌($queued)/*💌\1/g;s/#💌/ 💌/g" \
+                | sed 's/,/^/g;s/💌/,/g')"
+
+curind="$(($(mpc -f "%position%" current) - 1))"
+queind="$(($(mpc -f "%position%" queued) - 1))"
 
 playlistid="$(echo -e "$playlist" \
                    | csv-format \
                    | tr '^' ',' \
                    | sed -E 's/[╚═╩╝╠╬╣╔╦╗]//g;/^$/d;s/║/​/g'\
-                   | rofi -dmenu -l $lines -i -r \
+                   | rofi -dmenu -l $lines \
+                                 -i \
+                                 -r \
+                                 -p "Song"\
+                                 -mesg "Pick song from queue."\
+                                 -a "$curind" \
+                                 -u "$queind" \
+                                 -selected-row "$curind"\
                    | sed 's/​/|/g'\
                    | cut -d'|' -f3)"
 
