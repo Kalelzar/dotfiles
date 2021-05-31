@@ -4,7 +4,7 @@ configuration {{
    hide-scrollbar: true;
    sidebar-mode: false;
    scroll-method: 0;
-   monitor: "1";
+   monitor: "-1";
 }}
 
 * {{
