@@ -1,2 +1,2 @@
 bind_to_address "any"
-port dot_secure(mpdPort)
+port "dot_secure(mpdPort)"
