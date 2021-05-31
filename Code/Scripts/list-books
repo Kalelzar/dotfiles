@@ -4,14 +4,16 @@
 res="$(xwininfo -root | grep Height | sed -E 's/[[:space:]]+//g' | cut -d: -f2)"
 lines=$(((7*res - 72)/156))
 
-book="$(calibredb list -f "title,series_index,series,authors"\
+book="$(calibredb list -f "title,series_index,series"\
                        --sort-by "series"\
                        --ascending\
-                       --separator "│"\
+                       --separator "|"\
                        -w 500\
                         | tail -n +2\
+                        | cut -d'|' -f2-\
+                        | sed 's/|/​ /g'\
                         | rofi  -dmenu -l $lines -i\
-                        | sed 's/│/|/g'\
+                        | sed 's/​/|/g'\
                         | cut -d'|' -f1)"
 
 [ -z "$book" ] && exit 1
@@ -34,8 +36,8 @@ format="$(echo "$formats" \
              | rev \
              | cut -d/ -f1 \
              | rev \
-             | rofi   -dmenu -l 5 \
-                     -p 'Open File:')"
+             | rofi -dmenu -l 5 \
+                    -p 'Open File:')"
 
 if [ -z "$format" ]
 then
