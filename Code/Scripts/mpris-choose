@@ -2,6 +2,8 @@
 
 selectPlayer(){
     local current="$(mpris-player)"
+    local currentInd="$(mpris-status | grep "$current" --line-number | cut -d: -f1)"
+    local ind="$((currentInd - 1))"
     echo -e "$(mpris-status)" \
         | tr ',|' '`,' \
         | sed -E "s/^($current)/➡ \1/g"\
@@ -10,6 +12,9 @@ selectPlayer(){
         | sed -E 's/🪛/|/g;s/║ Playing ║/║ ▶ ║/g;s/║ Paused [ ]?║/║ ⏸ ║/g;s/║ Status [ ]?║/║ ⏯ ║/g' \
         | sed -E 's/[╚═╩╝╠╬╣╔╦╗]//g;/^$/d;s/║/​/g'\
         | rofi -dmenu \
+               -a "$ind" \
+               -p "Player" \
+               -mesg "Choose which player will be active."\
         | sed 's/​/|/g;s/^|//g;s/|$//g' \
         | sed -E 's/[[:space:]]+/ /g;s/(^|[|]) /\1/g;s/ ($|[|])/\1/g' \
         | cut -d'|' -f1\
