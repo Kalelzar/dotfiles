@@ -1,9 +1,72 @@
 #!/bin/sh
 
-notify-send "Bluetooth" "Scanning for devices"
+getDevices(){
+    bluetoothctl devices \
+        | cut -d' ' -f2 \
+        | xargs -L 1 bluetoothctl info\
+        | grep -E "Alias|Icon" \
+        | cut -d: -f2 \
+        | sed -E 's/^[[:space:]]+//g;s/^(.*)$/"\1"/g' \
+        | xargs -L 2 printf "%s (%s)\n" \
+        | sed -E  -e 's/(.*) \(phone\)/📱 \1/g'\
+                  -e 's/(.*) \(audio-card\)/🎧 \1/g'\
+                  -e 's/(.*) \(computer\)/🖥 \1/g'
+}
+
+singleQuery(){
+    bluetoothctl devices \
+        | cut -d' ' -f2 \
+        | xargs -L 1 bluetoothctl info\
+        | grep -E "$1" \
+        | grep -n yes \
+        | cut -d: -f1 \
+        | pred
+}
+
+format(){
+    tr '\n' ',' | sed 's/,$//g'
+}
+
+connectedDevices(){
+    singleQuery "Connected" | format
+}
+
+pairedDevices(){
+    connected=$(connectedDevices | tr ',' '|')
+    if [ -n "$connected" ]
+    then
+        singleQuery "Paired" \
+            | grep -Ev "$connected" \
+            | format
+    else
+        singleQuery "Paired" | format
+    fi
+}
+
+pick(){
+    rofi -dmenu \
+         -l 10 \
+         -r \
+         -m "-1"\
+         -p "Select which device to connect to" \
+         -a "$(pairedDevices)"\
+         -u "$(connectedDevices)"\
+         -columns 2 \
+         -theme-str 'prompt,entry{font:"Source Serif 16";vertical-align:0.5;}'\
+         -theme-str '* {font: "Fira Code 36";}' \
+         | cut -d' ' -f2-
+}
+
 bluetoothctl power on >/dev/null 2>&1
-bluetoothctl --timeout=5 scan on >/dev/null 2>&1
-dev="$(bluetoothctl devices | grep -vE "^\[" | cut -d' ' -f3- | rofi  -dmenu  -l 10 -r -p "Select which device to connect to")"
+
+if [ "$1" != "--offline" ]
+then
+    notify-send "Bluetooth" "Scanning for devices"
+    bluetoothctl --timeout=5 scan on >/dev/null 2>&1
+fi
+
+
+dev="$(getDevices | pick)"
 
 [ -z "$dev" ] && exit 0
 
