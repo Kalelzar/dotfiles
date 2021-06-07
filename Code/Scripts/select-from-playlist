@@ -12,8 +12,8 @@ playlist="$(mpc -f "##💌%position%💌%title%💌%artist%💌%album%" playlist
                 | sed -E "s/#💌($current)/>💌\1/g;s/#💌($queued)/*💌\1/g;s/#💌/ 💌/g" \
                 | sed 's/,/^/g;s/💌/,/g')"
 
-curind="$(($(mpc -f "%position%" current) - 1))"
-queind="$(($(mpc -f "%position%" queued) - 1))"
+curind="$(mpc -f "%position%" current | pred)"
+queind="$(mpc -f "%position%" queued  | pred)"
 
 playlistid="$(echo -e "$playlist" \
                    | csv-format \

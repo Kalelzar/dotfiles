@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ -z "$1" ]
+then
+    while read -r num
+    do
+        echo $((num - 1))
+    done
+else
+    while [ -n "$1" ]
+    do
+        num=$1
+        echo $((num - 1))
+        shift
+    done
+fi
