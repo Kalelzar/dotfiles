@@ -8,11 +8,11 @@
     urgent-background: {color5}CF;
     urgent-foreground: @foreground;
 
-    alternate-active-background: @background;
+    alternate-active-background: @active-background;
     alternate-active-foreground: @foreground;
     alternate-normal-background: @background;
     alternate-normal-foreground: @foreground;
-    alternate-urgent-background: @background;
+    alternate-urgent-background: @urgent-background;
     alternate-urgent-foreground: @foreground;
 
     selected-active-background: {color6}CF;
@@ -33,41 +33,55 @@
 
     transparency: "screenshot";
 
-    background-color: 00000000;
+    background-color: #00000000;
     border: 0;
     padding: 2.5ch;
+}}
+
+
+#message {{
+    border: 3px;
+    border-color: @border-color;
+    padding: 1px;
+    border-radius: 18px;
+    expand: true;
+    background-color: {background}CF;
+    text-color: @foreground;
 }}
 
 #mainbox {{
     border: 0;
     padding: 0;
+    children: [ inputbar, messagebox, listview, mode-switcher];
 }}
 
-#message {{
-    border: 2px 0px 0px;
-    border-color: @border-color;
-    padding: 1px;
+#messagebox {{
+   orientation: horizontal;
+   expand: false;
+   spacing: 16px;
+   children: [ spacer, message, spacer ];
 }}
+
+#spacer {{
+   expand: false;
+   padding: 0px 96px 0px 96px;
+   background-color: #0000003F;
+   border: 3px;
+   border-radius: 18px;
+}}
+
 
 #textbox {{
-    text-color: @foreground;
-    padding: 1px;
+    text-color: inherit;
+    padding: 1px 3px 1px 3px;
 }}
 
 #inputbar {{
-    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
-}}
-
-#textbox-prompt-colon {{
-    expand: false;
-    str: "";
-    margin: 0px 0.3em 0em 0em;
-    text-color: @normal-foreground;
+    children:   [ prompt,entry,case-indicator ];
 }}
 
 #listview {{
     fixed-height: 0;
-    orientation: horizontal;
     border: 3px;
     border-color: @border-color;
     background-color: {background}CF;
