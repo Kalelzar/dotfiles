@@ -10,7 +10,6 @@ book="$(calibredb list -f "title,series_index,series"\
                        --separator "|"\
                        -w 500\
                         | tail -n +2\
-                        | cut -d'|' -f2-\
                         | sed 's/|/​ /g'\
                         | rofi  -dmenu -l $lines -i\
                         | sed 's/​/|/g'\
