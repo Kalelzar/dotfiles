@@ -1,3 +1,5 @@
 #!/bin/sh
 
 rclone mount Music: "$HOME/Music" --vfs-cache-mode full&
+rclone mount Anime: "$HOME/Anime" --vfs-cache-mode full&
+rclone mount Library: "$HOME/Documents/Library" --vfs-cache-mode full&
