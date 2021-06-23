@@ -16,8 +16,17 @@ isPlayer(){
 [ -f "$XDG_CACHE_HOME/mpris-player" ] && {
     active=$(mpris-status | grep '|Playing|' | cut -d'|' -f1)
     player="$(cat "$XDG_CACHE_HOME/mpris-player")"
+    isEmpty="$(echo "$player" | tr -d '\n' | wc -c)"
 
-    if [ -z "$active" ]
+    if [ "$isEmpty" = "0" ]
+    then
+        if [ -z "$active" ]
+        then
+            allPlayers
+        else
+            echo "$active"
+        fi
+    elif [ -z "$active" ]
     then
         if isPlayer "$player"
         then
