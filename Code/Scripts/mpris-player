@@ -5,7 +5,7 @@ allPlayers(){
 }
 
 isPlayer(){
-    if [ -n "$1" ] && allPlayers | grep "$1" -q
+    if [ -n "$1" ] && allPlayers | grep -E '^'"$1"'$' -q
     then
         return 0
     else
