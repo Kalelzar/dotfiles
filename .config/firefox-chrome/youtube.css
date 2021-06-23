@@ -235,6 +235,18 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
 
 
 
+  #items.yt-horizontal-list-renderer {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+  }
+
+  yt-horizontal-list-renderer {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+
 
   a.ytd-compact-radio-renderer {
     display: flex !important;
