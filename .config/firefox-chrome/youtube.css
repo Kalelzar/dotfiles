@@ -1036,4 +1036,8 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     color: var(--foreground-light) !important;
   }
 
+  span.yt-formatted-string {
+    overflow-wrap: anywhere !important;
+  }
+
 }
