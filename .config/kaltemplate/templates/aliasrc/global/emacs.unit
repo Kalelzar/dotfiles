@@ -2,3 +2,5 @@
 alias \
     wl="emacsclient -c -e '(wl)'" \
     magit="emacsclient -c -e '(magit)'"
+
+org-export(){ emacsclient -e "(org-export-as-$1 \"$2\")" | tr -d \" }
