@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 tmp="$(find ~/Downloads -iname "*.pdf" | sort | rofi  -dmenu -p "Open PDF: ")"
-[ -z "$tmp" ] || $READER "$tmp" &!
+[ -z "$tmp" ] || "$READER" "$tmp" &
