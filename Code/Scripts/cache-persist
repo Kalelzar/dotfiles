@@ -1,0 +1,12 @@
+#!/bin/sh
+
+[ -z "$1" ] && echo "You need to supply at least one path!" 1>&2 && exit 1
+
+for i in "$@"
+do
+    [ -e "$XDG_CACHE_HOME/$i" ] && {
+        mv "$XDG_CACHE_HOME/$i" "$XDG_PERSIST_HOME/$i"
+        ln -s "$XDG_PERSIST_HOME/$i" "$XDG_CACHE_HOME/$i"
+        echo "$i" >> "$XDG_CONFIG_HOME/persistrc"
+    } || echo "'$i' is not a file or directory in $XDG_CACHE_HOME" 1>&2
+done
