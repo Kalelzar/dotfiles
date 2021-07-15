@@ -5,5 +5,5 @@ auto_update "yes"
 restore_paused "yes"
 max_output_buffer_size "16384"
 
-sticker_file            "~/.cache/mpd/sticker.sql"
-state_file              "~/.cache/mpd/state"
+sticker_file            "~/.config/mpd/sticker.sql"
+state_file              "~/.config/mpd/state"
