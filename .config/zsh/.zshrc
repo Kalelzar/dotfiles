@@ -105,11 +105,11 @@ export KEYTIMEOUT=1
 # preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 
-source "$XDG_CONFIG_HOME/zsh/notes"
+#source "$XDG_CONFIG_HOME/zsh/notes"
 
 precmd() {
     # Show some task stats
-    getTaskInfo
+    #getTaskInfo
     # Write some info to terminal title.
     # This is seen when the shell prompts for input.
     print -Pn "\e]0;st; ,)%~\a"
