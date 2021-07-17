@@ -57,8 +57,8 @@ configuration {{
 }}
 
 #message-box {{
-    expand: false;
-    children: [spacer, message, spacer];
+    expand: true;
+    children: [message];
     orientation: horizontal;
 }}
 
@@ -73,9 +73,8 @@ configuration {{
 }}
 
 #textbox {{
-    expand: false;
-    font: "Source Serif 16px";
-    width: 546px;
+    expand: true;
+    font: "Source Serif 32px";
     horizontal-align: 0.5;
     vertical-align: 0.5;
 }}
@@ -83,7 +82,7 @@ configuration {{
 #box-box-song {{
    expand: false;
    orientation: horizontal;
-   children: [spacer, box-song, spacer];
+   children: [box-song];
 }}
 
 #box-song {{
@@ -97,17 +96,15 @@ configuration {{
 }}
 
 #icon-song {{
-    size: 512px;
+    size: 492px;
     filename: "/home/kalelzar/.cache/songthumb";
 }}
 
 #box-box-buttons {{
    expand: false;
    orientation: horizontal;
-   children: [spacer, listview, spacer];
+   children: [listview];
 }}
-
-
 
 #listview {{
    columns: 3;
@@ -130,4 +127,5 @@ element {{
 
 element-text {{
   padding: 6px;
+  horizontal-align: 0.5;
 }}
