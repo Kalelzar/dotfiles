@@ -1,30 +1,37 @@
 #!/bin/sh
 
-genthumb
+action(){
+    genthumb
 
-if [ "$(mpris-control status)" = "Playing" ]
-then
-    playing="⏸"
-else
-    playing="▶"
-fi
+    if [ "$(mpris-control status)" = "Playing" ]
+    then
+        playing="⏸"
+    else
+        playing="▶"
+    fi
 
 
-selected=$(printf "⏮\n$playing\n⏭" | rofi -dmenu \
-                      -mesg "$(mpris-control current | rev | cut -d ' ' -f2- | rev)" \
-                      -theme "$HOME/.cache/wal/music.rasi")
+    selected=$(printf "⏮\n$playing\n⏭" | rofi -dmenu \
+                                              -mesg "$(mpris-control current | rev | cut -d ' ' -f2- | rev)" \
+                                              -theme "$XDG_CACHE_HOME/wal/music.rasi")
 
-case "$selected" in
-    ▶)
-        mpris-control play
-        ;;
-    ⏸)
-        mpris-control pause
-        ;;
-    ⏮)
-        mpris-control previous
-        ;;
-    ⏭)
-        mpris-control next
-        ;;
-esac
+    case "$selected" in
+        ▶)
+            mpris-control play
+            ;;
+        ⏸)
+            mpris-control pause
+            ;;
+        ⏮)
+            mpris-control previous
+            ;;
+        ⏭)
+            mpris-control next
+            ;;
+         *)
+            return 1
+            ;;
+    esac
+}
+
+while action; do echo -n ""; done;
