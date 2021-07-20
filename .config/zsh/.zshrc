@@ -9,7 +9,7 @@ PS1="%B%{$fg[red]%}[${${(%):-%m}#zoltan-}:%{$fg[magenta]%}%~%{$fg[red]%}] [%{$fg
 
 # Show current git root and branch in the prompt.
 # NOTE: Currently disabled
-VCS_SHOW=false
+VCS_SHOW=true
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
