@@ -842,6 +842,7 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     margin-top: 1.5em !important
   }
 
+
   ytd-search #contents.ytd-item-section-renderer > ytd-radio-renderer {
     flex-direction: column !important;
     background-color: var(--background-light);
@@ -872,6 +873,15 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     padding-top: 5px !important;
     padding-left: 5px !important;
   }
+
+  #header-author.ytd-comment-renderer {
+    flex-direction: column !important;
+  }
+
+  #moderation-reason-divider.ytd-comment-renderer {
+    display: none !important;
+  }
+
 
   .ytd-comment-renderer #content-text[has-link-only_] > a {
     border-radius: 18px !important;
