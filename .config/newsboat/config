@@ -1,7 +1,7 @@
 #show-read-feeds no
 auto-reload yes
 
-external-url-viewer "urlscan -dc -r 'linkhandler {}'"
+external-url-viewer "urlscan -dc"
 
 bind-key j down
 bind-key k up
@@ -13,7 +13,7 @@ bind-key G end
 bind-key g home
 bind-key d pagedown
 bind-key u pageup
-bind-key l open
+bind-key O open
 bind-key h quit
 bind-key a toggle-article-read
 bind-key n next-unread
@@ -29,22 +29,22 @@ color listfocus_unread yellow default bold
 color info red black bold
 color article white default bold
 
-browser linkhandler
+browser firefox
 macro , open-in-browser
-macro t set browser "qndl" ; open-in-browser ; set browser linkhandler
-macro a set browser "tsp youtube-dl --add-metadata -xic -f bestaudio/best" ; open-in-browser ; set browser linkhandler
-macro v set browser "setsid -f mpv" ; open-in-browser ; set browser linkhandler
-macro w set browser "lynx" ; open-in-browser ; set browser linkhandler
-macro p set browser "dmenuhandler" ; open-in-browser ; set browser linkhandler
-macro c set browser "xsel -b <<<" ; open-in-browser ; set browser linkhandler
-macro C set browser "youtube-viewer --comments=%u" ; open-in-browser ; set browser linkhandler
+macro t set browser "qndl" ; open-in-browser ; set browser firefox
+macro a set browser "tsp youtube-dl --add-metadata -xic -f bestaudio/best" ; open-in-browser ; set browser firefox
+macro v set browser "setsid -f mpv" ; open-in-browser ; set browser firefox
+macro c set browser "xsel -b <<<" ; open-in-browser ; set browser firefox
+macro C set browser "youtube-viewer --comments=%u" ; open-in-browser ; set browser firefox
 
 highlight all "---.*---" yellow
 highlight feedlist ".*(0/0))" black
 highlight article "(^Feed:.*|^Title:.*|^Author:.*)" cyan default bold
 highlight article "(^Link:.*|^Date:.*)" default default
-highlight article "https?://[^ ]+" green default
+highlight article "https?://[^ ]+" black green
 highlight article "^(Title):.*$" blue default
+highlight article "(Series Information):" yellow default
+highlight article "^[(].*[)]" magenta default bold
 highlight article "\\[[0-9][0-9]*\\]" magenta default bold
 highlight article "\\[image\\ [0-9]+\\]" green default bold
 highlight article "\\[embedded flash: [0-9][0-9]*\\]" green default bold
