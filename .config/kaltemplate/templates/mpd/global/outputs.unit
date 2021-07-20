@@ -1,6 +1,6 @@
 audio_output {
 	type "pulse"
-	name "pulse"
+	name "mpd"
 }
 
 audio_output {
