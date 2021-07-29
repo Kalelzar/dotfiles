@@ -1,0 +1,57 @@
+#!/bin/bash
+
+
+listDirFull(){
+    find ~/Downloads/ -iname "*.mkv" -printf "%p\n"
+}
+
+listDir(){
+    find ~/Downloads/ -iname "*.mkv" -printf "%P\n"
+}
+
+listDir0(){
+    find ~/Downloads/ -iname "*.mkv" -printf "%P\0"
+}
+
+
+leadingGroups="$(listDir | grep -E '\[.*\] ' --only-matching)"
+for i in $leadingGroups;
+do
+    listDir0 | xargs -0 rename "$i" "" --
+done
+
+
+
+groups="$(listDir | grep -E ' \[.*\]' --only-matching)"
+for i in $groups;
+do
+    listDir0 | xargs -0 rename "$i" "" --
+done
+
+sizeGroups="$(listDir | grep -E ' \(.*\)' --only-matching)"
+for i in $sizeGroups;
+do
+    listDir0 | xargs -0 rename "$i" "" --
+done
+
+
+while read -r i
+do
+    new="$(echo "$i" | cut -d'`' -f1)"
+    old="$(echo "$i" | cut -d'`' -f2)"
+    showPlusSeason="$(echo "$new" | cut -d- -f1)"
+    season="$(echo "$showPlusSeason" | rev | cut -d' ' -f1 | sed 's/S$//')"
+    [ -z "$season" ] && {
+        show="$showPlusSeason"
+        season="1"
+    } || {
+        show="$(echo "$showPlusSeason" | rev | cut -d' ' -f2- | rev)"
+    }
+    show="$(echo "$show" | sed 's/〰/-/g')"
+#    echo "Show: $show"
+#    echo "Season: $season"
+    ep="$(echo "$new" | cut -d '-' -f2)"
+#    echo "Episode: $ep"
+    mkdir -p "$HOME/Anime/$show/Season $season/"
+    mv "$old" "$HOME/Anime/$show/Season $season/Episode $ep"
+done < <(linecat <(listDir | sed -E 's/-([a-zA-Z])/〰\1/g;s/[[:space:]]+/ /g;s/^[[:space:]]//g;s/[[:space:]]+\.mkv/.mkv/g;s/ - /-/g') <(seq --format '`%0.0f' "$(listDir | wc -l)" | cut -c '1') <(listDirFull))

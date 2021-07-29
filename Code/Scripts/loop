@@ -1,0 +1,23 @@
+#!/bin/sh
+
+times="$1"
+shift
+command="$1"
+shift
+args=$*
+
+buf1="$(mktemp)"
+buf2="$(mktemp)"
+
+while read -r line
+do
+    echo "$line" >> "$buf1"
+done
+
+for _ in $(seq 1 "$times")
+do
+    "$command" $args < "$buf1" > "$buf2"
+    cp "$buf2" "$buf1"
+done
+
+cat "$buf2"
