@@ -1,6 +1,5 @@
 configuration {
   sidebar-mode: true;
-  fullscreen: true;
   auto-select: true;
   monitor: "-2";
   scroll-method: 0;

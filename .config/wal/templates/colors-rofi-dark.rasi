@@ -32,6 +32,8 @@
 #window {{
 
     transparency: "screenshot";
+    height: 100%;
+    width: 100%;
 
     background-color: #00000000;
     border: 0;
