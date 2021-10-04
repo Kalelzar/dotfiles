@@ -4,3 +4,6 @@ activeTask
 torrents
 mozilla
 transmission
+pypoetry/virtualenvs
+clangd
+rclone

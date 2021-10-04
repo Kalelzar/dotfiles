@@ -29,6 +29,7 @@ x-scheme-handler/org-protocol=org-protocol.desktop
 video/*=mpv.desktop
 x-scheme-handler/discord-478576776990425110=discord-478576776990425110.desktop
 x-scheme-handler/tg=userapp-Telegram Desktop-OXWJ20.desktop
+x-scheme-handler/discord-719647875465871400=discord-719647875465871400.desktop
 
 [Added Associations]
 x-scheme-handler/http=firefox.desktop;

@@ -388,7 +388,7 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
               "Volume -2" "System")
 
 ;; Frame controls
-(redefine-key *top-map* (kbd "H-SPC") "vpull-hidden-next"
+(redefine-key *top-map* (kbd "H-SPC") "pull-hidden-next"
               "Next window on stack" "Frame")
 (redefine-key *top-map* (kbd "H-S-SPC") "vpull-hidden-previous"
               "Prev window on stack" "Frame")

@@ -5,6 +5,7 @@
 for i in "$@"
 do
     [ -e "$XDG_CACHE_HOME/$i" ] && {
+        mkdir -p "$(dirname "$XDG_PERSIST_HOME/$i")"
         mv "$XDG_CACHE_HOME/$i" "$XDG_PERSIST_HOME/$i"
         ln -s "$XDG_PERSIST_HOME/$i" "$XDG_CACHE_HOME/$i"
         echo "$i" >> "$XDG_CONFIG_HOME/persistrc"

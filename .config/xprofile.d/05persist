@@ -1,4 +1,1 @@
-while read -r line
-do
-    ln -s "$XDG_PERSIST_HOME/$line" "$XDG_CACHE_HOME/$line"
-done < "$XDG_CONFIG_HOME/persistrc"
+reapply-persistant-cache

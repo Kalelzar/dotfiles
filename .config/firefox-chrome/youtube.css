@@ -505,6 +505,10 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     flex-direction: column !important;
   }
 
+  ytd-comment-thread-renderer {
+    max-width: 100%; !important;
+  }
+
   ytd-watch-flexy[flexy] #secondary.ytd-watch-flexy {
     width: 450px !important;
   }

@@ -39,6 +39,7 @@ export LESSHISTFILE="-"
 export WGETRC="${XDG_CONFIG_HOME:-$HOME/.config}/wget/wgetrc"
 export INPUTRC="${XDG_CONFIG_HOME:-$HOME/.config}/inputrc"
 export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+export RLWRAP_HOME="$XDG_PERSIST_HOME/rlwrap"
 
 export RTV_BROWSER="$BROWSER"
 
