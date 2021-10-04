@@ -285,3 +285,271 @@ This also includes all the false bindings of KEYMAP as returned by
   (let ((*suppress-echo-timeout* t)
         (*message-window-gravity* :bottom-right))
               (message (format-keymap map))))
+
+;;;;
+
+
+
+;;(defclass panel ()
+;;  ((title :initarg :title
+;;          :type string
+;;          :reader panel-title)
+;;   (description :initarg :description
+;;                :type string
+;;                :reader panel-description)
+;;   (content :type list
+;;            :accessor panel-content)
+;;   (content-count :type fixnum
+;;                  :accessor panel-content-count)
+;;   (width  :type fixnum
+;;           :accessor panel-width)
+;;   (height :type fixnum
+;;           :accessor panel-height)))
+;;
+;;(defclass widget ()
+;;  ((title :initarg :title :type string
+;;          :reader widget-title)
+;;   (content :type string
+;;            :accessor widget-content)
+;;   (width :type fixnum
+;;          :accessor widget-width)
+;;   (height :type fixnum
+;;           :accessor widget-height)
+;;   (foreground-color :type string
+;;                     :initarg :fg
+;;                     :accessor widget-fg-color)
+;;   (background-color :type string
+;;                     :initarg :bg
+;;                     :accessor widget-bg-color)
+;;   (title-foreground-color :type string
+;;                           :initarg :title-fg
+;;                           :accessor widget-title-fg-color)
+;;   (title-background-color :type string
+;;                           :initarg :title-bg
+;;                           :accessor widget-title-bg-color)
+;;   )
+;;  (:default-initargs
+;;   :fg "0"
+;;   :bg "1"
+;;   :title-fg "2"
+;;   :title-bg "3"))
+;;
+;;(load "/home/kalelzar/Code/lisp/dash.lisp/package.lisp")
+;;(load "/home/kalelzar/Code/lisp/dash.lisp/sequential.lisp")
+;;(load "/home/kalelzar/Code/lisp/dash.lisp/dash.lisp")
+;;
+;;(defun available-width ()
+;;  (screen-width (current-screen)))
+;;
+;;(defun available-height ()
+;;  (screen-height (current-screen)))
+;;
+;;(defun available-width-chars ()
+;;  (floor
+;;   (/ (available-width)
+;;      (xlib:font-property (screen-font (current-screen))
+;;                          :quad_width))))
+;;(defun available-height-chars ()
+;;  (floor
+;;   (/ (available-height)
+;;      (font-height (screen-font (current-screen))))))
+;;
+;;(defclass keybind-widget (widget)
+;;  ((keybindings :initarg keybindings :type list)))
+;;
+;;
+;;(defmethod widget-print :before ((widget widget))
+;;  (widget-refresh widget))
+;;
+;;(defmethod widget-print :after ((widget widget))
+;;  (prin1-to-string (widget-content widget)))
+;;
+;;(defmethod widget-print ((widget widget))
+;;  (widget-box widget))
+;;
+;;(defmethod widget-box ((widget widget))
+;;  (let ((horizontal (repeat-char "-" (- (widget-width widget) 2))))
+;;    (setf (widget-content widget)
+;;          (format nil "~D~%~D~D"
+;;                  horizontal
+;;                  (dash:-reduce #'concat
+;;                                (dash:--map (format nil "|~D|~%" dash:it)
+;;                                            (cl-ppcre:split #\Newline
+;;                                                            (widget-content widget))))
+;;                  horizontal))
+;;    ))
+;;
+;;(widget-print (make-instance 'keybind-widget
+;;               :title "Help"))
+;;
+;;(defclass rich-kmap ()
+;;  ((kmap :type stumpwm::kmap
+;;         :initarg :kmap
+;;         :reader kmap-inner)
+;;   (name :type string
+;;         :initarg :name
+;;         :reader kmap-name)
+;;   (description :type string
+;;                :initarg :description
+;;                :reader kmap-description)
+;;   (bindings :type list
+;;             :accessor kmap-rich-bindings
+;;             :initform nil)))
+;;
+;;(defun new-rich-kmap (name description)
+;;  (make-instance 'rich-kmap
+;;                 :kmap (stumpwm::make-kmap)
+;;                 :name name
+;;                 :description description))
+;;
+;;(defclass rich-binding ()
+;;  ((key :type stumpwm::key
+;;        :initarg :key
+;;        :reader rich-binding-key)
+;;   (command :type string
+;;            :initarg :command
+;;            :reader rich-binding-command)
+;;   (description :type string
+;;                :initarg :description
+;;                :reader rich-binding-description)
+;;   (category :type string
+;;             :initarg :category
+;;             :reader rich-binding-category)
+;;   (suppress :type boolean
+;;             :initarg :suppress
+;;             :accessor rich-binding-supressed-p))
+;;  (:default-initargs
+;;   :category ""
+;;   :suppress nil))
+;;
+;;
+;;(defmethod bind-key-2 ((keymap rich-kmap)
+;;                       (key string)
+;;                       (command string)
+;;                       (description string)
+;;                       (category string)
+;;                       &optional suppress)
+;;  (define-key (kmap-inner keymap)
+;;              (kbd key)
+;;    command)
+;;  (setf (kmap-rich-bindings keymap)
+;;        (append (kmap-rich-bindings keymap)
+;;                (list (make-instance 'rich-binding
+;;                                     :key (kbd key)
+;;                                     :command command
+;;                                     :category category
+;;                                     :description description
+;;                                     :suppress suppress)))))
+;;
+;;(defmethod bind-key-2 ((keymap rich-kmap)
+;;                       (key string)
+;;                       (command symbol)
+;;                       (description string)
+;;                       (category string)
+;;                       &optional suppress)
+;;  (define-key (kmap-inner keymap)
+;;              (kbd key)
+;;    command)
+;;  (setf (kmap-rich-bindings keymap)
+;;        (append (kmap-rich-bindings keymap)
+;;                (list (make-instance 'rich-binding
+;;                                     :key (kbd key)
+;;                                     :command command
+;;                                     :category category
+;;                                     :description description
+;;                                     :suppress suppress)))))
+;;
+;;(defvar *rich-root-map* (new-rich-kmap "Root Map" "Base prefix"))
+;;
+;;
+;;
+;;(bind-key-2 *rich-root-map*
+;;            "a"
+;;            "time"
+;;            "Show date/time"
+;;            "System")
+;;(bind-key-2 *rich-root-map*
+;;            "H-a"
+;;            "exec rofi ..."
+;;            "Task switcher"
+;;            "Windows")
+;;(bind-key-2 *rich-root-map*
+;;            "H-Cyrillic_a"
+;;            "exec rofi ..."
+;;            "Task switcher"
+;;            "Windows"
+;;            t)
+;;(bind-key-2 *rich-root-map*
+;;            "o"
+;;            '*rich-quickopen-map*
+;;            "Quick Open"
+;;            "System")
+;;
+;;
+;;
+;;(defmethod get-labeled-list ((keymap rich-kmap))
+;;  (sequential:with-list
+;;    (stumpwm::kmap-rich-bindings keymap)
+;;  (dash:--filter (not (rich-binding-supressed-p dash:it)))
+;;  (dash:--map
+;;   (list :key     (stumpwm::print-key (rich-binding-key dash:it))
+;;         :key-length (length (stumpwm::print-key (rich-binding-key dash:it)))
+;;         :description (rich-binding-description dash:it)
+;;         :description-length (length (rich-binding-description dash:it))))))
+;;
+;;(let* ((labeled-list
+;;         (sequential:with-list
+;;             (stumpwm::kmap-rich-bindings *rich-root-map*)
+;;           (dash:--filter (not (rich-binding-supressed-p dash:it)))
+;;           (dash::--group-by
+;;            (rich-binding-category dash:it))
+;;           (dash:--map
+;;            (cons (car dash:it)
+;;                  (sequential:with-list (cdr dash:it)
+;;                    (dash:--map
+;;                     (list
+;;                      :key     (stumpwm::print-key (rich-binding-key dash:it))
+;;                      :key-length (length (stumpwm::print-key (rich-binding-key dash:it)))
+;;                      :description (rich-binding-description dash:it)
+;;                      :description-length (length (rich-binding-description dash:it))))))
+;;            )
+;;           (dash:--map
+;;            (list :category
+;;                  (car dash:it)
+;;                  :max-key-length
+;;                  (sequential:with-list (cdr dash:it)
+;;                    (dash:--fold-left 0
+;;                                      (max dash:acc (getf dash:it :key-length))))
+;;                  :max-description-length
+;;                  (sequential:with-list (cdr dash:it)
+;;                    (dash:--fold-left 0
+;;                                      (max dash:acc (getf dash:it :description-length))))
+;;                  :bindings
+;;                  (cdr dash:it))))))
+;;  (sequential:with-list labeled-list
+;;    (dash:--map
+;;     (let ((max-key-length (getf dash:it :max-key-length))
+;;           (max-description-length (getf dash:it :max-description-length)))
+;;       (list (getf dash:it :category)
+;;             (sequential:with-list (getf dash:it :bindings)
+;;               (dash:--map
+;;                (list
+;;                 (format nil
+;;                         "~D~D"
+;;                         (getf dash:it :key)
+;;                         (repeat-char " "  (- max-key-length
+;;                                              (getf dash:it :key-length))))
+;;                 (format nil
+;;                         "~D~D"
+;;                         (getf dash:it :description)
+;;                         (repeat-char " "  (- max-description-length
+;;                                              (getf dash:it :description-length))))))
+;;               )))
+;;     )))
+;;
+;;
+;;(defmethod widget-refresh ((widget keybind-widget))
+;;  (setf (widget-content widget) (format-keymap '*root-map*))
+;;  (setf (widget-width widget) 80))
+
+

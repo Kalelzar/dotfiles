@@ -9,6 +9,7 @@
   (loop for n from min below max by step
         collect n))
 
+
 (defun redefine-key (map key command &optional name category)
   (undefine-key map key)
   (define-key map key command)
@@ -77,16 +78,16 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (setf *window-formatters* (append *window-formatters* '((#\f window-is-visible))))
 
 (defun change-pulseaudio-volume (volume-delta)
-  (let ((command (concat "pamixer "
+  (let ((command (concat "pulsemixer "
                          (cond
-                           ((zerop volume-delta) "-t --get-volume-human")
+                           ((zerop volume-delta) "--toggle-mute --get-volume")
                            ((positive-integer-p volume-delta)
                             (format nil
-                                    "-i ~D --get-volume-human"
+                                    "--change-volume +~D --get-volume"
                                     volume-delta))
                            ((negative-integer-p volume-delta)
                             (format nil
-                                    "-d ~D --get-volume-human"
+                                    "--change-volume -~D --get-volume"
                                     (abs volume-delta)))))))
     (message "Volume ~D" (run-shell-command command t))))
 

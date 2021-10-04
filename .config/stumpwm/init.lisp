@@ -77,4 +77,4 @@
 
 ;;(run-shell-command "setbg&!" t)
 
-;;; config.lisp ends here
+;;;; config.lisp ends here
