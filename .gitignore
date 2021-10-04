@@ -176,3 +176,6 @@ mpv-shot*
 /Anime/
 /.config/chromium/
 /.persist/
+*pygtex
+*pygstyle
+/*ltximg*
