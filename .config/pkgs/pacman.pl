@@ -1,8 +1,10 @@
+pacman('acpi').
 pacman('adobe-source-han-sans-jp-fonts').
 pacman('adobe-source-han-serif-jp-fonts').
-pacman('adobe-source-sans-pro-fonts').
-pacman('adobe-source-serif-pro-fonts').
+pacman('adobe-source-sans-fonts').
+pacman('adobe-source-serif-fonts').
 pacman('alsa-utils').
+pacman('android-sdk').
 pacman('android-tools').
 pacman('aspell').
 pacman('aspell-en').
@@ -10,6 +12,7 @@ pacman('atool').
 pacman('autoconf').
 pacman('automake').
 pacman('base').
+pacman('bc').
 pacman('bdf-unifont').
 pacman('binutils').
 pacman('bluez').
@@ -23,6 +26,7 @@ pacman('calibre').
 pacman('cava').
 pacman('ccls').
 pacman('checkbashisms').
+pacman('citra-bin').
 pacman('clang').
 pacman('cmake').
 pacman('colorz').
@@ -72,6 +76,7 @@ pacman('ipython').
 pacman('ivy').
 pacman('jdk11-openjdk').
 pacman('jdk8-openjdk').
+pacman('kotlin').
 pacman('lf').
 pacman('lib32-gnutls').
 pacman('lib32-krb5').
@@ -125,10 +130,12 @@ pacman('ntp').
 pacman('os-prober').
 pacman('otf-fira-code-symbol').
 pacman('p7zip').
-pacman('pacman-git').
+pacman('pacman').
+pacman('pacman-contrib').
 pacman('pamixer').
 pacman('pandoc-bin').
 pacman('patch').
+pacman('perl-xls2csv').
 pacman('pixz').
 pacman('pkgconf').
 pacman('playerctl').
@@ -154,6 +161,7 @@ pacman('reflector').
 pacman('reflector-mirrorlist-update').
 pacman('ripgrep').
 pacman('rlwrap').
+pacman('rofi').
 pacman('rtv').
 pacman('rustup').
 pacman('sbt').
