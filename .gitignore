@@ -174,3 +174,5 @@ mpv-shot*
 /.local/pkg/
 /.config/transmission/seen
 /Anime/
+/.config/chromium/
+/.persist/

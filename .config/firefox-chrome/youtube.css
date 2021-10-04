@@ -658,7 +658,7 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     display: none !important;
   }
 
-  ytd-grid-video-renderer{
+  ytd-grid-video-renderer > #dismissible {
     align-content: center;
     padding: 0 !important;
     padding-right: 1px !important;
@@ -698,8 +698,12 @@ a.yt-simple-endpoint.ytd-compact-video-renderer {
     background-color: var(--background-light) !important;
   }
 
+  ytd-grid-video-renderer ytd-thumbnail {
+    width: 100% !important;
+    margin-top: -3px !important;
+  }
 
-  ytd-grid-video-renderer, ytd-compact-video-renderer, ytd-compact-playlist-renderer{
+  ytd-grid-video-renderer > #dismissible, ytd-compact-video-renderer, ytd-compact-playlist-renderer{
     min-height: -moz-fit-content !important;
     max-width: -moz-available !important;
     background-color: var(--background-light) !important;
