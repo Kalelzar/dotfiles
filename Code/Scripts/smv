@@ -1,0 +1,4 @@
+#!/bin/sh
+
+mkdir -p "$(dirname "$2")"
+mv "$1" "$2"
