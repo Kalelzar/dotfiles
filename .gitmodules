@@ -1,15 +1,15 @@
-[submodule "/home/kalelzar/.config/emacs"]
+[submodule "emacs"]
 	path = .config/emacs
 	url = https://github.com/Kalelzar/emacs.git
-[submodule "/home/kalelzar/.local/src/dmenu"]
+[submodule "dmenu"]
 	path = .local/src/dmenu
 	url = https://github.com/lukesmithxyz/dmenu.git
-[submodule "/home/kalelzar/.local/src/lfimg"]
+[submodule "lfimg"]
 	path = .local/src/lfimg
 	url = https://github.com/cirala/lfimg.git
-[submodule "/home/kalelzar/.local/src/st"]
+[submodule "st"]
 	path = .local/src/st
 	url = https://github.com/Kalelzar/st.git
-[submodule ".local/src/Sarge"]
+[submodule "Sarge"]
 	path = .local/src/Sarge
 	url = git@github.com:RedDocMD/Sarge
