@@ -1,0 +1,6 @@
+#!/bin/bash
+
+
+sudo -A netctl stop-all
+sudo -A netctl start "$(netctl list | grep -v '*' | sed -E 's/^  //' |
+rofi -dmenu)"

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+extractPattern="$1"
+replacePattern="$2"
+
+
+extract(){
+    sed -E "s/^($extractPattern).*$/\1/g;tx;/.*/d;:x"
+}
+
+apply(){
+    local extraction="$1"
+    sed -E "s/^$replacePattern/$extraction/g"
+}
+
+oldExtr=""
+while read -r line
+do
+    extr="$(echo "$line" | extract)"
+    if [ -n "$extr" ]
+    then
+        oldExtr="$extr"
+    fi
+    echo "$line" | apply "$oldExtr"
+done

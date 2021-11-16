@@ -1,0 +1,34 @@
+#!/bin/bash
+
+
+
+if [ -n "$1" ]
+then
+    TILES="$1"
+    index=0
+    while read -r line
+    do
+        index=$(succ "$index")
+        echo -n "$line"
+        if [ "$index" = "$TILES" ]
+        then
+            echo
+            index=0
+        else
+            echo -n -e "\t"
+        fi
+
+    done
+    echo
+else
+    TILES="auto"
+    FILE="$(mktemp)"
+    while read -r line
+    do
+        echo "$line" >> "$FILE"
+    done
+
+    lines="$(wc -l "$FILE" | cut -d' ' -f1)"
+    columns="$(echo "scale=5;sqrt($lines)" | bc | cut -d'.' -f1 | succ)"
+    tile "$columns" < "$FILE"
+fi
