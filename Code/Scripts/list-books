@@ -1,19 +1,19 @@
 #!/bin/sh
 
 
-res="$(xwininfo -root | grep Height | sed -E 's/[[:space:]]+//g' | cut -d: -f2)"
-lines=$(((7*res - 72)/156))
-
-book="$(calibredb list -f "title,series_index,series"\
-                       --sort-by "series"\
+book="$(echo "$(calibredb list -f \
+                       "title,series_index,series,authors"\
+                       --sort-by "id"\
                        --ascending\
-                       --separator "|"\
-                       -w 500\
-                        | tail -n +2\
-                        | sed 's/|/​ /g'\
-                        | rofi  -dmenu -l $lines -i\
-                        | sed 's/​/|/g'\
-                        | cut -d'|' -f1)"
+                       --for-machine \
+                        | jq -r ' group_by(.authors) | .[] | group_by(.series) | map(sort_by(.title) | sort_by(.series_index)) | map("---;;\(.[0].series?) - \(.[0].authors);;---;;" + (map("\(.series_index): (\(.id)) \(.title) ### \(.series)")|join(";;"))) | join("\n")')" \
+                       | sed -E -e 's/;;/\n/g'\
+                                -e 's/---/---------------------------------------------------------/g'\
+                                -e 's/null - //g'\
+                                -e 's/###/                                                         /g'\
+                       | rofi -dmenu \
+                       | perl -pe 's/.*?[(]([0-9]+)[)].*/\1/g' \
+                       | sed -E 's/^([0-9]+)$/\1/g;tx;d;:x')"
 
 [ -z "$book" ] && exit 1
 
