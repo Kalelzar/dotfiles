@@ -1,0 +1,87 @@
+{
+  "use_non_breaking_spaces": false,
+  "segments": {
+    "above": [
+      {
+	"left": [
+	  {
+	    "function": "powerline.segments.shell.mode"
+	  },
+	  {
+	    "function": "powerline.segments.common.net.hostname",
+	    "priority": 10
+	  },
+	  {
+	    "function": "powerline.segments.common.env.virtualenv",
+	    "priority": 50
+	  },
+	  {
+	    "function": "powerline.segments.shell.cwd",
+	    "priority": 10,
+            "align": "l"
+	  },
+	  {
+	    "function": "powerline.segments.shell.jobnum",
+	    "priority": 20,
+            "align": "l"
+	  },
+          {
+	    "type": "string",
+	    "highlight_groups": ["background"],
+	    "draw_soft_divider": false,
+	    "draw_hard_divider": false,
+	    "width": "auto"
+	  }
+	],
+	"right": [
+          {
+	    "function": "powerline.segments.common.vcs.branch",
+	    "priority": 40,
+            "draw_soft_divider": false,
+	    "draw_hard_divider": false,
+            "align": "c",
+            "before": "  ",
+            "after": " "
+          },
+          {
+	    "type": "string",
+	    "highlight_groups": ["background"],
+	    "draw_soft_divider": false,
+	    "draw_hard_divider": false,
+	    "width": "auto"
+	  },
+	  {
+	    "function": "powerline.segments.common.time.date",
+            "align": "r"
+	  },
+	  {
+	    "function": "powerline.segments.common.time.date",
+	    "name": "time",
+	    "args": {
+	      "format": "%H:%M:%S %A",
+	      "istime": true
+	    },
+            "align": "r"
+	  }
+	]
+      },
+      {
+      }
+    ],
+    "left": [
+      {
+	"function": "powerline.segments.shell.last_status"
+      },
+      {
+	"function": "powerline.segments.shell.mode"
+      },
+      {
+	"type": "string",
+        "highlight_groups": ["cwd"],
+	"contents": " $ "
+      }
+    ],
+    "right": [
+    ]
+  }
+}

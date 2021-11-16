@@ -1,0 +1,7 @@
+{{
+  "name": "Wal color scheme for shell prompts",
+  "groups": {{
+    "background": {{ "fg": "{background}", "bg": "{background}", "attrs": [] }},
+    "cwd": {{ "fg": "{foreground}", "bg": "{color4}", "attrs": [] }}
+  }}
+}}

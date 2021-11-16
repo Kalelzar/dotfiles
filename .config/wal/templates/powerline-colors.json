@@ -1,0 +1,23 @@
+{{
+  "colors" : {{
+    "wal:background": [0, "{background.strip}"],
+    "wal:foreground": [1, "{foreground.strip}"],
+    "wal:cursor": [1, "{cursor.strip}"],
+    "wal:color0": [0, "{color0.strip}"],
+    "wal:color1": [1, "{color1.strip}"],
+    "wal:color2": [2, "{color2.strip}"],
+    "wal:color3": [3, "{color3.strip}"],
+    "wal:color4": [4, "{color4.strip}"],
+    "wal:color5": [5, "{color5.strip}"],
+    "wal:color6": [6, "{color6.strip}"],
+    "wal:color7": [7, "{color7.strip}"],
+    "wal:color8": [8, "{color8.strip}"],
+    "wal:color9": [9, "{color9.strip}"],
+    "wal:color10": [10, "{color10.strip}"],
+    "wal:color11": [11, "{color11.strip}"],
+    "wal:color12": [12, "{color12.strip}"],
+    "wal:color13": [13, "{color13.strip}"],
+    "wal:color14": [14, "{color14.strip}"],
+    "wal:color15": [15, "{color15.strip}"]
+  }}
+}}

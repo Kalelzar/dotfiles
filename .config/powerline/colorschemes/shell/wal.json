@@ -1,0 +1,83 @@
+{
+  "groups": {
+    "background": {
+      "attrs": [],
+      "bg": "wal:background",
+      "fg": "wal:foreground"
+    },
+    "cwd": {
+      "attrs": [],
+      "bg": "wal:color3",
+      "fg": "wal:background"
+    },
+    "cwd:current_folder": {
+      "attrs": [
+        "bold"
+      ],
+      "bg": "wal:color3",
+      "fg": "wal:background"
+    },
+    "cwd:divider": {
+      "attrs": [],
+      "bg": "wal:color3",
+      "fg": "wal:background"
+    },
+    "exit_fail": {
+      "attrs": ["bold"],
+      "bg": "solarized:red",
+      "fg": "white"
+    },
+    "exit_success": {
+      "attrs": ["bold"],
+      "bg": "solarized:green",
+      "fg": "white"
+    },
+    "branch_clean": {
+      "attrs": [],
+      "bg": "wal:color2",
+      "fg": "wal:background"
+    },
+    "branch_dirty": {
+      "attrs": [],
+      "bg": "wal:color1",
+      "fg": "wal:background"
+    },
+    "branch": {
+      "attrs": [],
+      "bg": "wal:color8",
+      "fg": "wal:color7"
+    },
+    "hostname": {
+      "attrs": [],
+      "bg": "wal:color5",
+      "fg": "wal:background"
+    },
+    "time": {
+      "attrs": [],
+      "bg": "wal:color6",
+      "fg": "wal:background"
+    },
+    "time:divider": {
+      "attrs": [],
+      "bg": "wal:color6",
+      "fg": "wal:background"
+    },
+    "date": {
+      "attrs": [],
+      "bg": "wal:color6",
+      "fg": "wal:background"
+    },
+    "mode": {
+      "attrs": [],
+      "bg": "wal:color7",
+      "fg": "wal:background"
+    },
+    "virtualenv": {
+      "attrs": [],
+      "bg": "wal:color2",
+      "fg": "wal:background"
+    }
+
+  },
+  "name": "Wal color scheme for shell prompts"
+}

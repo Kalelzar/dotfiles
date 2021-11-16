@@ -1,0 +1,15 @@
+{
+  "common" : {
+    "term_truecolor": true,
+    "term_escape_style": "xterm",
+    "watcher": "inotify",
+    "additional_escapes": "screen",
+    "default_top_theme": "powerline"
+  },
+  "ext" : {
+    "shell": {
+      "theme": "default",
+      "colorscheme": "wal"
+    }
+  }
+}
