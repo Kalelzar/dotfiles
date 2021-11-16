@@ -35,9 +35,10 @@ If LAYOUT is a cons cell of two strings then use the car of the cell as the
     (cons
      (let* ((lang (car layout))
            (form (or (cdr layout) ""))
-           (command-format "setxkbmap ~D ~D; rebindKeys")
+           (command-format "setxkbmap ~D ~D; rebindKeys&")
            (command (format nil command-format lang form)))
-       (run-shell-command command t)))
+                                        ;(run-shell-command command t)
+       ))
     (string (set-layout (cons layout nil)))
     (null (set-layout (car *available-keyboard-layouts*)))
     (t "error")))
@@ -68,3 +69,6 @@ If LAYOUT is a cons cell of two strings then use the car of the cell as the
 ;;;;;;;;;;;;;;
 
 (define-key *top-map* (kbd "s-SPC") "switch-layout")
+;(undefine-key *top-map* (kbd "s-SPC"))
+
+;; (+ 20 18 18 16 17 14)

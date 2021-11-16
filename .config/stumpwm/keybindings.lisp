@@ -393,7 +393,7 @@ The terminal used is the one pointed to by the TERMINAL environment variable."
 (redefine-key *top-map* (kbd "H-S-SPC") "vpull-hidden-previous"
               "Prev window on stack" "Frame")
 
-(redefine-key-with-alternatives *root-map* (kbd "H-a") "exec rofi -show-icons -show window -columns 3"
+(redefine-key-with-alternatives *root-map* (kbd "H-a") "exec rofi -show-icons -show window -columns 3 -modi window"
                                 "Window Switcher"
                                 "Frame")
 
