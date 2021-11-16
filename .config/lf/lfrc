@@ -2,6 +2,7 @@
 
 # Basic vars
 set shell bash
+set shell zsh
 set shellopts '-eu'
 set ifs "\n"
 set scrolloff 10
@@ -14,6 +15,12 @@ set hiddenfiles ".*:*.aux:*.log:*.bbl:*.bcf:*.blg:*.run.xml"
 $lf -remote "send $id set previewer ${XDG_CONFIG_HOME:-$HOME/.config}/lf/preview"
 
 $lf -remote "send $id set cleaner ${XDG_CONFIG_HOME:-$HOME/.config}/lf/cleaner"
+set info size
+
+set promptfmt "\033[32;7m %u  %h \033[34;42;1m\033[0;30;44;1m %w \033[43;34;1m\033[0;43;1m %f \033[33;40;1m"
+set errorfmt "\033[7;35;40;1m %s \033[30;45m\033[0m"
+
+set timefmt "\033[32;7m Mon  Jan _2  15:04  2006 \033[0m"
 
 # cmds/functions
 cmd open ${{

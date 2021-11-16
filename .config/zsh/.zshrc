@@ -6,10 +6,17 @@ setopt prompt_subst
 
 NEWLINE=$'\n'
 PS1="%B%{$fg[red]%}[${${(%):-%m}#zoltan-}:%{$fg[magenta]%}%~%{$fg[red]%}] [%{$fg[blue]%}%T%{$fg[red]%}]%{$reset_color%}${NEWLINE}%(?.%{$fg[green]%}.%{$fg[magenta]%})%?%{$reset_color%} %(!.#.$)%b "
-
-# Show current git root and branch in the prompt.
-# NOTE: Currently disabled
-VCS_SHOW=true
+PS1=""
+precmd(){
+    # Show some task stats
+    #getTaskInfoa
+    # Write some info to terminal title.
+    # This is seen when the shell prompts for input.
+    EXIT_CODE="$?"
+    print -Pn "\e]0;st; ,)%~\a"
+    PS1="$(powerline -r .zsh shell aboveleft -w $(tput cols) --last-exit-code $EXIT_CODE)"
+    RPROMPT="$(powerline -r .zsh shell right)"
+}
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' actionformats \
@@ -25,11 +32,6 @@ vcs_info_wrapper() {
     if [ -n "$vcs_info_msg_0_" ]; then
         echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
     fi
-}
-
-# or use pre_cmd, see man zshcontrib
-[ "$VCS_SHOW" = "true" ] && {
-    RPROMPT=$'$(vcs_info_wrapper)'
 }
 
 
@@ -106,14 +108,6 @@ export KEYTIMEOUT=1
 
 
 #source "$XDG_CONFIG_HOME/zsh/notes"
-
-precmd() {
-    # Show some task stats
-    #getTaskInfo
-    # Write some info to terminal title.
-    # This is seen when the shell prompts for input.
-    print -Pn "\e]0;st; ,)%~\a"
-}
 
 # Write command and args to terminal title.
 # This is seen while the shell waits for a command to complete.
