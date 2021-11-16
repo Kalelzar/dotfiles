@@ -9,7 +9,7 @@ getDevices(){
         | sed -E 's/^[[:space:]]+//g;s/^(.*)$/"\1"/g' \
         | xargs -L 2 printf "%s (%s)\n" \
         | sed -E  -e 's/(.*) \(phone\)/📱 \1/g'\
-                  -e 's/(.*) \(audio-card\)/🎧 \1/g'\
+                  -e 's/(.*) \(audio-(card|head(set|phones))\)/🎧 \1/g'\
                   -e 's/(.*) \(computer\)/🖥 \1/g'
 }
 
