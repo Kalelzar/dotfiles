@@ -1,0 +1,41 @@
+#!/bin/bash
+
+mac="$1"
+
+isPaired="$(bluetoothctl info "$mac" | grep -c "Paired: yes" )"
+
+if [ "$isPaired" = "0" ]
+then
+    notify-send "Bluetooth" "Attempting to pair with device."
+    if bluetoothctl pair "$mac" >/dev/null 2>&1
+    then
+        notify-send "Bluetooth" "Pairing successful."
+    else
+        notify-send "Bluetooth" "Failed to pair with device"
+        exit 1;
+    fi
+fi
+
+isConnected="$(bluetoothctl info "$mac" | grep -c "Connected: yes" )"
+
+if [ "$isConnected" != "0" ]
+then
+    notify-send "Bluetooth" "Already connected. Disconnecting..."
+    bluetoothctl disconnect "$mac" >/dev/null 2>&1
+fi
+
+
+isTrusted="$(bluetoothctl info "$mac" | grep -c "Trusted: yes" )"
+
+if [ "$isTrusted" = "0" ]
+then
+    notify-send "Bluetooth" "Trusting device."
+    bluetoothctl trust "$mac" >/dev/null 2>&1
+fi
+
+if bluetoothctl connect "$mac" >/dev/null 2>&1
+then
+    notify-send "Bluetooth" "Connection successful."
+else
+    notify-send "Bluetooth" "Failed to connect to device."
+fi

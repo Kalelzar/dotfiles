@@ -9,5 +9,3 @@ xmodmap -e "keysym Menu = Hyper_R"
 xmodmap -e "remove Mod4 = Hyper_L" -e "remove Lock = Hyper_L" -e "add Mod3 = Hyper_L" -e "add Mod3 = Hyper_R"
 # But when it is pressed only once, treat it as escape.
 killall xcape 2>/dev/null ; xcape -e 'Hyper_L=Escape'
-# Map the menu button to right super as well.
-# xmodmap -e 'keycode 135 = Super_R'

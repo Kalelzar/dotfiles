@@ -1,0 +1,21 @@
+#/bin/bash
+
+id="$1"
+echo "(make-calibre-metadata"
+calibredb show_metadata --as-opf "$id" \
+          | sed 's/"/Օ/g' \
+          | tr -d '\n' \
+          | perl -pe 's!<meta name=Օ(.*?)Օ content=Օ(.*?)Օ/>!<\1>\2</\1>!g' \
+          | perl -pe 's!.*?(<(?:dc|calibre):.*?>.*?</.*?>)|(<(?:dc|calibre):=.*/>).*?\n!###\1\2###\n!g' \
+          | grep -E "^###.*###$" \
+          | sed -E 's$>(.*)<$>"\1"<$g;s/[#]{3}//g;s$<(dc|calibre):(\w+)$(\2 <$g;s$</.*>$)$g;s/id=Օ\w+Օ//g;s/opf:file-as=Օ(.*)Օ>/>"\1" /g;s/opf:scheme=Օ([a-zA-Z_-]+)Օ>/>:\1 /g;s/opf:role=Օ.*Օ(.*)>/\1>/g;s/<\s*>//g;' \
+          | sed -E 's/^\(creator "(.*)" "(.*)"\)/(author "\2")\n(author_sort "\1")/g;/^\(contributor/d;s/^\(identifier :calibre/(id/g'\
+          | sort \
+          | sed -E 's/^\(subject (.*)\)$/%%%\1%%%/g' \
+          | sed -E 's/^\(identifier (.*)\)$/###\1###/g' \
+          | tr -d '\n' \
+          | sed -E 's/%%%(.*)%%%/(tag \1)/g;s/$/\n/;s/###(.*)###/(identifier \1)/g;s/$/\n/;s/\)\(/)\n(/g;s/%%%%%%/ /g;s/######/ /g' \
+          | perl -pe "s/^\((.*?) (\".*?\"|:.*?) (\".*\")\)$/:\1 '(\2 \3)/g" \
+          | perl -pe "s/^\((.*?) (\".*\")\)$/:\1 \2/g" \
+          | sed -E 's/Օ/\\"/g;s/&gt;/>/g;s/&lt;/</g;s/(&)amp;/\1/g'
+echo ")"

@@ -60,7 +60,7 @@ font-3 = Symbola:pixelsize=10;1
 font-4 = "FontAwesome:pixelsize=10;1"
 
 modules-left = ewmh xwindow
-modules-center = prev playpause next music
+modules-center =
 modules-right = alsa date
 
 tray-position = right

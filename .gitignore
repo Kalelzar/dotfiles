@@ -181,3 +181,13 @@ mpv-shot*
 /*ltximg*
 /Audio Books/
 /Shows/
+/*.kak.*
+/*history
+/.parsec/log.txt
+*.so
+*.log
+/.config/csharp.history
+/.ghc/
+/.steam/
+/.steampath
+/.steampid

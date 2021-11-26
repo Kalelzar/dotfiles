@@ -1,0 +1,17 @@
+#!/bin/bash
+
+bluetoothctl power on >/dev/null 2>&1
+
+echo "("
+while read -r mac
+do
+    echo "("
+    echo ":mac \"$mac\""
+    bluetoothctl info "$mac" \
+        | sed -E 's/^[[:space:]]+//' \
+        | grep -E "^(Alias|Icon|Paired|Trusted|Connected)" \
+        | perl -ne 'print lcfirst' \
+        | sed -E 's/^/:/g;s/(.):/\1/;s/[[:space:]](.*)/ "\1"/;s/"yes"/t/;s/"no"/nil/'
+    echo ")"
+done < <(bluetoothctl devices | cut -d' ' -f2)
+echo ")"

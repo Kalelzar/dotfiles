@@ -9,4 +9,5 @@
 
 # Start StumpWM
 
-stumpwm
+#stumpwm
+exec emacsclient -c -a ""

@@ -4,35 +4,41 @@
 autoload -U colors && colors	# Load colors
 setopt prompt_subst
 
-NEWLINE=$'\n'
-PS1="%B%{$fg[red]%}[${${(%):-%m}#zoltan-}:%{$fg[magenta]%}%~%{$fg[red]%}] [%{$fg[blue]%}%T%{$fg[red]%}]%{$reset_color%}${NEWLINE}%(?.%{$fg[green]%}.%{$fg[magenta]%})%?%{$reset_color%} %(!.#.$)%b "
-PS1=""
+vterm_prompt(){
+    vterm_printf "51;A$(whoami)@$(uname -n):$(pwd)";
+}
+
 precmd(){
     # Show some task stats
     #getTaskInfoa
     # Write some info to terminal title.
     # This is seen when the shell prompts for input.
     EXIT_CODE="$?"
-    print -Pn "\e]0;st; ,)%~\a"
-    PS1="$(powerline -r .zsh shell aboveleft -w $(tput cols) --last-exit-code $EXIT_CODE)"
+    print -Pn "\e]0;%~\a"
+    PS1="$(powerline -r .zsh shell aboveleft -w $(tput cols) --last-exit-code $EXIT_CODE)"'%{$(vterm_prompt)%}'
     RPROMPT="$(powerline -r .zsh shell right)"
 }
 
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' actionformats \
-       '%F{5}[%F{2}%r - %b%F{3}|%F{1}%a%F{5}]%f '
-zstyle ':vcs_info:*' formats       \
-       '%F{5}[%F{2}%r - %b%F{5}]%f '
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{3}%r'
+postcmd(){
+    print -Pn "\e]0;%~ - vterm\a"
+}
 
-zstyle ':vcs_info:*' enable git cvs svn
-
-vcs_info_wrapper() {
-    vcs_info
-    if [ -n "$vcs_info_msg_0_" ]; then
-        echo "%{$fg[grey]%}${vcs_info_msg_0_}%{$reset_color%}$del"
+vterm_printf(){
+    if [ -n "$TMUX" ] && ([ "${TERM%%-*}" = "tmux" ] || [ "${TERM%%-*}" = "screen" ] ); then
+        # Tell tmux to pass the escape sequences through
+        printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+    elif [ "${TERM%%-*}" = "screen" ]; then
+        # GNU screen (screen, screen-256color, screen-256color-bce)
+        printf "\eP\e]%s\007\e\\" "$1"
+    else
+        printf "\e]%s\e\\" "$1"
     fi
 }
+
+
+if [[ "$INSIDE_EMACS" = 'vterm' ]]; then
+    alias clear='vterm_printf "51;Evterm-clear-scrollback";tput clear'
+fi
 
 
 # Convenience

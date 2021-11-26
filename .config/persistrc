@@ -7,3 +7,5 @@ transmission
 pypoetry/virtualenvs
 clangd
 rclone
+yay/emacs-native-comp-git-enhanced
+yay/emacs-git
