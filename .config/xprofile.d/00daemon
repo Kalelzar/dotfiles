@@ -1,16 +1,13 @@
-
-
 #!/bin/sh
 
-mpd &		     # Start Music Player Daemon
-dunst &              # Use dunst for notifications
-pywalfox start &  # Use pywal colors in Firefox
+dunst &              # Use dunst for notification
 unclutter -grab &    # Remove mouse when idle
-emacs --daemon &     # Start emacs in daemon mode
 
-mpDris2 &            # MPRIS for MPD
-
-aw-server &
-aw-watcher-window &
-aw-watcher-afk &
-aw-watcher-mpd &
+# mpd &		     # Start Music Player Daemon
+# pywalfox start &  # Use pywal colors in Firefox
+# emacs --daemon &     # Start emacs in daemon mode
+# mpDris2 &            # MPRIS for MPD
+# aw-server &
+# aw-watcher-window &
+# aw-watcher-afk &
+# aw-watcher-mpd &
