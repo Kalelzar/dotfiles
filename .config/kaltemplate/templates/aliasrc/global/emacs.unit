@@ -1,10 +1,12 @@
 # Common emacs utilities
 alias \
     wl="emacsclient -c -e '(wl)'" \
-    magit="emacsclient -c -e '(magit)'"
+    magit="emacsclient -c -e '(magit)'"\
+    run-elisp-tests-in="emacs --batch --eval '(package-initialize)' --load "
 
 ex-read-string(){
    emacsclient -e "(read-string \"$1\")" | sed -E 's/^"(.*)"/\1/'
 }
+
 
 org-export(){ emacsclient -e "(org-export-as-$1 \"$2\")" | tr -d \" }
