@@ -1,0 +1,6 @@
+name        = dotfiles
+version     = git
+description = dotfiles
+remote      = git@github.com:Kalelzar/dotfiles.git
+cloneto     = /home/kalelzar
+build       = /home/kalelzar/Code/Project/kaltemplate/kaltemplate link

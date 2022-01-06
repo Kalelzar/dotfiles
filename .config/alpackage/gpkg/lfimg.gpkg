@@ -1,0 +1,5 @@
+name        = lfimg
+version     = git
+description = An image preview for 'lf'.
+remote      = https://github.com/Kalelzar/lfimg.git
+cloneto     = /home/kalelzar/.local/src/lfimg

@@ -1,7 +1,7 @@
 name        = Alpackage
-pin         = 2f42fb5
+version     = 1.0.0
 description = A test
-remote      = git@github.com:Kalelzar/Alpackage
-cloneto     = ~/.local/src/
-build       = make build
+remote      = https://github.com/Kalelzar/Alpackage.git
+cloneto     = /home/kalelzar/.local/src/Alpackage
+build       = make clean build
 install     = make install

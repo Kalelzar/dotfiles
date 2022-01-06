@@ -1,0 +1,5 @@
+name        = serenity
+version     = git
+description = SerenityOS
+remote      = https://github.com/SerenityOS/serenity.git
+cloneto     = /home/kalelzar/.local/src/serenity

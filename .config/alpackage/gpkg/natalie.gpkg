@@ -1,0 +1,5 @@
+name        = natalie
+version     = git
+description = A ruby to c++ transpiler
+cloneto     = /home/kalelzar/.local/src/natalie
+remote      = https://github.com/imustafin/natalie
