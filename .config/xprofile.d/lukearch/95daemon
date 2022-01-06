@@ -1,3 +1,2 @@
 #!/bin/sh
 sarge &              # Battery info
-pulseaudio --start & # Start PulseAudio
