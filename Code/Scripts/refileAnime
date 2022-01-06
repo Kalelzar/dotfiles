@@ -3,17 +3,24 @@
 
 filenameToJSON(){
     echo "$1" \
-        | perl -pe 's/[[(](.*?)[\])][[:space:]]*(.*?)(?: S([0-9]+))? - (?:S([0-9]+)E)?([0-9]+)(?:v[1-9]+)? ([[(]([0-9]+p)[\])])?[[:space:]]?(?:[[(](.*)[\])])?[.](.*)/{ "release": "\1","title": "\2","season": "\3\4","episode": "\5","quality": "\7","extra": "\8","format": "\9"}/g'
+        | perl -pe 's/[[(](.*?)[\])][[:space:]]*(.*?)(?: S([0-9]+))?(?: - )?(?:S([0-9]+)E)?([0-9]+)?(?:v[1-9]+)?[[:space:]]*([[(]([0-9]+p)[\])])?[[:space:]]*(?:[[(](.*)[\])])?[.](.*)/{ "release": "\1","title": "\2","season": "\3\4","episode": "\5","quality": "\7","extra": "\8","format": "\9"}/g'
 }
 
 fixedFilenameToJSON(){
     local json="$(filenameToJSON "$1")"
-    local season="$(printf "%02d" "$(echo "$json" | jq 'try (.season | tonumber) catch 1')")"
+    local episode="$(echo "$json" | jq .episode)"
+    if [ -n "$episode" ]
+    then
+       local season="$(printf "%02d" "$(echo "$json" | jq 'try (.season | tonumber) catch 1')")"
+    else
+       local season=""
+    fi
+           
     echo "$json" | jq ".season |= \"$season\""
 }
 
 listAnimeFull(){
-    find "$HOME/Downloads" -iname "*.mkv" | grep -F "$1"
+    find "$HOME/Downloads" -iregex ".*.mkv\\|.*.mp4" | grep -F "$1"
 }
 
 json(){
@@ -21,7 +28,7 @@ json(){
 }
 
 listAnime(){
-    find "$HOME/Downloads" -iname "*.mkv" -printf "%P\n"
+    find "$HOME/Downloads" -iregex ".*.mkv\\|.*.mp4" -printf "%f\n"
 }
 
 
@@ -33,7 +40,7 @@ json-stream(){
 }
 
 genReplacements(){
-    listAnime | json-stream | jq '{"old" : .filename, "new": "'"$HOME"'/Anime/\(.data.title)/Season \(.data.season)/Episode \(.data.episode).\(.data.format)"}'
+    listAnime | json-stream | tee log | jq '{"old" : .filename, "new": "'"$HOME"'/Anime/\(.data.title)/Season \(.data.season)/Episode \(.data.episode).\(.data.format)"}'
 }
 
 
