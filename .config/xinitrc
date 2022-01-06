@@ -10,4 +10,5 @@
 # Start StumpWM
 
 #stumpwm
+gpg-agent-connect /bye
 exec emacsclient -c -a ""
