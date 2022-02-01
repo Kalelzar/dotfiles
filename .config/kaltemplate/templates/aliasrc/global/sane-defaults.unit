@@ -12,4 +12,5 @@ alias \
         watchyt="mpv --ytdl-format='bestvideo[height<=1080][fps<=30]+bestaudio'"\
 	ffmpeg="ffmpeg -hide_banner" \
         vi="emacsclient -c"\
-        vim="emacsclient -c"
+        vim="emacsclient -c"\
+        pandoc="pandoc --pdf-engine=xelatex -V mainfont=\"Source Serif Pro\""
