@@ -3,8 +3,8 @@
 perl_expr='s/^([0-9]+)\|(.+?)\|(.*?)\|([-]?[0-9]+)$/{"visits": \1, "url": "\2", "title": "\3", "recency": \4}/'
 limit=5000
 
-grep -Ev '^(0|1|2|3|4)\|'   \
-    | sort -n -r            \
+grep -v "^0" \
+    | sort -n -r -t'|' -k 4 \
     | head -"$limit"        \
     | tr $'\u0001''"' "#'"  \
     | sed 's/\\/\\\\/g'     \
