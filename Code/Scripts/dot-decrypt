@@ -1,2 +1,2 @@
 #!/bin/sh
-gpg2 --pinentry-mode loopback -dq "$*"
+gpg -dq "$*"
