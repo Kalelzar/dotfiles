@@ -81,10 +81,12 @@ collectUnits(){
 }
 
 formatUnit(){
-    m4 ~/Code/Projects/kaltemplate/predef.m4 "$1"
+    m4 ~/Code/Projects/kaltemplate/predef.m4 ~/Code/Projects/kaltemplate/env.m4 "$1"
 }
 
 collectTemplates(){
+    ~/Code/Projects/kaltemplate/env-to-m4 
+    
     scopes=( $(collectScopes) )
 
     echo "Collecting templates..."

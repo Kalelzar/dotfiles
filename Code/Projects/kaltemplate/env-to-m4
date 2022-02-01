@@ -1,0 +1,4 @@
+#!/bin/sh
+
+env | perl -pe "s/([A-Za-z_0-9x]+)=(.*)/define(\`__\1__', \`\2')dnl/" > "$HOME/Code/Projects/kaltemplate/env.m4"
+echo "define(\`ENV', \`__$1__')dnl" >> "$HOME/Code/Projects/kaltemplate/env.m4"
