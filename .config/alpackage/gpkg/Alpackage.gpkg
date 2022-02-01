@@ -3,5 +3,5 @@ version     = 1.0.0
 description = A test
 remote      = https://github.com/Kalelzar/Alpackage.git
 cloneto     = /home/kalelzar/.local/src/Alpackage
-build       = make clean build
+build       = make build
 install     = make install
