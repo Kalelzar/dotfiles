@@ -1,7 +1,7 @@
 # Common emacs utilities
 alias \
-    wl="emacsclient -c -e '(wl)'" \
-    magit="emacsclient -c -e '(magit)'"\
+    wl="emacsclient -n -e '(wl)'" \
+    magit="emacsclient -n -e '(magit)'"\
     run-elisp-tests-in="emacs --batch --eval '(package-initialize)' --load "
 
 ex-read-string(){
