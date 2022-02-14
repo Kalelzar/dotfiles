@@ -1,0 +1,4 @@
+#!/bin/sh
+# Is this machine running in WSL or not?
+
+[ -d "/run/WSL" ] && echo wsl || echo nonwsl

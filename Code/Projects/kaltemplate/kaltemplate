@@ -298,6 +298,8 @@ linkTemplates(){
     do
         echo "Linking '$(basename "$template")'"
         local path="$(cat "$template/.template" | sed "s|~|$HOME|g")"
+        local directory="$(dirname "$path")"
+        mkdir -p "$directory":
         echo "  Deploying to '$path'"
 
         [ -f "$path" ] && {
