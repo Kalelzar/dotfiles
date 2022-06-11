@@ -4,13 +4,13 @@
 autoload -U colors && colors	# Load colors
 setopt prompt_subst
 
+
 vterm_prompt(){
     vterm_printf "51;A$(whoami)@$(uname -n):$(pwd)";
 }
 
+
 precmd(){
-    # Show some task stats
-    #getTaskInfoa
     # Write some info to terminal title.
     # This is seen when the shell prompts for input.
     EXIT_CODE="$?"
@@ -28,11 +28,11 @@ vterm_printf(){
         # Tell tmux to pass the escape sequences through
         printf "\ePtmux;\e\e]%s\007\e\\" "$1"
     elif [ "${TERM%%-*}" = "screen" ]; then
-        # GNU screen (screen, screen-256color, screen-256color-bce)
+        # GNU screen 4
         printf "\eP\e]%s\007\e\\" "$1"
     else
         printf "\e]%s\e\\" "$1"
-    fi
+    fi    
 }
 
 
@@ -42,8 +42,7 @@ fi
 
 
 # Convenience
-
-setopt autocd		# Automatically cd into typed directory.
+setopt autocd  # Automatically cd into typed directory.
 
 # History in cache directory:
 HISTSIZE=10000
@@ -59,9 +58,11 @@ autoload -U compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
-_comp_options+=(globdots)		# Include hidden files.
 
-#emacs mode
+# Include hidden files.
+_comp_options+=(globdots)
+
+# Emacs mode
 bindkey -e
 
 bindkey '^[[A' up-line-or-search
@@ -71,21 +72,21 @@ bindkey '^[^[[D' emacs-backward-word
 
 bindkey -s '\C-x\C-z' '%-^M'
 
-#No idea what any of this does
+# No idea what any of this does
 bindkey '\M-i' reverse-menu-complete
-#No idea what this does either
+# No idea what this does either
 bindkey '\M-e' expand-cmd-path
 
 
-#No idea what this does
-#Amended: It does some fancy stuff I don't really understand
-#So the above still applies
+# No idea what this does
+# Amended: It does some fancy stuff I don't really understand
+# So the above still applies
 bindkey '\C-x\C-n' accept-and-infer-next-history
 
 bindkey '\C-w' kill-region
 bindkey '\M-p' complete-word
 
-#Copy stuff
+# Copy stuff
 copy-region-as-kill-deactivate-mark () {
     zle copy-region-as-kill
     zle set-mark-command -n -1
@@ -95,7 +96,7 @@ zle -N copy-region-as-kill-deactivate-mark
 
 bindkey '\M-w' copy-region-as-kill-deactivate-mark
 
-#Change directory with fzf
+# Change directory with fzf
 bindkey -s '\C-f' 'cd "$(dirname "$(fzf)")"\n'
 bindkey -s '\C-s' 'eval "$(fc -l -n 0 | sort -u | fzf)"\n'
 
@@ -104,16 +105,7 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
-
-
-
 export KEYTIMEOUT=1
-
-# echo -ne '\e[5 q' # Use beam shape cursor on startup.
-# preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
-
-
-#source "$XDG_CONFIG_HOME/zsh/notes"
 
 # Write command and args to terminal title.
 # This is seen while the shell waits for a command to complete.

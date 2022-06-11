@@ -1,0 +1,33 @@
+#!/bin/bash
+
+target="$PWD"
+
+[ -n "$1" ] && {
+    expanded="$(emacsclient --eval "(f-expand \"$1\")" | tr -d '"')"
+    if [ -d "$expanded" ]
+    then
+        target="$expanded"
+    else
+        echo "'$expanded' is not a valid directory." 1>&2
+        exit 1
+    fi
+}
+
+base="$(basename "$target")"
+
+mapfile -d "" files < <(find "$target" -maxdepth 1 -mindepth 1 -printf '%P\0')
+
+prepend(){
+    local targetDir="$(dirname "$PWD")"
+    echo "Flatten '$base' into '$targetDir'?"
+    read -r -p "(y/N): " confirmation
+    [ "$confirmation" != "y" ] && exit 0
+    for file in "${files[@]}"
+    do
+        local filename="$base - $file"
+        local originalFile="$PWD/$file"
+        smv "$originalFile" "$targetDir/$filename"
+    done 
+}
+
+prepend

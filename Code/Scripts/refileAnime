@@ -3,11 +3,12 @@
 
 filenameToJSON(){
     echo "$1" \
-        | perl -pe 's/[[(](.*?)[\])][[:space:]]*(.*?)(?: S([0-9]+))?(?: - )?(?:S([0-9]+)E)?([0-9]+)?(?:v[1-9]+)?[[:space:]]*([[(]([0-9]+p)[\])])?[[:space:]]*(?:[[(](.*)[\])])?[.](.*)/{ "release": "\1","title": "\2","season": "\3\4","episode": "\5","quality": "\7","extra": "\8","format": "\9"}/g'
+        | perl -pe 's/^(?:[[(](.*?)[\])])?\s*(.*?)\s*(?:-)?\s(?:END)?\s*(?|S(\d+)\s*-\s*|S(\d+)|S(\d)\s*-\s*|\s*-\s*)[E]?(\d+(?:-[E]?\d+)?)*(?:v[1-9]+)?\s*[-]?\s*(.*?)\s*(?|[(]?(\d+p)\s*(.*)[)]?|(?:[[(](\d+p)[\])])?\s*(?:[[(](.*)[\])])?)[.](mkv|mp4)$/{ "release": "\1","title": "\2","season": "\3","episode": "\4", "episodeTitle": "\5", "quality": "\6","extra": "\7", "format": "\8"}/g'
 }
 
 fixedFilenameToJSON(){
-    local json="$(filenameToJSON "$1")"
+    local fixedDotSeparatedName="$(echo "$1" | sed -E 's/.([a-z0-9]{3})$/@\1/;s/(.)[.](.)/\1 \2/g;s/@([a-z0-9]{3})$/.\1/')"
+    local json="$(filenameToJSON "$fixedDotSeparatedName")"
     local episode="$(echo "$json" | jq .episode)"
     if [ -n "$episode" ]
     then
@@ -16,7 +17,7 @@ fixedFilenameToJSON(){
        local season=""
     fi
            
-    echo "$json" | jq ".season |= \"$season\""
+    echo "$json" | jq ".season = \"$season\""
 }
 
 listAnimeFull(){
@@ -24,6 +25,7 @@ listAnimeFull(){
 }
 
 json(){
+    
     echo "{\"filename\": \"$(listAnimeFull "$1")\", \"data\": $(fixedFilenameToJSON "$1")}"
 }
 
@@ -40,11 +42,8 @@ json-stream(){
 }
 
 genReplacements(){
-    listAnime | json-stream | tee log | jq '{"old" : .filename, "new": "'"$HOME"'/Anime/\(.data.title)/Season \(.data.season)/Episode \(.data.episode).\(.data.format)"}'
+    listAnime | json-stream | tee -a "$XDG_CACHE_HOME/refileAnime.log" | jq '{"old" : .filename, "new": "'"$HOME"'/Anime/\(.data.title)/Season \(.data.season)/Episode S\(.data.season)E\(.data.episode) - \(.data.episodeTitle).\(.data.format)"}' | sed -E 's/ - [.]/./g'
 }
-
-
-#echo "[SubsPlease] Test - 6 [1080p][TEST].mkv" | json-stream
 
 genReplacements \
     | jq '"smv \"\(.old)\" \"\(.new)\""' \

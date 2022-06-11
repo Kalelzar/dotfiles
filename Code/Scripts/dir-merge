@@ -1,0 +1,63 @@
+#!/bin/bash
+# Merge two directories with identical structure
+
+flags=true
+remove=""
+
+while [ -n "$flags" ]
+do
+case "$1" in
+ -r|--remove)
+     remove=true
+     shift
+ ;;
+ *)
+     flags=""
+ ;;
+esac
+done
+    
+first="$1"
+second="$2"
+
+verify(){
+    if find "$1" -mindepth 1 -type d -printf "%P\0" \
+            | xargs -0 --max-args 1 is-dir "$2"
+    then
+        return 0
+    else
+        return 1
+    fi
+}
+
+merge(){
+    local oldIFS="$IFS"
+
+    while read -r dir
+    do
+        [ -z "$dir" ] && dir="."
+        while read -r file
+        do
+            local filename="$(basename "$file")"
+            if [[ -f "$first/$dir/$filename" ]]
+            then
+                echo "File '@/$dir/$filename' already exists at target"
+            else
+                mv "$second/$dir/$filename" "$first/$dir/$filename"
+            fi
+        done < <(find "$second/$dir" -maxdepth 1 -type f)
+    done < <(find "$second" -type d -printf "%P\n")
+    IFS="$oldIFS"
+}
+
+if verify "$first" "$second" && verify "$second" "$first"
+then
+    merge
+    if [ -n "$remove" ]
+    then
+        rm -rf "$second"
+    fi
+else
+    echo "Directory structure differs." 1>&2
+    exit 1
+fi

@@ -1,0 +1,7 @@
+name        = St
+version     = git
+description = A fork of The Suckless terminal
+remote      = https://github.com/Kalelzar/st.git
+cloneto     = /home/kalelzar/.local/src/st
+build       = make st
+install     = sudo make install

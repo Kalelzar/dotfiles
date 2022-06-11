@@ -4,4 +4,4 @@
     transmission-daemon && transmission-rss -f
 }
 
-$TERMINAL -e tremc 2> /dev/null
+tremc
