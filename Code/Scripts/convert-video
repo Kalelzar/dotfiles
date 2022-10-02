@@ -1,0 +1,25 @@
+#!/bin/bash
+
+src="$1"
+target="$2"
+
+mkdir -p "$(dirname "$target")"
+
+
+lock "$src"
+locked=$?
+
+if [ $locked = 0 ] && ffmpeg -y -hide_banner -hwaccel cuda -hwaccel_output_format cuda -extra_hw_frames 6 -i  "$src" -vcodec hevc_nvenc "$target"
+then
+    echo "Converted '$src' successfully." >> "$XDG_CACHE_HOME/refileAnime.log"
+    rm "$src" -f
+    unlock "$src"
+else
+    echo "Failed to convert '$src'" >> "$XDG_CACHE_HOME/refileAnime.log"
+    [ $locked = 0 ] && {
+        unlock "$src"
+        rm "$target" -f
+    } || {
+        echo "  File is already locked" >> "$XDG_CACHE_HOME/refileAnime.log"
+    }
+fi
