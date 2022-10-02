@@ -3,12 +3,24 @@
 
 filenameToJSON(){
     echo "$1" \
-        | perl -pe 's/^(?:[[(](.*?)[\])])?\s*(.*?)\s*(?:-)?\s(?:END)?\s*(?|S(\d+)\s*-\s*|S(\d+)|S(\d)\s*-\s*|\s*-\s*)[E]?(\d+(?:-[E]?\d+)?)*(?:v[1-9]+)?\s*[-]?\s*(.*?)\s*(?|[(]?(\d+p)\s*(.*)[)]?|(?:[[(](\d+p)[\])])?\s*(?:[[(](.*)[\])])?)[.](mkv|mp4)$/{ "release": "\1","title": "\2","season": "\3","episode": "\4", "episodeTitle": "\5", "quality": "\6","extra": "\7", "format": "\8"}/g'
+        | perl -pe 's/^(?:[[(](.*?)[\])])?\s*(.*?)\s*[-](?:[-\s]+)\s*(?:END)?\s*(?|S(\d+)\s*[-]?\s*|S(\d+)|S(\d)\s*-\s*|\s*[-]?\s*)[E]?(\d+(?:[-]?[E]?\d+)?)*(?:v[1-9]+)?\s*[-]?\s*(.*?)\s*(?|[(]?(\d+p)\s*(.*)[)]?|(?:[[(](\d+p)[\])])?\s*(?:[[(](.*)[\])])?)[.](mkv|mp4)$/{ "release": "\1","title": "\2","season": "\3","episode": "\4", "episodeTitle": "\5", "quality": "\6","extra": "\7", "format": "\8"}/g'
+}
+
+specialHandling(){
+    local base="$1"
+    local ruleRWBYHyousetsuTeikoku="s/RWBY - Hyousetsu Teikoku/RWBY ➖ Hyousetsu Teikoku/g"
+    local ruleGundamWitch="s/Mobile Suit Gundam - The Witch from Mercury/Mobile Suit Gundam ➖ The Witch from Mercury/g"
+    local ruleEndingInRomanIVAsSeason="s/IV - / - S4E/g"
+    echo "$base" | sed -E \
+                       -e "$ruleRWBYHyousetsuTeikoku" \
+                       -e "$ruleGundamWitch" \
+                       -e "$ruleEndingInRomanIVAsSeason"
 }
 
 fixedFilenameToJSON(){
     local fixedDotSeparatedName="$(echo "$1" | sed -E 's/.([a-z0-9]{3})$/@\1/;s/(.)[.](.)/\1 \2/g;s/@([a-z0-9]{3})$/.\1/')"
-    local json="$(filenameToJSON "$fixedDotSeparatedName")"
+    local specialHandled="$(specialHandling "$fixedDotSeparatedName")"
+    local json="$(filenameToJSON "$specialHandled" | sed 's/➖/-/g')"
     local episode="$(echo "$json" | jq .episode)"
     if [ -n "$episode" ]
     then
