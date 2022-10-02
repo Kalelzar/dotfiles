@@ -58,6 +58,6 @@ genReplacements(){
 }
 
 genReplacements \
-    | jq '"smv \"\(.old)\" \"\(.new)\""' \
+    | jq '"convert-video \"\(.old)\" \"\(.new)\""' \
     | sed -E 's/^"(.*)"$/\1/;s/\\"/"/g' \
     | sh
