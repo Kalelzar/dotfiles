@@ -197,3 +197,6 @@ mpv-shot*
 /.minecraft/
 /.gitconfig
 /.local/windows/
+/.config/cef_user_data/
+/.config/Electron/
+/.config/Code - OSS/
