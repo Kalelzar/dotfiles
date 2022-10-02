@@ -9,6 +9,10 @@ triggers:
     when: Below
     message: Battery low - less than 20% remaining
 
+  - percentage: 5
+    when: Below
+    message: Battery critically low - less than 5% remaining
+
   - percentage: ~
     when: Charging
     message: Battery charging
