@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Get ID of touchpad
+touchpadID="$(xinput \
+                    | grep "Touchpad" \
+                    | sed -E 's$.*id=([0-9]+).*$\1$')"
+
+# Get the property ID of 'Tapping Enabled'
+touchpadTapID="$(xinput list-props "$touchpadID" \
+                       | grep -E "Tapping Enabled \(" \
+                       | sed -E 's/.*\(([0-9]+)\).*/\1/')"
+
+# Get the property ID of 'Disable While Typing Enabled '
+touchpadTypingID="$(xinput list-props "$touchpadID" \
+                       | grep -E "Disable While Typing Enabled \(" \
+                       | sed -E 's/.*\(([0-9]+)\).*/\1/')"
+
+# Enable tapping on touchpad.
+xinput --set-prop "$touchpadID" "$touchpadTapID" 1 &
+# Disable the touchpad lock while typing
+xinput --set-prop "$touchpadID" "$touchpadTypingID" 0 &

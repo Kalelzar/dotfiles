@@ -191,3 +191,9 @@ mpv-shot*
 /.steam/
 /.steampath
 /.steampid
+/Movies/
+/SteamLibrary/
+*.~undo-tree~
+/.minecraft/
+/.gitconfig
+/.local/windows/
