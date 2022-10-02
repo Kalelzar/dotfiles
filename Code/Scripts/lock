@@ -1,0 +1,11 @@
+#!/bin/sh
+
+
+
+target="$1"
+
+[ -z "$target" ] && echo "Provide a path." 1>&2 && exit 2
+
+[ -f "$target.lck" ] && exit 1
+
+touch "$target.lck"

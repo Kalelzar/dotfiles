@@ -1,0 +1,10 @@
+#!/bin/sh
+
+
+target="$1"
+
+[ -z "$target" ] && echo "Provide a path." 1>&2 && exit 2
+
+[ -f "$target.lck" ] && rm "$target.lck" && exit 0
+
+exit 1
