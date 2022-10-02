@@ -200,3 +200,6 @@ mpv-shot*
 /.config/cef_user_data/
 /.config/Electron/
 /.config/Code - OSS/
+/.cmake/
+/.clang-format
+/.fontconfig/
