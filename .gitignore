@@ -203,3 +203,4 @@ mpv-shot*
 /.cmake/
 /.clang-format
 /.fontconfig/
+/.vscode-oss/
